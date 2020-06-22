@@ -23,19 +23,25 @@
  */
 
 #include <vmachine/cache.h>
+uint32_t pc;
 
 /**
  * @brief Fetches an instruction.
  */
 void do_fetch(void)
 {
-	/* TODO */
+	uint32_t instruction;
+
+	instruction = icache_read(pc);
+	pc += 4;
+	
+	return (instruction);
 }
 
 /**
  * @brief Executes an instruction.
  */
-void do_execute(void)
+void do_execute(uint32_t instruction)
 {
 	/* TODO */
 }
