@@ -1,0 +1,23 @@
+# Doxygen
+doc/html
+doxygen.output
+
+# Build Files
+bin/
+lib/
+*.a
+*.o
+
+# Output Files
+nanvix-cluster*
+stdout.*
+
+# Ctags
+tags
+
+# IDEs
+*.json
+*.swp
+*.swo
+*.clangd/
+*.vscode/
