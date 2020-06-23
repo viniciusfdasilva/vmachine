@@ -22,8 +22,18 @@
  * SOFTWARE.
  */
 
+#include <stdio.h>
 #include <stdlib.h>
 #include <vmachine.h>
+
+/**
+ * @brief Prints program usage and exits.
+ */
+static void usage(void)
+{
+	printf("usage: vmachine input [options]\n");
+	exit(EXIT_SUCCESS);
+}
 
 /**
  * @brief Parses command line arguments.
