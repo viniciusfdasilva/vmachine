@@ -22,10 +22,60 @@
  * SOFTWARE.
  */
 
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+#include <utils.h>
+#include <asm.h>
+
+/**
+ * @brief Loads an assembly file.
+ */
+void load_asmfile(const char *filename, char *memory)
+{
+	FILE *input;                       /* Input File              */
+	uint32_t *word;                    /* Write Location          */
+	const char *errorstr;              /* Error String            */
+	static const char *delim = " ,()"; /* Delimitating characters */
+
+	ssize_t nread;
+	size_t len = 0;
+	char *line = NULL;
+
+	/* Cannot open input file. */
+	if ((input = fopen(filename, "r")) == NULL)
+	{
+		errorstr = "cannot open asm file";
+		error(errorstr);
+	}
+
+	/* Read input file. */
+	word = (uint32_t *)memory;
+	while ((nread = getline(&line, &len, input)) != -1)
+	{
+		char *token;
+
+		/* Remove newline. */
+		line[nread - 1] = '\0';
+
+		/* Parse line. */
+		debug(line);
+		if ((token = strtok(line, delim)) == NULL)
+			break;
+
+		*word = assembler(line);
+
+		word++;
+	}
+
+	/* House keeping. */
+	free(line);
+}
+
 /**
  * @brief Loads a binary.
  */
-void load(void)
+void load(const char *filename, char *memory)
 {
-	/* TODO */
+	load_asmfile(filename, memory);
 }
