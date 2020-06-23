@@ -173,26 +173,27 @@ static void encode_sub(const char *inst)
  * @param output Output file.
  * @param inst   Target instruction.
  */
-static void encode_mult(FILE *output, const char *inst)
+static char* encode_mult(const char *inst)
 {
 	const char *rs;
 	const char *rt;
 	const char *opcode;
 	const char *funct;
+	char *instr = realloc(instr, 32);
 
 	check((rs = register_lookup(strtok(NULL, delim))) != NULL);
 	check((rt = register_lookup(strtok(NULL, delim))) != NULL);
 	check((opcode = opcode_lookup(inst)) != NULL);
 	check((funct = funct_lookup(inst)) != NULL);
 
-	fprintf(output, "%s%s%s%s%s%s\n",
-		opcode,
-		rs,
-		rt,
-		"00000",
-		"00000",
-		funct
-	);
+	strcat(instr,opcode);
+	strcat(instr, rs);
+	strcat(instr, rt);
+	strcat(instr, "00000");
+	strcat(instr, "00000");
+	strcat(instr, funct);
+
+	return (instr);
 }
 
 /**
