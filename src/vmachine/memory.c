@@ -61,7 +61,6 @@ void memory_shutdown(void)
  */
 uint32_t memory_read(uint32_t addr)
 {
-	/* TODO: implement this function */
 	if (addr >= MEMORY_SIZE)
 		error("memory out of range");
 

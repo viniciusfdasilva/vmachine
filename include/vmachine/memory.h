@@ -39,6 +39,10 @@
 
 	/**
 	 * @brief Reads a word from the memory.
+	 *
+	 * @param addr Target address.
+	 *
+	 * @returns The word at the requested address.
 	 */
 	extern uint32_t memory_read(uint32_t addr);
 
