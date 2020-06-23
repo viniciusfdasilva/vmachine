@@ -78,10 +78,8 @@ export LDFLAGS :=
 export CFLAGS += -std=c99 -fno-builtin
 export CFLAGS += -Wall -Wextra -Werror -Wa,--warn
 export CFLAGS += -Winit-self -Wswitch-default -Wfloat-equal
-export CFLAGS += -Wundef -Wshadow -Wuninitialized -Wlogical-op
+export CFLAGS += -Wundef -Wshadow -Wuninitialized
 export CFLAGS += -Wvla  -Wredundant-decls
-export CFLAGS += -Wno-missing-profile
-export CFLAGS += -fno-stack-protector
 export CFLAGS += -Wno-unused-function
 export CFLAGS += -I $(INCDIR)
 ifeq ($(RELEASE), true)
