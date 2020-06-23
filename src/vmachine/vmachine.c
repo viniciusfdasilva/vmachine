@@ -22,12 +22,14 @@
  * SOFTWARE.
  */
 
+#include <vmachine/memory.h>
+
 /**
  * The vmachine_start() function starts the virtual machine.
  */
 void vmachine_start(void)
 {
-	/* TODO */
+	memory_init();
 }
 
 /**
@@ -35,5 +37,5 @@ void vmachine_start(void)
  */
 void vmachine_shutdown(void)
 {
-	/* TODO */
+	memory_shutdown();
 }
