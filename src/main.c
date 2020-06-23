@@ -69,8 +69,9 @@ int main(int argc, const char *argv[])
 	((void) argc);
 	((void) argv);
 
-	vmachine_start();
 	args_parse(argc, argv);
+
+	vmachine_start(args.filename);
 
 	return (EXIT_SUCCESS);
 }

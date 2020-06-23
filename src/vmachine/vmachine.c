@@ -22,14 +22,16 @@
  * SOFTWARE.
  */
 
-#include <vmachine/memory.h>
+#include <loader.h>
+#include <vmachine.h>
 
 /**
  * The vmachine_start() function starts the virtual machine.
  */
-void vmachine_start(void)
+void vmachine_start(const char *filename)
 {
 	memory_init();
+	load(filename, 0);
 }
 
 /**

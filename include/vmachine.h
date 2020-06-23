@@ -29,8 +29,10 @@
 
 	/**
 	 * @brief Starts the virtual machine.
+	 *
+	 * @param filename Name of the input file to boot the machine.
 	 */
-	extern void vmachine_start(void);
+	extern void vmachine_start(const char *filename);
 
 	/**
 	 * @brief Shutdowns the virtual machine.
