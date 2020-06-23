@@ -25,6 +25,8 @@
 #ifndef VMACHINE_H_
 #define VMACHINE_H_
 
+	#include <vmachine/memory.h>
+
 	/**
 	 * @brief Starts the virtual machine.
 	 */
