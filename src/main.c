@@ -22,8 +22,26 @@
  * SOFTWARE.
  */
 
+#include <stdio.h>
 #include <stdlib.h>
 #include <vmachine.h>
+
+/**
+ * @brief Command Line Arguments
+ */
+struct
+{
+	const char *filename; /**< Name of Input File */
+} args;
+
+/**
+ * @brief Prints program usage and exits.
+ */
+static void usage(void)
+{
+	printf("usage: vmachine input [options]\n");
+	exit(EXIT_SUCCESS);
+}
 
 /**
  * @brief Parses command line arguments.
@@ -33,8 +51,14 @@
  */
 void args_parse(int argc, const char *argv[])
 {
-	((void) argc);
-	((void) argv);
+	/* Missing input file. */
+	if (argc < 2)
+	{
+		printf("missing input file\n");
+		usage();
+	}
+
+	args.filename = argv[1];
 }
 
 /**
@@ -46,6 +70,7 @@ int main(int argc, const char *argv[])
 	((void) argv);
 
 	vmachine_start();
+	args_parse(argc, argv);
 
 	return (EXIT_SUCCESS);
 }
