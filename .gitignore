@@ -16,6 +16,7 @@ stdout.*
 tags
 
 # IDEs
+*start.sh
 *.json
 *.swp
 *.swo
