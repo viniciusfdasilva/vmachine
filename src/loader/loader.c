@@ -22,19 +22,21 @@
  * SOFTWARE.
  */
 
+#include <stdint.h>
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+
+#include <vmachine.h>
 #include <utils.h>
 #include <asm.h>
 
 /**
  * @brief Loads an assembly file.
  */
-void load_asmfile(const char *filename, char *memory)
+void load_asmfile(const char *filename, uint32_t addr)
 {
 	FILE *input;                       /* Input File              */
-	uint32_t *word;                    /* Write Location          */
 	const char *errorstr;              /* Error String            */
 	static const char *delim = " ,()"; /* Delimitating characters */
 
@@ -50,10 +52,10 @@ void load_asmfile(const char *filename, char *memory)
 	}
 
 	/* Read input file. */
-	word = (uint32_t *)memory;
 	while ((nread = getline(&line, &len, input)) != -1)
 	{
 		char *token;
+		uint32_t instruction;
 
 		/* Remove newline. */
 		line[nread - 1] = '\0';
@@ -63,9 +65,10 @@ void load_asmfile(const char *filename, char *memory)
 		if ((token = strtok(line, delim)) == NULL)
 			break;
 
-		*word = assembler(line);
+		instruction = assembler(line);
 
-		word++;
+		memory_write(addr, instruction);
+		addr += 4;
 	}
 
 	/* House keeping. */
@@ -73,9 +76,10 @@ void load_asmfile(const char *filename, char *memory)
 }
 
 /**
- * @brief Loads a binary.
+ * The load() function loads the memory of the virtual machine with the
+ * contents of the file named @p filename.
  */
-void load(const char *filename, char *memory)
+void load(const char *filename, uint32_t addr)
 {
-	load_asmfile(filename, memory);
+	load_asmfile(filename, addr);
 }
