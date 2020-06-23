@@ -66,3 +66,14 @@ uint32_t memory_read(uint32_t addr)
 
 	return (*(memory + (addr >> 2)));
 }
+
+/**
+ * The memory_write() function writes a word to the memory.
+ */
+void memory_write(uint32_t addr, uint32_t word)
+{
+	if (addr >= MEMORY_SIZE)
+		error("memory out of range");
+
+	*(memory + (addr >> 2)) = word;
+}

@@ -46,4 +46,12 @@
 	 */
 	extern uint32_t memory_read(uint32_t addr);
 
+	/**
+	 * @brief Writes a word to the memory.
+	 *
+	 * @param addr Target address.
+	 * @param word Word to write.
+	 */
+	extern void memory_write(uint32_t addr, uint32_t word);
+
 #endif /* VMACHINE_MEMORY_H_ */
