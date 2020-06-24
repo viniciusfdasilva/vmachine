@@ -22,44 +22,28 @@
  * SOFTWARE.
  */
 
-#include <vmachine/memory.h>
-#include <vmachine/engine.h>
-#include <stdint.h>
-#include <vmachine.h>
+#ifndef VMACHINE_TYPES_H_
+#define VMACHINE_TYPES_H_
 
-/**
- * @brief Reads a word from the instruction cache.
- */
-word_t icache_read(addr_t addr)
-{
-	addr_t instruction;
+	/* External */
+	#include <stdint.h>
 
-	instruction = memory_read(addr);
-	instruction = engine_run(instruction);
+	/**
+	 * @brief Sizes for Machine Types (in bytes)
+	 */
+	/**@{*/
+	#define WORD_SIZE_LOG2 2                /**< log2(Word ) */
+	#define WORD_SIZE (1 << WORD_SIZE_LOG2) /**< Word        */
+	/**@}*/
 
-	return (instruction);
-}
+	/**
+	 * @name Machine Types
+	 */
+	/**@{*/
+	typedef uint32_t addr_t;  /**< Address    */
+	typedef uint16_t hword_t; /**< Half-Word   */
+	typedef uint32_t word_t;  /**< Word        */
+	typedef uint64_t dword_t; /**< Double-Word */
+	/**@}*/
 
-/**
- * @brief Reads a word from the data cache.
- */
-void dcache_read(void)
-{
-	/* TODO */
-}
-
-/**
- * @brief Writes a word to the data cache.
- */
-void dcache_write(void)
-{
-	/* TODO */
-}
-
-/**
- * @brief Initializes the cache.
- */
-void cache_init(void)
-{
-	/* TODO */
-}
+#endif /* VMACHINE_TYPES_H_ */

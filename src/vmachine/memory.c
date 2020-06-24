@@ -31,7 +31,7 @@
 /**
  * @brief Memory.
  */
-static uint32_t *memory = NULL;
+static word_t *memory = NULL;
 
 /**
  * The memory_init() function intializes the underlying memory.
@@ -56,21 +56,21 @@ void memory_shutdown(void)
 /**
  * The memory_read() function reads a word from the memory.
  */
-uint32_t memory_read(uint32_t addr)
+word_t memory_read(addr_t addr)
 {
 	if (addr >= MEMORY_SIZE)
 		error("memory out of range");
 
-	return (*(memory + (addr >> 2)));
+	return (*(memory + (addr >> WORD_SIZE_LOG2)));
 }
 
 /**
  * The memory_write() function writes a word to the memory.
  */
-void memory_write(uint32_t addr, uint32_t word)
+void memory_write(addr_t addr, word_t word)
 {
 	if (addr >= MEMORY_SIZE)
 		error("memory out of range");
 
-	*(memory + (addr >> 2)) = word;
+	*(memory + (addr >> WORD_SIZE_LOG2)) = word;
 }

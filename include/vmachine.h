@@ -27,6 +27,7 @@
 
 	#include <config/vmachine.h>
 	#include <vmachine/memory.h>
+	#include <vmachine/types.h>
 
 	/**
 	 * @brief Starts the virtual machine.
