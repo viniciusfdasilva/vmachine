@@ -285,14 +285,15 @@ static void encode_slt(const char *inst)
  * @param output Output file.
  * @param inst   Target instruction.
  */
-static void encode_sll(FILE *output, const char *inst)
+static char* encode_sll(const char *inst)
 {
 	const char *rd;
 	const char *rt;
 	const char *opcode;
 	const char *funct;
 	const char *shamt10;
-	char shamt2[33];
+	char shamt2[26];
+	char *instr = realloc(instr, 32);
 
 	check((rd = register_lookup(strtok(NULL, delim))) != NULL);
 	check((rt = register_lookup(strtok(NULL, delim))) != NULL);
@@ -302,14 +303,14 @@ static void encode_sll(FILE *output, const char *inst)
 
 	itoa2(atoi(shamt10), shamt2, 2);
 
-	fprintf(output, "%s%s%s%s%s%s\n",
-		opcode,
-		"00000",
-		rt,
-		rd,
-		&shamt2[27],
-		funct
-	);
+	strcat(instr, opcode);
+	strcat(instr, "00000");
+	strcat(instr, rt);
+	strcat(instr, rd);
+	strcat(instr, shamt2);
+	strcat(instr, funct);
+
+	return (instr);
 }
 
 /**
@@ -318,14 +319,15 @@ static void encode_sll(FILE *output, const char *inst)
  * @param output Output file.
  * @param inst   Target instruction.
  */
-static void encode_srl(FILE *output, const char *inst)
+static char* encode_srl(const char *inst)
 {
 	const char *rd;
 	const char *rt;
 	const char *opcode;
 	const char *funct;
 	const char *shamt10;
-	char shamt2[33];
+	char shamt2[26];
+	char *instr = realloc(instr, 32);
 
 	check((rd = register_lookup(strtok(NULL, delim))) != NULL);
 	check((rt = register_lookup(strtok(NULL, delim))) != NULL);
@@ -335,14 +337,14 @@ static void encode_srl(FILE *output, const char *inst)
 
 	itoa2(atoi(shamt10), shamt2, 2);
 
-	fprintf(output, "%s%s%s%s%s%s\n",
-		opcode,
-		"00000",
-		rt,
-		rd,
-		&shamt2[27],
-		funct
-	);
+	strcat(instr, opcode);
+	strcat(instr, "00000");
+	strcat(instr, rt);
+	strcat(instr, rd);
+	strcat(instr, shamt);
+	strcat(instr, funct);
+
+	return (instr);	
 }
 
 /**
@@ -351,24 +353,25 @@ static void encode_srl(FILE *output, const char *inst)
  * @param output Output file.
  * @param inst   Target instruction.
  */
-static void encode_jr(FILE *output, const char *inst)
+static void encode_jr(const char *inst)
 {
 	const char *rs;
 	const char *opcode;
 	const char *funct;
+	char *instr = realloc(instr, 32);
 
 	check((rs = register_lookup(strtok(NULL, delim))) != NULL);
 	check((opcode = opcode_lookup(inst)) != NULL);
 	check((funct = funct_lookup(inst)) != NULL);
 
-	fprintf(output, "%s%s%s%s%s%s\n",
-		opcode,
-		rs,
-		"00000",
-		"00000",
-		"00000",
-		funct
-	);
+	strcat(instr, opcode);
+	strcat(instr, rs);
+	strcat(instr, "00000");
+	strcat(instr, "00000");
+	strcat(instr, "00000");
+	strcat(instr, funct);
+
+	return (instr);
 }
 
 /*============================================================================*
