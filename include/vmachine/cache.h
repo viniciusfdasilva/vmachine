@@ -48,4 +48,3 @@
 	extern void dcache_write(void);
 
 #endif /* VMACHINE_MEMORY_H_ */
-

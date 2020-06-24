@@ -22,13 +22,28 @@
  * SOFTWARE.
  */
 
-/* Ours */
-#include <vmachine.h>
+#ifndef VMACHINE_TYPES_H_
+#define VMACHINE_TYPES_H_
 
-/**
- * The engine_run() function translates a binary code into another.
- */
-word_t engine_run(uint32_t instruction)
-{
-	return (instruction);
-}
+	/* External */
+	#include <stdint.h>
+
+	/**
+	 * @brief Sizes for Machine Types (in bytes)
+	 */
+	/**@{*/
+	#define WORD_SIZE_LOG2 2                /**< log2(Word ) */
+	#define WORD_SIZE (1 << WORD_SIZE_LOG2) /**< Word        */
+	/**@}*/
+
+	/**
+	 * @name Machine Types
+	 */
+	/**@{*/
+	typedef uint32_t addr_t;  /**< Address    */
+	typedef uint16_t hword_t; /**< Half-Word   */
+	typedef uint32_t word_t;  /**< Word        */
+	typedef uint64_t dword_t; /**< Double-Word */
+	/**@}*/
+
+#endif /* VMACHINE_TYPES_H_ */

@@ -25,7 +25,7 @@
 #ifndef VMACHINE_MEMORY_H_
 #define VMACHINE_MEMORY_H_
 
-	#include <stdint.h>
+	#include <vmachine/types.h>
 
 	/**
 	 * @brief Initializes the memory.
@@ -44,7 +44,7 @@
 	 *
 	 * @returns The word at the requested address.
 	 */
-	extern uint32_t memory_read(uint32_t addr);
+	extern word_t memory_read(addr_t addr);
 
 	/**
 	 * @brief Writes a word to the memory.
@@ -52,6 +52,6 @@
 	 * @param addr Target address.
 	 * @param word Word to write.
 	 */
-	extern void memory_write(uint32_t addr, uint32_t word);
+	extern void memory_write(addr_t addr, word_t word);
 
 #endif /* VMACHINE_MEMORY_H_ */

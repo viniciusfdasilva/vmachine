@@ -22,11 +22,12 @@
  * SOFTWARE.
  */
 
-#include <stdint.h>
+/* External */
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
 
+/* Ours */
 #include <vmachine.h>
 #include <utils.h>
 #include <asm.h>
@@ -34,7 +35,7 @@
 /**
  * @brief Loads an assembly file.
  */
-void load_asmfile(const char *filename, uint32_t addr)
+void load_asmfile(const char *filename, addr_t addr)
 {
 	FILE *input;                       /* Input File              */
 	const char *errorstr;              /* Error String            */
@@ -68,7 +69,7 @@ void load_asmfile(const char *filename, uint32_t addr)
 		instruction = assembler(line);
 
 		memory_write(addr, instruction);
-		addr += 4;
+		addr += WORD_SIZE;
 	}
 
 	/* House keeping. */
@@ -79,7 +80,7 @@ void load_asmfile(const char *filename, uint32_t addr)
  * The load() function loads the memory of the virtual machine with the
  * contents of the file named @p filename.
  */
-void load(const char *filename, uint32_t addr)
+void load(const char *filename, addr_t addr)
 {
 	load_asmfile(filename, addr);
 }

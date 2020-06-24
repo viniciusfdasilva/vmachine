@@ -22,16 +22,15 @@
  * SOFTWARE.
  */
 
-#include <vmachine/memory.h>
-#include <vmachine/engine.h>
-#include <stdint.h>
+/* Ours */
+#include <vmachine.h>
 
 /**
  * @brief Reads a word from the instruction cache.
  */
-uint32_t icache_read(uint32_t addr)
+word_t icache_read(addr_t addr)
 {
-	uint32_t instruction;
+	addr_t instruction;
 
 	instruction = memory_read(addr);
 	instruction = engine_run(instruction);
