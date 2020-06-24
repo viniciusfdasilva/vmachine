@@ -22,22 +22,12 @@
  * SOFTWARE.
  */
 
-#ifndef VMACHINE_H_
-#define VMACHINE_H_
-
-	#include <config/vmachine.h>
-	#include <vmachine/memory.h>
+#ifndef CONFIG_VMACHINE_H_
+#define CONFIG_VMACHINE_H_
 
 	/**
-	 * @brief Starts the virtual machine.
-	 *
-	 * @param filename Name of the input file to boot the machine.
+	 * @brief Memory Size (in bytes)
 	 */
-	extern void vmachine_start(const char *filename);
+	#define MEMORY_SIZE (2*1024*1024)
 
-	/**
-	 * @brief Shutdowns the virtual machine.
-	 */
-	extern void vmachine_shutdown(void);
-
-#endif /* VMACHINE_H_ */
+#endif /* CONFIG_VMACHINE_H_ */

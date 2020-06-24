@@ -26,10 +26,7 @@
 #include <stdlib.h>
 #include <utils.h>
 
-/**
- * @brief Memory Size (in bytes).
- */
-#define MEMORY_SIZE 2*1024*1024
+#include <vmachine.h>
 
 /**
  * @brief Memory.
