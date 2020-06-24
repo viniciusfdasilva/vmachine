@@ -26,11 +26,12 @@
 #include <vmachine.h>
 
 /**
- * @brief Reads a word from the instruction cache.
+ * The icache_read() function reads a word from the instruction cache.
+ * The word is read from the address specified by @p addr.
  */
 word_t icache_read(addr_t addr)
 {
-	addr_t instruction;
+	word_t instruction;
 
 	instruction = memory_read(addr);
 	instruction = engine_run(instruction);
@@ -39,19 +40,25 @@ word_t icache_read(addr_t addr)
 }
 
 /**
- * @brief Reads a word from the data cache.
+ * The dcache_read() function reads a word from the data cache. The word
+ * is read from the address specified by @p addr.
  */
-void dcache_read(void)
+word_t dcache_read(addr_t addr)
 {
-	/* TODO */
+	word_t word;
+
+	word = memory_read(addr);
+
+	return (word);
 }
 
 /**
- * @brief Writes a word to the data cache.
+ * The dcache_write() function writes a word to the data cache. The word
+ * is written at the address specified by @p addr.
  */
-void dcache_write(void)
+void dcache_write(addr_t addr, word_t data)
 {
-	/* TODO */
+	memory_write(addr, data);
 }
 
 /**

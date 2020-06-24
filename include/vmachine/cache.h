@@ -25,7 +25,7 @@
 #ifndef VMACHINE_MEMORY_H_
 #define VMACHINE_MEMORY_H_
 
-	#include <stdint.h>
+	#include <vmachine/types.h>
 
 	/**
 	 * @brief Initializes a cache.
@@ -33,17 +33,28 @@
 	extern void cache_init(void);
 
 	/**
-	 * @brief Reads a word from the instruction cache.
+	 * @brief Reads an instruction from the instruction cache.
+	 *
+	 * @param addr Target address.
+	 *
+	 * @returns The instruction at the specified address.
 	 */
-	extern uint32_t icache_read(uint32_t addr);
+	extern word_t icache_read(addr_t addr);
 
 	/**
 	 * @brief Reads a word from the data cache.
+	 *
+	 * @param addr Target address.
+	 *
+	 * @returns The word at the specified address.
 	 */
-	extern void dcache_read(void);
+	extern word_t dcache_read(addr_t addr);
 
 	/**
 	 * @brief Writes a word to the data cache.
+	 *
+	 * @param addr Target address.
+	 * @param Data to store.
 	 */
 	extern void dcache_write(void);
 
