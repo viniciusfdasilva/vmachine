@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-#include <stdint.h>
+/* Ours */
 #include <vmachine.h>
 
 /**
@@ -30,7 +30,5 @@
  */
 word_t engine_run(uint32_t instruction)
 {
-	/* TODO */
-
 	return (instruction);
 }

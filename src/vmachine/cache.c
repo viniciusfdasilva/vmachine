@@ -22,9 +22,7 @@
  * SOFTWARE.
  */
 
-#include <vmachine/memory.h>
-#include <vmachine/engine.h>
-#include <stdint.h>
+/* Ours */
 #include <vmachine.h>
 
 /**

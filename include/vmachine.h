@@ -25,7 +25,9 @@
 #ifndef VMACHINE_H_
 #define VMACHINE_H_
 
+	/* Ours */
 	#include <config/vmachine.h>
+	#include <vmachine/engine.h>
 	#include <vmachine/memory.h>
 	#include <vmachine/types.h>
 

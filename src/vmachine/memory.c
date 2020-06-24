@@ -22,11 +22,12 @@
  * SOFTWARE.
  */
 
-#include <stdint.h>
+/* External */
 #include <stdlib.h>
-#include <utils.h>
 
+/* Ours */
 #include <vmachine.h>
+#include <utils.h>
 
 /**
  * @brief Memory.
