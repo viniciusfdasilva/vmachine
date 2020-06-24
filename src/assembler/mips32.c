@@ -341,7 +341,7 @@ static char* encode_srl(const char *inst)
 	strcat(instr, "00000");
 	strcat(instr, rt);
 	strcat(instr, rd);
-	strcat(instr, shamt);
+	strcat(instr, shamt2);
 	strcat(instr, funct);
 
 	return (instr);	
@@ -353,7 +353,7 @@ static char* encode_srl(const char *inst)
  * @param output Output file.
  * @param inst   Target instruction.
  */
-static void encode_jr(const char *inst)
+static char* encode_jr(const char *inst)
 {
 	const char *rs;
 	const char *opcode;
@@ -384,13 +384,14 @@ static void encode_jr(const char *inst)
  * @param output Output file.
  * @param inst   Target instruction.
  */
-static void encode_i_instruction(FILE *output, const char *inst)
+static char* encode_i_instruction(const char *inst)
 {
 	const char *rt;
 	const char *rs;
 	const char *opcode;
 	const char *branch10;
-	char branch2[33];
+	char branch2[16];
+	char *instr = realloc(instr, 32);
 
 	check((rt = register_lookup(strtok(NULL, delim))) != NULL);
 	check((rs = register_lookup(strtok(NULL, delim))) != NULL);
@@ -399,12 +400,12 @@ static void encode_i_instruction(FILE *output, const char *inst)
 
 	itoa2(atoi(branch10), branch2, 2);
 
-	fprintf(output, "%s%s%s%s\n",
-		opcode,
-		rs,
-		rt,
-		&branch2[16]
-	);
+	strcat(instr, opcode);
+	strcat(instr, rs);
+	strcat(instr, rt);
+	strcat(instr, branch2);
+
+	return (instr);	
 }
 
 /**
@@ -413,9 +414,9 @@ static void encode_i_instruction(FILE *output, const char *inst)
  * @param output Output file.
  * @param inst   Target instruction.
  */
-static void encode_addi(FILE *output, const char *inst)
+static char* encode_addi(const char *inst)
 {
-	encode_i_instruction(output, inst);
+	return encode_i_instruction(inst);
 }
 
 /**
@@ -424,9 +425,9 @@ static void encode_addi(FILE *output, const char *inst)
  * @param output Output file.
  * @param inst   Target instruction.
  */
-static void encode_andi(FILE *output, const char *inst)
+static char* encode_andi(const char *inst)
 {
-	encode_i_instruction(output, inst);
+	return encode_i_instruction(inst);
 }
 
 /**
@@ -435,9 +436,9 @@ static void encode_andi(FILE *output, const char *inst)
  * @param output Output file.
  * @param inst   Target instruction.
  */
-static void encode_ori(FILE *output, const char *inst)
+static char* encode_ori(const char *inst)
 {
-	encode_i_instruction(output, inst);
+	return encode_i_instruction(inst);
 }
 
 /**
@@ -446,9 +447,9 @@ static void encode_ori(FILE *output, const char *inst)
  * @param output Output file.
  * @param inst   Target instruction.
  */
-static void encode_slti(FILE *output, const char *inst)
+static char* encode_slti(const char *inst)
 {
-	encode_i_instruction(output, inst);
+	return encode_i_instruction(inst);
 }
 
 /**
@@ -457,9 +458,9 @@ static void encode_slti(FILE *output, const char *inst)
  * @param output Output file.
  * @param inst   Target instruction.
  */
-static void encode_beq(FILE *output, const char *inst)
+static char* encode_beq(const char *inst)
 {
-	encode_i_instruction(output, inst);
+	return encode_i_instruction(inst);
 }
 
 /**
@@ -468,9 +469,9 @@ static void encode_beq(FILE *output, const char *inst)
  * @param output Output file.
  * @param inst   Target instruction.
  */
-static void encode_bne(FILE *output, const char *inst)
+static char* encode_bne(const char *inst)
 {
-	encode_i_instruction(output, inst);
+	return encode_i_instruction(inst);
 }
 
 /**
