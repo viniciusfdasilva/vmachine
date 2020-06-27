@@ -530,7 +530,8 @@ static uint32_t encode_sw(FILE *output, const char *inst)
 	const char *rs;
 	const char *opcode;
 	const char *branch10;
-	char branch2[33];
+	char branch2[16];
+	char *instr = realloc(instr, 32);
 
 	check((rt = register_lookup(strtok(NULL, delim))) != NULL);
 	check((branch10 = strtok(NULL, delim)) != NULL);
@@ -539,12 +540,12 @@ static uint32_t encode_sw(FILE *output, const char *inst)
 
 	itoa2(atoi(branch10), branch2, 2);
 
-	fprintf(output, "%s%s%s%s\n",
-		opcode,
-		rs,
-		rt,
-		&branch2[16]
-	);
+	strcat(instr, opcode);
+	strcat(instr, rs);
+	strcat(instr, rt);
+	strcat(instr, branch2);
+
+	return parseUint32_t(instr);	
 }
 
 /*============================================================================*
