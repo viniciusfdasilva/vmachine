@@ -155,7 +155,7 @@ static uint32_t encode_r_instruction(const char *inst)
 	strcat(instr, "00000");
 	strcat(instr, funct);
 
-	return transformBinaryToDecimal(instr, 32);
+	return parseUint32_t(instr, 32);
 }
 
 /**
@@ -164,9 +164,9 @@ static uint32_t encode_r_instruction(const char *inst)
  * @param output Output file.
  * @param inst   Target instruction.
  */
-static void encode_add(const char *inst)
+static uint32_t encode_add(const char *inst)
 {
-	encode_r_instruction(inst);
+	return encode_r_instruction(inst);
 }
 
 /**
@@ -175,9 +175,9 @@ static void encode_add(const char *inst)
  * @param output Output file.
  * @param inst   Target instruction.
  */
-static void encode_sub(const char *inst)
+static uint32_t encode_sub(const char *inst)
 {
-	encode_r_instruction(inst);
+	return encode_r_instruction(inst);
 }
 
 /**
@@ -186,7 +186,7 @@ static void encode_sub(const char *inst)
  * @param output Output file.
  * @param inst   Target instruction.
  */
-static char* encode_mult(const char *inst)
+static uint32_t encode_mult(const char *inst)
 {
 	const char *rs;
 	const char *rt;
@@ -206,7 +206,7 @@ static char* encode_mult(const char *inst)
 	strcat(instr, "00000");
 	strcat(instr, funct);
 
-	return (instr);
+	return parseUint32_t(instr, 32);
 }
 
 /**
@@ -215,7 +215,7 @@ static char* encode_mult(const char *inst)
  * @param output Output file.
  * @param inst   Target instruction.
  */
-static void encode_div(FILE *output, const char *inst)
+static uint32_t encode_div(FILE *output, const char *inst)
 {
 	const char *rs;
 	const char *rt;
@@ -243,9 +243,9 @@ static void encode_div(FILE *output, const char *inst)
  * @param output Output file.
  * @param inst   Target instruction.
  */
-static void encode_and(const char *inst)
+static uint32_t encode_and(const char *inst)
 {
-	encode_r_instruction(inst);
+	return encode_r_instruction(inst);
 }
 
 /**
@@ -254,9 +254,9 @@ static void encode_and(const char *inst)
  * @param output Output file.
  * @param inst   Target instruction.
  */
-static void encode_or(const char *inst)
+static uint32_t encode_or(const char *inst)
 {
-	encode_r_instruction(inst);
+	return encode_r_instruction(inst);
 }
 
 /**
@@ -265,7 +265,7 @@ static void encode_or(const char *inst)
  * @param output Output file.
  * @param inst   Target instruction.
  */
-static void encode_xor(const char *inst)
+static uint32_t encode_xor(const char *inst)
 {
 	encode_r_instruction(inst);
 }
@@ -276,9 +276,9 @@ static void encode_xor(const char *inst)
  * @param output Output file.
  * @param inst   Target instruction.
  */
-static void encode_nor(const char *inst)
+static uint32_t encode_nor(const char *inst)
 {
-	encode_r_instruction(inst);
+	return encode_r_instruction(inst);
 }
 
 /**
@@ -287,9 +287,9 @@ static void encode_nor(const char *inst)
  * @param output Output file.
  * @param inst   Target instruction.
  */
-static void encode_slt(const char *inst)
+static uint32_t encode_slt(const char *inst)
 {
-	encode_r_instruction(inst);
+	return encode_r_instruction(inst);
 }
 
 /**
@@ -298,7 +298,7 @@ static void encode_slt(const char *inst)
  * @param output Output file.
  * @param inst   Target instruction.
  */
-static char* encode_sll(const char *inst)
+static uint32_t encode_sll(const char *inst)
 {
 	const char *rd;
 	const char *rt;
@@ -323,7 +323,7 @@ static char* encode_sll(const char *inst)
 	strcat(instr, shamt2);
 	strcat(instr, funct);
 
-	return (instr);
+	return parseUint32_t(instr,32);
 }
 
 /**
@@ -332,7 +332,7 @@ static char* encode_sll(const char *inst)
  * @param output Output file.
  * @param inst   Target instruction.
  */
-static char* encode_srl(const char *inst)
+static uint32_t encode_srl(const char *inst)
 {
 	const char *rd;
 	const char *rt;
@@ -357,7 +357,7 @@ static char* encode_srl(const char *inst)
 	strcat(instr, shamt2);
 	strcat(instr, funct);
 
-	return (instr);	
+	return parseUint32_t(instr,32);	
 }
 
 /**
@@ -366,7 +366,7 @@ static char* encode_srl(const char *inst)
  * @param output Output file.
  * @param inst   Target instruction.
  */
-static char* encode_jr(const char *inst)
+static uint32_t encode_jr(const char *inst)
 {
 	const char *rs;
 	const char *opcode;
@@ -384,7 +384,7 @@ static char* encode_jr(const char *inst)
 	strcat(instr, "00000");
 	strcat(instr, funct);
 
-	return (instr);
+	return parseUint32_t(instr, 32);
 }
 
 /*============================================================================*
@@ -397,7 +397,7 @@ static char* encode_jr(const char *inst)
  * @param output Output file.
  * @param inst   Target instruction.
  */
-static char* encode_i_instruction(const char *inst)
+static uint32_t encode_i_instruction(const char *inst)
 {
 	const char *rt;
 	const char *rs;
@@ -418,7 +418,7 @@ static char* encode_i_instruction(const char *inst)
 	strcat(instr, rt);
 	strcat(instr, branch2);
 
-	return (instr);	
+	return parseUint32_t(instr, 32);	
 }
 
 /**
@@ -427,7 +427,7 @@ static char* encode_i_instruction(const char *inst)
  * @param output Output file.
  * @param inst   Target instruction.
  */
-static char* encode_addi(const char *inst)
+static uint32_t encode_addi(const char *inst)
 {
 	return encode_i_instruction(inst);
 }
@@ -438,7 +438,7 @@ static char* encode_addi(const char *inst)
  * @param output Output file.
  * @param inst   Target instruction.
  */
-static char* encode_andi(const char *inst)
+static uint32_t encode_andi(const char *inst)
 {
 	return encode_i_instruction(inst);
 }
@@ -449,7 +449,7 @@ static char* encode_andi(const char *inst)
  * @param output Output file.
  * @param inst   Target instruction.
  */
-static char* encode_ori(const char *inst)
+static uint32_t encode_ori(const char *inst)
 {
 	return encode_i_instruction(inst);
 }
@@ -460,7 +460,7 @@ static char* encode_ori(const char *inst)
  * @param output Output file.
  * @param inst   Target instruction.
  */
-static char* encode_slti(const char *inst)
+static uint32_t encode_slti(const char *inst)
 {
 	return encode_i_instruction(inst);
 }
@@ -471,7 +471,7 @@ static char* encode_slti(const char *inst)
  * @param output Output file.
  * @param inst   Target instruction.
  */
-static char* encode_beq(const char *inst)
+static uint32_t encode_beq(const char *inst)
 {
 	return encode_i_instruction(inst);
 }
@@ -482,7 +482,7 @@ static char* encode_beq(const char *inst)
  * @param output Output file.
  * @param inst   Target instruction.
  */
-static char* encode_bne(const char *inst)
+static uint32_t encode_bne(const char *inst)
 {
 	return encode_i_instruction(inst);
 }
@@ -493,7 +493,7 @@ static char* encode_bne(const char *inst)
  * @param output Output file.
  * @param inst   Target instruction.
  */
-static void encode_lw(FILE *output, const char *inst)
+static uint32_t encode_lw(FILE *output, const char *inst)
 {
 	const char *rt;
 	const char *rs;
@@ -522,7 +522,7 @@ static void encode_lw(FILE *output, const char *inst)
  * @param output Output file.
  * @param inst   Target instruction.
  */
-static void encode_sw(FILE *output, const char *inst)
+static uint32_t encode_sw(FILE *output, const char *inst)
 {
 	const char *rt;
 	const char *rs;
@@ -555,7 +555,7 @@ static void encode_sw(FILE *output, const char *inst)
  * @param output Output file.
  * @param inst   Target instruction.
  */
-static void encode_j_instruction(FILE *output, const char *inst)
+static uint32_t encode_j_instruction(FILE *output, const char *inst)
 {
 	const char *opcode;
 	const char *addr10;
@@ -579,9 +579,9 @@ static void encode_j_instruction(FILE *output, const char *inst)
  * @param output Output file.
  * @param inst   Target instruction.
  */
-static void encode_j(FILE *output, const char *inst)
+static uint32_t encode_j(FILE *output, const char *inst)
 {
-	encode_j_instruction(output, inst);
+	return encode_j_instruction(output, inst);
 }
 
 /**
@@ -590,9 +590,9 @@ static void encode_j(FILE *output, const char *inst)
  * @param output Output file.
  * @param inst   Target instruction.
  */
-static void encode_jal(FILE *output, const char *inst)
+static uint32_t encode_jal(FILE *output, const char *inst)
 {
-	encode_j_instruction(output, inst);
+	return encode_j_instruction(output, inst);
 }
 
 /*============================================================================*
