@@ -524,7 +524,7 @@ static uint32_t encode_lw(const char *inst)
  * @param output Output file.
  * @param inst   Target instruction.
  */
-static uint32_t encode_sw(FILE *output, const char *inst)
+static uint32_t encode_sw(const char *inst)
 {
 	const char *rt;
 	const char *rs;
@@ -558,22 +558,22 @@ static uint32_t encode_sw(FILE *output, const char *inst)
  * @param output Output file.
  * @param inst   Target instruction.
  */
-static uint32_t encode_j_instruction(FILE *output, const char *inst)
+static uint32_t encode_j_instruction(const char *inst)
 {
 	const char *opcode;
 	const char *addr10;
-	char addr2[33];
+	char addr2[26];
+	char *instr = realloc(instr,32);
 
 	check((addr10 = strtok(NULL, delim)) != NULL);
 	check((opcode = opcode_lookup(inst)) != NULL);
 
 	itoa2(atoi(addr10), addr2, 2);
+	
+	strcat(instr, opcode);
+	strcat(instr, addr2);
 
-	printf("j : %s%s\n",opcode, &addr2);
-	fprintf(output, "%s%s\n",
-		opcode,
-		&addr2[6]
-	);
+	return parseUint32_t(instr, 32);		
 }
 
 /**
