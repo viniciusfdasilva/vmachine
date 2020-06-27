@@ -30,6 +30,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <math.h>
 
 /* Forward definitions. */
 extern struct inst instructions[];
@@ -49,6 +50,18 @@ const char *delim = " ,()";
  * register is returned. Upon failure, a null pointer is returned
  * instead.
  */
+static uint32_t parseUint32_t(char *instr, int size){
+	uint32_t decimal;
+
+	for(int i = 0; i < size; i++){
+		if(instr[i] == '1'){
+			decimal += 1 << i;		
+		}	
+	}
+
+	return decimal;
+}
+
 static const char *register_lookup(const char *regname)
 {
 	if (regname == NULL)
@@ -120,7 +133,7 @@ static const char *funct_lookup(const char *cmd)
  * @param output Output file.
  * @param inst   Target instruction.
  */
-static char* encode_r_instruction(const char *inst)
+static uint32_t encode_r_instruction(const char *inst)
 {
 	const char *rd;
 	const char *rs;
@@ -142,7 +155,7 @@ static char* encode_r_instruction(const char *inst)
 	strcat(instr, "00000");
 	strcat(instr, funct);
 
-	return (instr);
+	return transformBinaryToDecimal(instr, 32);
 }
 
 /**
