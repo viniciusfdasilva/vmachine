@@ -155,7 +155,7 @@
 		const char *name;                     /**< Instruction Name          */
 		const char *opcode;                   /**< Instruction Operaion Code */
 		const char *funct;                    /**< Instruction Function Code */
-		void (*encode)(FILE *, const char *); /**< Encoding Function.        */
+		uint32_t (*encode)(const char *); /**< Encoding Function.        */
 	};
 
 #endif /* MIPS32_INST_H_ */
