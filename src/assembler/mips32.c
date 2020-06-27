@@ -221,7 +221,7 @@ static uint32_t encode_div(const char *inst)
 	const char *rt;
 	const char *opcode;
 	const char *funct;
-	const char *instr = realloc(instr, 32);
+	char *instr = realloc(instr, 32);
 
 	check((rs = register_lookup(strtok(NULL, delim))) != NULL);
 	check((rt = register_lookup(strtok(NULL, delim))) != NULL);
@@ -501,7 +501,7 @@ static uint32_t encode_lw(const char *inst)
 	const char *opcode;
 	const char *branch10;
 	char branch2[16];
-	chat  *instr = realloc(instr, 32);
+	char *instr = realloc(instr, 32);
 
 	check((rt = register_lookup(strtok(NULL, delim))) != NULL);
 	check((branch10 = strtok(NULL, delim)) != NULL);
@@ -513,9 +513,9 @@ static uint32_t encode_lw(const char *inst)
 	strcat(instr, opcode);
 	strcat(instr, rs);
 	strcat(instr, rt);
-	strcat(branch2);
+	strcat(instr, branch2);
 
-	return parseUint32_t(instr);
+	return parseUint32_t(instr, 32);
 }
 
 /**
@@ -545,7 +545,7 @@ static uint32_t encode_sw(const char *inst)
 	strcat(instr, rt);
 	strcat(instr, branch2);
 
-	return parseUint32_t(instr);	
+	return parseUint32_t(instr, 32);	
 }
 
 /*============================================================================*
@@ -582,9 +582,9 @@ static uint32_t encode_j_instruction(const char *inst)
  * @param output Output file.
  * @param inst   Target instruction.
  */
-static uint32_t encode_j(FILE *output, const char *inst)
+static uint32_t encode_j(const char *inst)
 {
-	return encode_j_instruction(output, inst);
+	return encode_j_instruction(inst);
 }
 
 /**
@@ -593,9 +593,9 @@ static uint32_t encode_j(FILE *output, const char *inst)
  * @param output Output file.
  * @param inst   Target instruction.
  */
-static uint32_t encode_jal(FILE *output, const char *inst)
+static uint32_t encode_jal(const char *inst)
 {
-	return encode_j_instruction(output, inst);
+	return encode_j_instruction(inst);
 }
 
 /*============================================================================*
