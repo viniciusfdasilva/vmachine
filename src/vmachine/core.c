@@ -23,6 +23,23 @@
  */
 
 #include <vmachine/cache.h>
+
+#define VMACHINE_INSTRUCTION_OPCODE 0xfc000000
+#define VMACHINE_INSTRUCTION_RS 0x03e00000
+#define VMACHINE_INSTRUCTION_RT 0x001f0000
+#define VMACHINE_INSTRUCTION_RD 0x0000f800
+#define VMACHINE_INSTRUCTION_SHAMT 0x000007c0
+#define VMACHINE_INSTRUCTION_FUNCT 0x0000002f
+#define VMACHINE_INSTRUCTION_IMMEDIATE 0x0000ffff
+#define VMACHINE_INSTRUCTION_ADDRESS 0x03ffffff
+
+#define VMACHINE_INSTRUCTION_SHIFT_OPCODE 24
+#define VMACHINE_INSTRUCTION_SHIFT_RS 20
+#define VMACHINE_INSTRUCTION_SHIFT_RT 16
+#define VMACHINE_INSTRUCTION_SHIFT_RD 8
+#define VMACHINE_INSTRUCTION_SHIFT_SHAMT 4
+
+
 uint32_t pc;
 
 /**
@@ -39,28 +56,22 @@ uint32_t do_fetch(void)
 }
 
 /**
- * Decodes the instruction and sends it to the corresponding execution.
+ * Defines the instruction's type.
  */
-void do_decode(uint32_t instruction)
+char instruction_type(uint32_t opcode)
 {
-	int opcode 	= instruction & 0xfc000000;
-	
-	opcode	= opcode >> 24;
-	
-	char ints_type = instruction_type(opcode);
-	
-	switch (inst_type)
-	{
-		case 'R':
-			do_execute_R(instruction);			
+        switch (opcode)
+        {
+                case 0:
+                        return('R');
 		break;
-		case 'I':
-			do_execute_I(instruction);
+                case 2:
+                case 3:
+                        return('J');
 		break;
-		case 'J':
-			do_execute_J(instruction);
-		break;
-	}
+                default:
+                        return('I');
+        }
 }
 
 /**
@@ -68,18 +79,18 @@ void do_decode(uint32_t instruction)
  */
 void do_execute_R(uint32_t instruction)
 {
-	int opcode 	= instruction & 0xfc000000;
-	int rs		= instruction & 0x03e00000;
-	int rt		= instruction & 0x001f0000;
-	int rd		= instruction & 0x0000f800;
-	int shamt	= instruction & 0x000007c0;
-	int funct	= instruction & 0x0000002f;
+	uint32_t opcode 	= instruction & VMACHINE_INSTRUCTION_OPCODE;
+	uint32_t rs		= instruction & VMACHINE_INSTRUCTION_RS;
+	uint32_t rt		= instruction & VMACHINE_INSTRUCTION_RT;
+	uint32_t rd		= instruction & VMACHINE_INSTRUCTION_RD;
+	uint32_t shamt	= instruction & VMACHINE_INSTRUCTION_SHAMT;
+	uint32_t funct	= instruction & VMACHINE_INSTRUCTION_FUNCT;
 
-	opcode	= opcode >> 24;
-	rs	= rs >> 20;
-	rt	= rt >> 16;
-	rd	= rd >> 8;
-	shamt	= shamt >> 4;
+	opcode	= opcode >> VMACHINE_INSTRUCTION_SHIFT_OPCODE;
+	rs	= rs >> VMACHINE_INSTRUCTION_SHIFT_RS;
+	rt	= rt >> VMACHINE_INSTRUCTION_SHIFT_RD;
+	rd	= rd >> VMACHINE_INSTRUCTION_SHIFT_RD;
+	shamt	= shamt >> VMACHINE_INSTRUCTION_SHIFT_SHAMT;
 	
 	/* TO FINISH */
 }
@@ -89,12 +100,12 @@ void do_execute_R(uint32_t instruction)
  */
 void do_execute_I(uint32_t instruction)
 {
-	int opcode 	= instruction & 0xfc000000;
-	int rs		= instruction & 0x03e00000;
-	int rt		= instruction & 0x001f0000;
-	int immediate	= instruction & 0x0000ffff;
+	uint32_t opcode 	= instruction & VMACHINE_INSTRUCTION_OPCODE;
+	uint32_t rs		= instruction & VMACHINE_INSTRUCTION_RS;
+	uint32_t rt		= instruction & VMACHINE_INSTRUCTION_RT;
+	uint32_t immediate	= instruction & VMACHINE_INSTRUCTION_IMMEDIATE;
 
-	opcode	= opcode >> 24;
+	opcode	= opcode >> VMACHINE_INSTRUCTION_SHIFT_OPCODE;
 	
 	/* TO FINISH */
 }
@@ -104,12 +115,36 @@ void do_execute_I(uint32_t instruction)
  */
 void do_execute_J(uint32_t instruction)
 {
-	int opcode 	= instruction & 0xfc000000;
-	int address	= instruction & 0x03ffffff;
+	uint32_t opcode 	= instruction & VMACHINE_INSTRUCTION_OPCODE;
+	uint32_t address	= instruction & VMACHINE_INSTRUCTION_ADDRESS;
 	
-	opcode	= opcode >> 24;
+	opcode	= opcode >> VMACHINE_INSTRUCTION_SHIFT_OPCODE;
 	
 	/* TO FINISH */
+}
+
+/**
+ * Decodes the instruction and sends it to the corresponding execution.
+ */
+void do_decode(uint32_t instruction)
+{
+        uint32_t opcode = instruction & VMACHINE_INSTRUCTION_OPCODE;
+    
+        opcode  = opcode >> VMACHINE_INSTRUCTION_SHIFT_OPCODE;
+    
+        char inst_type = instruction_type(opcode);
+    
+        switch (inst_type)
+        {
+                case 'R':
+                        do_execute_R(instruction);
+		break;	
+                case 'I':
+                        do_execute_I(instruction);
+		break;
+                default:
+                        do_execute_J(instruction);
+        }
 }
 
 /**
@@ -128,6 +163,8 @@ void core_init(void)
 	cache_init();
 }
 
+
+
 /**
  * The core_run() function runs a core.
  */
@@ -141,23 +178,3 @@ void core_run(void)
 		do_interrupts();
 	}
 }
-
-
-/**
- * Defines the instruction's type.
- */
-char instruction_type(int opcode)
-{
-	switch (opcode)
-	{
-		case 0:
-			return('R');
-		case 2:
-		case 3:
-			return('J');
-		default:
-			return('I');
-	}
-}
-
-
