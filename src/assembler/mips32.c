@@ -51,7 +51,7 @@ const char *delim = " ,()";
  * instead.
  */
 static uint32_t parseUint32_t(char *instr, int size){
-	uint32_t decimal;
+	uint32_t decimal = 0;
 
 	for(int i = 0; i < size; i++){
 		if(instr[i] == '1'){
