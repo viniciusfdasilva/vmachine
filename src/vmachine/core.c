@@ -39,8 +39,10 @@
 #define VMACHINE_INSTRUCTION_SHIFT_RD 8
 #define VMACHINE_INSTRUCTION_SHIFT_SHAMT 4
 
+#define NUMBER_OF_REGISTERS 32
 
 uint32_t pc;
+uint32_t registers[NUMBER_OF_REGISTERS];
 
 /**
  * @brief Fetches an instruction.
@@ -79,10 +81,10 @@ char instruction_type(uint32_t opcode)
  */
 void do_execute_R(uint32_t instruction)
 {
-	uint32_t opcode 	= instruction & VMACHINE_INSTRUCTION_OPCODE;
-	uint32_t rs		= instruction & VMACHINE_INSTRUCTION_RS;
-	uint32_t rt		= instruction & VMACHINE_INSTRUCTION_RT;
-	uint32_t rd		= instruction & VMACHINE_INSTRUCTION_RD;
+	uint32_t opcode	= instruction & VMACHINE_INSTRUCTION_OPCODE;
+	uint32_t rs	= instruction & VMACHINE_INSTRUCTION_RS;
+	uint32_t rt	= instruction & VMACHINE_INSTRUCTION_RT;
+	uint32_t rd	= instruction & VMACHINE_INSTRUCTION_RD;
 	uint32_t shamt	= instruction & VMACHINE_INSTRUCTION_SHAMT;
 	uint32_t funct	= instruction & VMACHINE_INSTRUCTION_FUNCT;
 
@@ -92,7 +94,97 @@ void do_execute_R(uint32_t instruction)
 	rd	= rd >> VMACHINE_INSTRUCTION_SHIFT_RD;
 	shamt	= shamt >> VMACHINE_INSTRUCTION_SHIFT_SHAMT;
 	
-	/* TO FINISH */
+	// Assembling the operations based on funct
+	
+	switch(funct)
+	{
+		case 32:
+			registers[rd] = registers[rs] + registers[rt];
+		break;
+		case 33:
+			registers[rd] = registers[rs] + registers[rt];
+		break;
+		case 36:
+			registers[rd] = registers[rs] & registers[rt];
+		break;
+		case 13:
+			// break
+		break;
+		case 26:
+			registers[rd] = registers[rs] / registers[rt];
+		break;
+		case 27:
+			// divu
+		break;
+		case 9:
+			// jalr
+		break;
+		case 8:
+			// jr
+		break;
+		case 16:
+			// mfhi
+		break;
+		case 18:
+			// mflo
+		break;
+		case 17:
+                        // mthi
+                break;
+		case 19:
+                        // mtlo
+                break;
+		case 24:
+                        registers[rd] = registers[rs] * registers[rt];
+                break;
+		case 25:
+                        // multu
+                break;
+		case 39:
+                        // nor
+                break;
+		case 37:
+                        registers[rd] = registers[rs] | registers[rt];
+                break;
+                case 0:
+                        registers[rd] = registers[rs] << registers[rt];
+                break;
+                case 4:
+                        // sllv
+                break;
+                case 42:
+                        // slt
+                break;
+                case 43:
+                        // sltu
+                break;
+                case 3:
+                        // sra
+                break;
+                case 7:
+                        // srav
+                break;
+                case 2:
+                        // srl
+                break;
+                case 6:
+                        registers[rd] = registers[rs] >> registers[rt];
+                break;
+                case 34:
+                        registers[rd] = registers[rs] - registers[rt];
+                break;
+                case 35:
+                        registers[rd] = registers[rs] - registers[rt];
+                break;
+                case 12:
+                        // syscall
+                break;
+                case 38:
+                        registers[rd] = registers[rs] ^ registers[rt];
+                break;
+
+
+	}
 }
 
 /**
