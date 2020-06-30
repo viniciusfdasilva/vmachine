@@ -140,7 +140,7 @@ static uint32_t encode_r_instruction(const char *inst)
 	const char *rt;
 	const char *opcode;
 	const char *funct;
-	char *instr = realloc(instr, 32);
+	char *instr = (char *) malloc(32);
 
 	check((rd = register_lookup(strtok(NULL, delim))) != NULL);
 	check((rs = register_lookup(strtok(NULL, delim))) != NULL);
@@ -192,7 +192,7 @@ static uint32_t encode_mult(const char *inst)
 	const char *rt;
 	const char *opcode;
 	const char *funct;
-	char *instr = realloc(instr, 32);
+	char *instr = (char *) malloc(32);
 
 	check((rs = register_lookup(strtok(NULL, delim))) != NULL);
 	check((rt = register_lookup(strtok(NULL, delim))) != NULL);
@@ -221,7 +221,7 @@ static uint32_t encode_div(const char *inst)
 	const char *rt;
 	const char *opcode;
 	const char *funct;
-	char *instr = realloc(instr, 32);
+	char *instr = (char *) malloc(32);
 
 	check((rs = register_lookup(strtok(NULL, delim))) != NULL);
 	check((rt = register_lookup(strtok(NULL, delim))) != NULL);
@@ -307,7 +307,7 @@ static uint32_t encode_sll(const char *inst)
 	const char *funct;
 	const char *shamt10;
 	char shamt2[26];
-	char *instr = realloc(instr, 32);
+	char *instr = (char *) malloc(32);
 
 	check((rd = register_lookup(strtok(NULL, delim))) != NULL);
 	check((rt = register_lookup(strtok(NULL, delim))) != NULL);
@@ -341,7 +341,7 @@ static uint32_t encode_srl(const char *inst)
 	const char *funct;
 	const char *shamt10;
 	char shamt2[26];
-	char *instr = realloc(instr, 32);
+	char *instr = (char *) malloc(32);
 
 	check((rd = register_lookup(strtok(NULL, delim))) != NULL);
 	check((rt = register_lookup(strtok(NULL, delim))) != NULL);
@@ -372,7 +372,7 @@ static uint32_t encode_jr(const char *inst)
 	const char *rs;
 	const char *opcode;
 	const char *funct;
-	char *instr = realloc(instr, 32);
+	char *instr = (char *) malloc(32);
 
 	check((rs = register_lookup(strtok(NULL, delim))) != NULL);
 	check((opcode = opcode_lookup(inst)) != NULL);
@@ -405,7 +405,7 @@ static uint32_t encode_i_instruction(const char *inst)
 	const char *opcode;
 	const char *branch10;
 	char branch2[16];
-	char *instr = realloc(instr, 32);
+	char *instr = (char *) malloc(32);
 
 	check((rt = register_lookup(strtok(NULL, delim))) != NULL);
 	check((rs = register_lookup(strtok(NULL, delim))) != NULL);
@@ -501,7 +501,7 @@ static uint32_t encode_lw(const char *inst)
 	const char *opcode;
 	const char *branch10;
 	char branch2[16];
-	char *instr = realloc(instr, 32);
+	char *instr = (char *) malloc(32);
 
 	check((rt = register_lookup(strtok(NULL, delim))) != NULL);
 	check((branch10 = strtok(NULL, delim)) != NULL);
@@ -531,7 +531,7 @@ static uint32_t encode_sw(const char *inst)
 	const char *opcode;
 	const char *branch10;
 	char branch2[16];
-	char *instr = realloc(instr, 32);
+	char *instr = (char *) malloc(32);
 
 	check((rt = register_lookup(strtok(NULL, delim))) != NULL);
 	check((branch10 = strtok(NULL, delim)) != NULL);
@@ -563,7 +563,7 @@ static uint32_t encode_j_instruction(const char *inst)
 	const char *opcode;
 	const char *addr10;
 	char addr2[26];
-	char *instr = realloc(instr,32);
+	char *instr = (char *) malloc(2);
 
 	check((addr10 = strtok(NULL, delim)) != NULL);
 	check((opcode = opcode_lookup(inst)) != NULL);
@@ -673,48 +673,31 @@ struct inst instructions[] = {
 /**
  * @brief Encodes a machine instruction.
  */
-uint32_t arch_mips32_encode(const char *asmcmd)
+uint32_t arch_mips32_encode(char *asmcmd)
 {
-	((void) asmcmd);
-
 	/* TODO */
+	
+	int unkown = 1;
+	char *token;
 
-	ssize_t nread;
-	size_t len = 0;
-	char *line = NULL;
+	/* Parse line. */
+	debug(asmcmd);
+	if ((token = strtok(asmcmd, delim)) == NULL)
+		return (0);
 
-	/* Read input file. */
-	while ((nread = getline(&line, &len, input)) != -1)
+	/* Lookup instruction. */
+	for (int j = 0; instructions[j].encode != NULL; j++)
 	{
-		int unkown = 1;
-		char *token;
-
-		/* Remove newline. */
-		line[nread - 1] = '\0';
-
-		/* Parse line. */
-		debug(line);
-		if ((token = strtok(line, delim)) == NULL)
-			break;
-
-		/* Lookup instruction. */
-		for (int j = 0; instructions[j].encode != NULL; j++)
+		/* Encode instruction.*/
+		if (!strcmp(token, instructions[j].name))
 		{
-			/* Encode instruction.*/
-			if (!strcmp(token, instructions[j].name))
-			{
-				unkown = 0;
-				instructions[j].encode(token);
-				break;
-			}
+			unkown = 0;
+			return instructions[j].encode(token);
 		}
-
-		if (unkown)
-			error("unknown command");
 	}
 
-	/* House keeping. */
-	free(line);
+	if (unkown)
+		error("unknown command");
 
 	return (0);
 }
