@@ -90,8 +90,10 @@ PRIVATE void test_encode_sw(void){
 	assertEquals(encode_sw(instr), 0);
 }
 
-PRIVATE void test_encode_j(void){
+PRIVATE void test_encode_j_instruction(void){
+	const char *instr = "j 1024";
 
+	assertEquals(encode_j_instruction(instr), 0);
 }
 
 PRIVATE struct test mips32_tests_api[] = {

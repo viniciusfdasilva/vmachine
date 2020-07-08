@@ -53,6 +53,6 @@
 
 	EXTERN test_encode_sw(void);
 
-	EXTERN test_encode_j(void);
+	EXTERN test_encode_j_instruction(void);
 
 #endif
