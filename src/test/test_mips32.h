@@ -29,10 +29,31 @@
 	{
 		void (*test_fn)(void);
 		const char *name;
+		const uint32_t expected_instruction;
 	};
 
 	EXTERN const char *HLINE;
 
 	EXTERN void test_parse_Uint32(void);
+
+	EXTERN test_encode_r_instruction(void);
+	
+	EXTERN test_encode_mult(void);
+
+	EXTERN test_encode_div(void);
+
+	EXTERN test_encode_sll(void);
+
+	EXTERN test_encode_srl(void);
+
+	EXTERN test_encode_jr(void);
+
+	EXTERN test_encode_i_instruction(void);
+
+	EXTERN test_encode_lw(void);
+
+	EXTERN test_encode_sw(void);
+
+	EXTERN test_encode_j(void);
 
 #endif

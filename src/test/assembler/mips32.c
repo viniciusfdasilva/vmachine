@@ -28,8 +28,8 @@
 
 #define TEST_ASSSEMBLER_VERBOSE 0
 
-PRIVATE void assertEquals(uint32_t instruction_expected, uint32_t real_instruction){
-	assert(instruction_expected == real_instruction);
+PRIVATE void assertEquals(uint32_t expected_instruction, uint32_t real_instruction){
+	assert(expected_instruction == real_instruction);
 }
 
 PRIVATE void test_parse_Uint32(void){
@@ -92,7 +92,7 @@ PRIVATE struct test mips32_tests_api[] = {
 };
 
 PUBLIC void test_mips32 (void){
-	kprintf(HLINE);
+	printf(HLINE);
 
 	for(int i = 0; mips32_tests_api != NULL; i++){
 		mips32_tests_api[i].test_fn();
