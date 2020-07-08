@@ -39,15 +39,19 @@ PRIVATE void test_parse_Uint32(void){
 PRIVATE void test_encode_r_instruction(void){
 	const char *instr = "add s0, s1, s2";
 
-	assertEquals(encode_r_instruction(instr, 32), 0);
+	assertEquals(encode_r_instruction(instr), 0);
 }
 
 PRIVATE void test_encode_mult(void){
-
+	const char *instr = "mult s0, s1"
+	
+	assertEquals(encode_mult(instr), 0);
 }
 
 PRIVATE void test_encode_div(void){
+	const char *instr ="div s0, s1";
 
+	assertEquals(encode_div(instr), 0);
 }
 
 PRIVATE void test_encode_sll(void){
