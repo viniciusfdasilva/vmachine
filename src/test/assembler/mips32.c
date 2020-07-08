@@ -49,21 +49,27 @@ PRIVATE void test_encode_mult(void){
 }
 
 PRIVATE void test_encode_div(void){
-	const char *instr ="div s0, s1";
+	const char *instr = "div s0, s1";
 
 	assertEquals(encode_div(instr), 0);
 }
 
 PRIVATE void test_encode_sll(void){
+	const char *instr = "sll s0, s1, s2";
 
+	assertEquals(encode_sll(instr), 0);
 }
 
 PRIVATE void test_encode_srl(void){
+	const char *instr = "sll s0, s1, s2";
 
+	assertEquals(encode_srl(instr), 0);
 }
 
 PRIVATE void test_encode_jr(void){
+	const char *instr = "jr s0";
 
+	assertEquals(encode_jr(instr), 0);
 }
 
 PRIVATE void test_encode_i_instruction(void){
