@@ -55,13 +55,13 @@ PRIVATE void test_encode_div(void){
 }
 
 PRIVATE void test_encode_sll(void){
-	const char *instr = "sll s0, s1, s2";
+	const char *instr = "sll s0, s1, 1";
 
 	assertEquals(encode_sll(instr), 0);
 }
 
 PRIVATE void test_encode_srl(void){
-	const char *instr = "sll s0, s1, s2";
+	const char *instr = "sll s0, s1, 1";
 
 	assertEquals(encode_srl(instr), 0);
 }
@@ -73,15 +73,21 @@ PRIVATE void test_encode_jr(void){
 }
 
 PRIVATE void test_encode_i_instruction(void){
+	const char *instr = "addi s0, s1, 1";
 
+	assertEquals(encode_i_instruction(instr), 0);
 }
 
 PRIVATE void test_encode_lw(void){
+	const char *instr = "lw s0, 4(s1)";
 
+	assertEquals(encode_lw(instr), 0);
 }
 
 PRIVATE void test_encode_sw(void){
+	const char *instr = "sw s0, 4(s1)";
 
+	assertEquals(encode_sw(instr), 0);
 }
 
 PRIVATE void test_encode_j(void){
