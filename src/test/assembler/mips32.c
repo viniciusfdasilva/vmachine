@@ -22,17 +22,73 @@
  * SOFTWARE.
  */
 
+#include <assert.h>
+#include <stdint.h>
 #include "../test_mips32.h"
 
+#define TEST_ASSSEMBLER_VERBOSE 0
 
-PRIVATE void test_parse_Uint32(void){
-	
+PRIVATE void assertEquals(uint32_t instruction_expected, uint32_t real_instruction){
+	assert(instruction_expected == real_instruction);
 }
 
+PRIVATE void test_parse_Uint32(void){
+				
+}
+
+PRIVATE void test_encode_r_instruction(void){
+
+}
+
+PRIVATE void test_encode_mult(void){
+
+}
+
+PRIVATE void test_encode_div(void){
+
+}
+
+PRIVATE void test_encode_sll(void){
+
+}
+
+PRIVATE void test_encode_srl(void){
+
+}
+
+PRIVATE void test_encode_jr(void){
+
+}
+
+PRIVATE void test_encode_i_instruction(void){
+
+}
+
+PRIVATE void test_encode_lw(void){
+
+}
+
+PRIVATE void test_encode_sw(void){
+
+}
+
+PRIVATE void test_encode_j(void){
+
+}
 
 PRIVATE struct test mips32_tests_api[] = {
-	{ test_parse_Uint32, "Parse binary string to uint32"},
-	{ NULL,               NULL  },
+	{ test_parse_Uint32,         "Parse binary string to uint32"},
+	{ test_encode_r_instruction, "Encode generic r instruction" },
+	{ test_encode_mult,          "Encode mult instruction"      },
+	{ test_encode_div,           "Encode div instruction"       },
+	{ test_encode_sll,           "Encode sll instruction"       },
+	{ test_encode_srl,           "Encode srl instruction"       },
+	{ test_encode_jr,            "Encode jr instruction"        },
+	{ test_encode_i_instruction, "Encode generic i instruction" },
+	{ test_encode_lw,            "Encode lw instruction"        },
+	{ test_encode_sw,            "Encode sw instruction"        },
+	{ test_encode_j,             "Encode j instruction"         },
+	{ NULL,                       NULL                          },
 };
 
 PUBLIC void test_mips32 (void){
@@ -40,7 +96,8 @@ PUBLIC void test_mips32 (void){
 
 	for(int i = 0; mips32_tests_api != NULL; i++){
 		mips32_tests_api[i].test_fn();
-		
-		kprintf("[assembler][mips 32][api] %s [passed]", mips32_tests_api[i].name);
+#if(TEST_ASSSEMBLER_VERBOSE)		
+		printf("[assembler][mips 32][api] %s [passed]", mips32_tests_api[i].name);
+#endif	
 	}
 }
