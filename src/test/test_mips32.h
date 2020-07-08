@@ -29,7 +29,6 @@
 	{
 		void (*test_fn)(void);
 		const char *name;
-		const uint32_t expected_instruction;
 	};
 
 	EXTERN const char *HLINE;

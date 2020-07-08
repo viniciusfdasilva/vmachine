@@ -33,11 +33,13 @@ PRIVATE void assertEquals(uint32_t expected_instruction, uint32_t real_instructi
 }
 
 PRIVATE void test_parse_Uint32(void){
-				
+	assertEquals(parseUint32_t("001", 3), 1);
 }
 
 PRIVATE void test_encode_r_instruction(void){
+	const char *instr = "add s0, s1, s2";
 
+	assertEquals(encode_r_instruction(instr, 32), 0);
 }
 
 PRIVATE void test_encode_mult(void){
