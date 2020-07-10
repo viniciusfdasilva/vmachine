@@ -72,6 +72,7 @@ int main(int argc, const char *argv[])
 	args_parse(argc, argv);
 
 	vmachine_start(args.filename);
+	test_mips32();
 
 	return (EXIT_SUCCESS);
 }

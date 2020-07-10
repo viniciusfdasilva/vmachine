@@ -50,7 +50,7 @@ const char *delim = " ,()";
  * register is returned. Upon failure, a null pointer is returned
  * instead.
  */
-static uint32_t parseUint32_t(char *instr, int size){
+uint32_t parseUint32_t(char *instr, int size){
 	uint32_t decimal = 0;
 
 	for(int i = 0; i < size; i++){

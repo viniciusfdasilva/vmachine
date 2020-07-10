@@ -28,75 +28,75 @@
 
 #define TEST_ASSSEMBLER_VERBOSE 0
 
-PRIVATE void assertEquals(uint32_t expected_instruction, uint32_t real_instruction){
+void assertEquals(uint32_t expected_instruction, uint32_t real_instruction){
 	assert(expected_instruction == real_instruction);
 }
 
-PRIVATE void test_parse_Uint32(void){
+void test_parse_Uint32(void){
 	assertEquals(parseUint32_t("001", 3), 1);
 }
 
-PRIVATE void test_encode_r_instruction(void){
+void test_encode_r_instruction(void){
 	const char *instr = "add s0, s1, s2";
 
-	assertEquals(encode_r_instruction(instr), 0);
+	assertEquals(encode_r_instruction(instr),36864032);
 }
 
-PRIVATE void test_encode_mult(void){
+void test_encode_mult(void){
 	const char *instr = "mult s0, s1"
 	
-	assertEquals(encode_mult(instr), 0);
+	assertEquals(encode_mult(instr), 34668570);
 }
 
-PRIVATE void test_encode_div(void){
+void test_encode_div(void){
 	const char *instr = "div s0, s1";
 
-	assertEquals(encode_div(instr), 0);
+	assertEquals(encode_div(instr), 34668570);
 }
 
-PRIVATE void test_encode_sll(void){
+void test_encode_sll(void){
 	const char *instr = "sll s0, s1, 1";
 
-	assertEquals(encode_sll(instr), 0);
+	assertEquals(encode_sll(instr), 1146944);
 }
 
-PRIVATE void test_encode_srl(void){
-	const char *instr = "sll s0, s1, 1";
+void test_encode_srl(void){
+	const char *instr = "srl s0, s1, 1";
 
-	assertEquals(encode_srl(instr), 0);
+	assertEquals(encode_srl(instr), 1146946);
 }
 
-PRIVATE void test_encode_jr(void){
+void test_encode_jr(void){
 	const char *instr = "jr s0";
 
-	assertEquals(encode_jr(instr), 0);
+	assertEquals(encode_jr(instr), 33554440);
 }
 
-PRIVATE void test_encode_i_instruction(void){
+void test_encode_i_instruction(void){
 	const char *instr = "addi s0, s1, 1";
 
-	assertEquals(encode_i_instruction(instr), 0);
+	assertEquals(encode_i_instruction(instr), 573571073);
 }
 
-PRIVATE void test_encode_lw(void){
+void test_encode_lw(void){
 	const char *instr = "lw s0, 4(s1)";
 
-	assertEquals(encode_lw(instr), 0);
+	assertEquals(encode_lw(instr), 2385510404);
 }
 
-PRIVATE void test_encode_sw(void){
+void test_encode_sw(void){
 	const char *instr = "sw s0, 4(s1)";
 
-	assertEquals(encode_sw(instr), 0);
+	assertEquals(encode_sw(instr), 2922381316);
 }
 
-PRIVATE void test_encode_j_instruction(void){
+void test_encode_j_instruction(void){
 	const char *instr = "j 1024";
 
-	assertEquals(encode_j_instruction(instr), 0);
+	assertEquals(encode_j_instruction(instr), 134218752);
 }
 
-PRIVATE struct test mips32_tests_api[] = {
+struct test mips32_tests_api[] = {
 	{ test_parse_Uint32,         "Parse binary string to uint32"},
 	{ test_encode_r_instruction, "Encode generic r instruction" },
 	{ test_encode_mult,          "Encode mult instruction"      },
@@ -111,7 +111,7 @@ PRIVATE struct test mips32_tests_api[] = {
 	{ NULL,                       NULL                          },
 };
 
-PUBLIC void test_mips32 (void){
+void test_mips32 (void){
 	printf(HLINE);
 
 	for(int i = 0; mips32_tests_api != NULL; i++){
