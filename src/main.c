@@ -25,6 +25,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <vmachine.h>
+#include "test_mips32.h"
 
 /**
  * @brief Command Line Arguments

@@ -133,7 +133,7 @@ static const char *funct_lookup(const char *cmd)
  * @param output Output file.
  * @param inst   Target instruction.
  */
-static uint32_t encode_r_instruction(const char *inst)
+uint32_t encode_r_instruction(const char *inst)
 {
 	const char *rd;
 	const char *rs;
@@ -186,7 +186,7 @@ static uint32_t encode_sub(const char *inst)
  * @param output Output file.
  * @param inst   Target instruction.
  */
-static uint32_t encode_mult(const char *inst)
+uint32_t encode_mult(const char *inst)
 {
 	const char *rs;
 	const char *rt;
@@ -215,7 +215,7 @@ static uint32_t encode_mult(const char *inst)
  * @param output Output file.
  * @param inst   Target instruction.
  */
-static uint32_t encode_div(const char *inst)
+uint32_t encode_div(const char *inst)
 {
 	const char *rs;
 	const char *rt;
@@ -299,7 +299,7 @@ static uint32_t encode_slt(const char *inst)
  * @param output Output file.
  * @param inst   Target instruction.
  */
-static uint32_t encode_sll(const char *inst)
+uint32_t encode_sll(const char *inst)
 {
 	const char *rd;
 	const char *rt;
@@ -333,7 +333,7 @@ static uint32_t encode_sll(const char *inst)
  * @param output Output file.
  * @param inst   Target instruction.
  */
-static uint32_t encode_srl(const char *inst)
+uint32_t encode_srl(const char *inst)
 {
 	const char *rd;
 	const char *rt;
@@ -367,7 +367,7 @@ static uint32_t encode_srl(const char *inst)
  * @param output Output file.
  * @param inst   Target instruction.
  */
-static uint32_t encode_jr(const char *inst)
+uint32_t encode_jr(const char *inst)
 {
 	const char *rs;
 	const char *opcode;
@@ -398,7 +398,7 @@ static uint32_t encode_jr(const char *inst)
  * @param output Output file.
  * @param inst   Target instruction.
  */
-static uint32_t encode_i_instruction(const char *inst)
+uint32_t encode_i_instruction(const char *inst)
 {
 	const char *rt;
 	const char *rs;
@@ -494,7 +494,7 @@ static uint32_t encode_bne(const char *inst)
  * @param output Output file.
  * @param inst   Target instruction.
  */
-static uint32_t encode_lw(const char *inst)
+uint32_t encode_lw(const char *inst)
 {
 	const char *rt;
 	const char *rs;
@@ -524,7 +524,7 @@ static uint32_t encode_lw(const char *inst)
  * @param output Output file.
  * @param inst   Target instruction.
  */
-static uint32_t encode_sw(const char *inst)
+uint32_t encode_sw(const char *inst)
 {
 	const char *rt;
 	const char *rs;
@@ -558,7 +558,7 @@ static uint32_t encode_sw(const char *inst)
  * @param output Output file.
  * @param inst   Target instruction.
  */
-static uint32_t encode_j_instruction(const char *inst)
+uint32_t encode_j_instruction(const char *inst)
 {
 	const char *opcode;
 	const char *addr10;

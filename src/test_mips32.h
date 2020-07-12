@@ -31,28 +31,16 @@
 		const char *name;
 	};
 
-	EXTERN const char *HLINE;
-
-	EXTERN void test_parse_Uint32(void);
-
-	EXTERN test_encode_r_instruction(void);
-	
-	EXTERN test_encode_mult(void);
-
-	EXTERN test_encode_div(void);
-
-	EXTERN test_encode_sll(void);
-
-	EXTERN test_encode_srl(void);
-
-	EXTERN test_encode_jr(void);
-
-	EXTERN test_encode_i_instruction(void);
-
-	EXTERN test_encode_lw(void);
-
-	EXTERN test_encode_sw(void);
-
-	EXTERN test_encode_j_instruction(void);
-
+ 	extern void test_mips32 (void);
+	extern uint32_t parseUint32 (char *instr, int size);
+	extern uint32_t encode_r_instruction (const char *instr);
+	extern uint32_t encode_mult (const char *instr);
+	extern uint32_t encode_div (const char *instr);
+	extern uint32_t encode_sll (const char *instr);
+	extern uint32_t encode_srl (const char *instr);
+	extern uint32_t encode_jr (const char *instr);
+	extern uint32_t encode_i_instruction (const char *instr);
+	extern uint32_t encode_lw (const char *instr);
+	extern uint32_t encode_sw (const char *instr);
+	extern uint32_t encode_j_instruction (const char *instr);
 #endif

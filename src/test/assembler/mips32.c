@@ -24,7 +24,7 @@
 
 #include <assert.h>
 #include <stdint.h>
-#include "../test_mips32.h"
+#include "../../test_mips32.h"
 
 #define TEST_ASSSEMBLER_VERBOSE 0
 
@@ -39,7 +39,7 @@ void test_parse_Uint32(void){
 void test_encode_r_instruction(void){
 	const char *instr = "add s0, s1, s2";
 
-	assertEquals(encode_r_instruction(instr),36864032);
+	assertEquals(encode_r_instruction(instr), 36864032);
 }
 
 void test_encode_mult(void){
