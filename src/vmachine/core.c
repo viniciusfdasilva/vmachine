@@ -43,6 +43,8 @@
 
 uint32_t pc;
 uint32_t registers[NUMBER_OF_REGISTERS];
+uint32_t hi;
+uint32_t lo;
 
 /**
  * @brief Fetches an instruction.
@@ -98,92 +100,90 @@ void do_execute_R(uint32_t instruction)
 	
 	switch(funct)
 	{
-		case 32:
+		case INST_ADD_FUNCT:
 			registers[rd] = registers[rs] + registers[rt];
+			pc += 4;
 		break;
-		case 33:
+		case INST_ADDU_FUNCT:
 			registers[rd] = registers[rs] + registers[rt];
+			pc += 4;
 		break;
-		case 36:
+		case INST_AND_FUNCT:
 			registers[rd] = registers[rs] & registers[rt];
+			pc += 4;
 		break;
-		case 13:
-			// break
+		case INST_NOR_FUNCT:
+			registers[rd] = !(registers[rs] | registers[rt]);
+			pc += 4;
 		break;
-		case 26:
-			registers[rd] = registers[rs] / registers[rt];
+		case INST_OR_FUNCT:
+			registers[rd] = registers[rs] | registers[rt];
+			pc += 4;
 		break;
-		case 27:
-			// divu
+		case INST_SLT_FUNCT:
+			registers[rd] = (registers[rs] < registers[rt]) ? 1 : 0;
+			pc += 4;
 		break;
-		case 9:
-			// jalr
+		case INST_SLTU_FUNCT:
+			registers[rd] = (registers[rs] < registers    [rt]) ? 1 : 0;
+			pc += 4;
 		break;
-		case 8:
-			// jr
+		case INST_SUB_FUNCT:
+			registers[rd] = registers[rs] - registers[rt];
+			pc += 4;
 		break;
-		case 16:
-			// mfhi
+		case INST_SUBU_FUNCT:
+			registers[rd] = registers[rs] - registers[rt];
+			pc += 4;
 		break;
-		case 18:
-			// mflo
+		case INST_XOR_FUNCT:
+			registers[rd] = registers[rs] ^ registers[rt];
+			pc += 4;
 		break;
-		case 17:
-                        // mthi
+		case INST_JR_FUNCT:
+                        pc = registers[rs];
                 break;
-		case 19:
-                        // mtlo
+		case INST_SLL_FUNCT:
+                        registers[rd] = registers[rt] << shamt;
+			pc += 4;
                 break;
-		case 24:
-                        registers[rd] = registers[rs] * registers[rt];
+		case INST_SRL_FUNCT:
+                        registers[rd] = registers[rt] >> shamt;
+			pc += 4;
                 break;
-		case 25:
-                        // multu
+		case INST_DIV_FUNCT:
+                        lo = registers[rs] / registers[rt];
+			hi = registers[rs] % registers[rt];
+			pc += 4;
                 break;
-		case 39:
-                        // nor
+		case INST_DIVU_FUNCT:
+                        lo = registers[rs] / registers[rt];
+			hi = registers[rs] % registers[rt];
+			pc += 4;
                 break;
-		case 37:
-                        registers[rd] = registers[rs] | registers[rt];
+		case INST_MFHI_FUNCT:
+                        registers[rd] = hi;
+			pc += 4;
                 break;
-                case 0:
-                        registers[rd] = registers[rs] << registers[rt];
+                case INST_MFLO_FUNCT:
+                        registers[rd] = lo;
+			pc += 4;
                 break;
-                case 4:
-                        // sllv
+                case INST_MULT_FUNCT:
+                        lo = registers[rs] * registers[rt];
+			pc += 4;
                 break;
-                case 42:
-                        // slt
+                case INST_MULTU_FUNCT:
+                        lo = registers[rs] * registers[rt];
+			pc += 4;
                 break;
-                case 43:
-                        // sltu
-                break;
-                case 3:
-                        // sra
-                break;
-                case 7:
-                        // srav
-                break;
-                case 2:
-                        // srl
-                break;
-                case 6:
-                        registers[rd] = registers[rs] >> registers[rt];
-                break;
-                case 34:
-                        registers[rd] = registers[rs] - registers[rt];
-                break;
-                case 35:
-                        registers[rd] = registers[rs] - registers[rt];
-                break;
-                case 12:
-                        // syscall
-                break;
-                case 38:
-                        registers[rd] = registers[rs] ^ registers[rt];
+                case INST_SRA_FUNCT:
+                        registers[rd] = registers[rt] >>> shamt;
+			pc += 4;
                 break;
 
-
+		default:
+                break;
 	}
 }
 
