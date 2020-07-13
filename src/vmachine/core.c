@@ -47,6 +47,13 @@ uint32_t hi;
 uint32_t lo;
 
 /**
+ * Advances PC value
+ */
+void advances_pc(uint32_t offset) {
+	pc += offset;
+}
+
+/**
  * @brief Fetches an instruction.
  */
 uint32_t do_fetch(void)
@@ -54,7 +61,7 @@ uint32_t do_fetch(void)
 	uint32_t instruction;
 
 	instruction = icache_read(pc);
-	pc += 4;
+	advances_pc(4);
 	
 	return (instruction);
 }
@@ -102,84 +109,84 @@ void do_execute_R(uint32_t instruction)
 	{
 		case INST_ADD_FUNCT:
 			registers[rd] = registers[rs] + registers[rt];
-			pc += 4;
+			advances_pc(4);
 		break;
 		case INST_ADDU_FUNCT:
 			registers[rd] = registers[rs] + registers[rt];
-			pc += 4;
+			advances_pc(4);
 		break;
 		case INST_AND_FUNCT:
 			registers[rd] = registers[rs] & registers[rt];
-			pc += 4;
+			advances_pc(4);
 		break;
 		case INST_NOR_FUNCT:
 			registers[rd] = !(registers[rs] | registers[rt]);
-			pc += 4;
+			advances_pc(4);
 		break;
 		case INST_OR_FUNCT:
 			registers[rd] = registers[rs] | registers[rt];
-			pc += 4;
+			advances_pc(4);
 		break;
 		case INST_SLT_FUNCT:
 			registers[rd] = (registers[rs] < registers[rt]) ? 1 : 0;
-			pc += 4;
+			advances_pc(4);
 		break;
 		case INST_SLTU_FUNCT:
 			registers[rd] = (registers[rs] < registers    [rt]) ? 1 : 0;
-			pc += 4;
+			advances_pc(4);
 		break;
 		case INST_SUB_FUNCT:
 			registers[rd] = registers[rs] - registers[rt];
-			pc += 4;
+			advances_pc(4);
 		break;
 		case INST_SUBU_FUNCT:
 			registers[rd] = registers[rs] - registers[rt];
-			pc += 4;
+			advances_pc(4);
 		break;
 		case INST_XOR_FUNCT:
 			registers[rd] = registers[rs] ^ registers[rt];
-			pc += 4;
+			advances_pc(4);
 		break;
 		case INST_JR_FUNCT:
                         pc = registers[rs];
                 break;
 		case INST_SLL_FUNCT:
                         registers[rd] = registers[rt] << shamt;
-			pc += 4;
+			advances_pc(4);
                 break;
 		case INST_SRL_FUNCT:
                         registers[rd] = registers[rt] >> shamt;
-			pc += 4;
+			advances_pc(4);
                 break;
 		case INST_DIV_FUNCT:
                         lo = registers[rs] / registers[rt];
 			hi = registers[rs] % registers[rt];
-			pc += 4;
+			advances_pc(4);
                 break;
 		case INST_DIVU_FUNCT:
                         lo = registers[rs] / registers[rt];
 			hi = registers[rs] % registers[rt];
-			pc += 4;
+			advances_pc(4);
                 break;
 		case INST_MFHI_FUNCT:
                         registers[rd] = hi;
-			pc += 4;
+			advances_pc(4);
                 break;
                 case INST_MFLO_FUNCT:
                         registers[rd] = lo;
-			pc += 4;
+			advances_pc(4);
                 break;
                 case INST_MULT_FUNCT:
                         lo = registers[rs] * registers[rt];
-			pc += 4;
+			advances_pc(4);
                 break;
                 case INST_MULTU_FUNCT:
                         lo = registers[rs] * registers[rt];
-			pc += 4;
+			advances_pc(4);
                 break;
                 case INST_SRA_FUNCT:
                         registers[rd] = registers[rt] >>> shamt;
-			pc += 4;
+			advances_pc(4);
                 break;
 
 		default:
