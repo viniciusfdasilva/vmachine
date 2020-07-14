@@ -32,7 +32,7 @@ SRC = $(wildcard $(CURDIR)/*.c)           \
       $(wildcard $(CURDIR)/assembler/*.c) \
       $(wildcard $(CURDIR)/binary/*.c)    \
       $(wildcard $(CURDIR)/loader/*.c)    \
-      $(wildcard $(CURDIR)/vmachine/*.c)
+      $(wildcard $(CURDIR)/vmachine/*.c)  
 
 #===============================================================================
 # Object Files

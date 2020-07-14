@@ -22,11 +22,14 @@
  * SOFTWARE.
  */
 
+#include <stdio.h>
 #include <assert.h>
 #include <stdint.h>
+#include <stddef.h>
 #include "../../test_mips32.h"
 
 #define TEST_ASSSEMBLER_VERBOSE 0
+#define HLINE "----------------------------------------------"
 
 void assertEquals(uint32_t expected_instruction, uint32_t real_instruction){
 	assert(expected_instruction == real_instruction);
@@ -43,7 +46,7 @@ void test_encode_r_instruction(void){
 }
 
 void test_encode_mult(void){
-	const char *instr = "mult s0, s1"
+	const char *instr = "mult s0, s1";
 	
 	assertEquals(encode_mult(instr), 34668570);
 }
@@ -107,7 +110,7 @@ struct test mips32_tests_api[] = {
 	{ test_encode_i_instruction, "Encode generic i instruction" },
 	{ test_encode_lw,            "Encode lw instruction"        },
 	{ test_encode_sw,            "Encode sw instruction"        },
-	{ test_encode_j,             "Encode j instruction"         },
+	{ test_encode_j_instruction, "Encode j instruction"         },
 	{ NULL,                       NULL                          },
 };
 
