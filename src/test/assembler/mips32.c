@@ -26,7 +26,20 @@
 #include <assert.h>
 #include <stdint.h>
 #include <stddef.h>
-#include "../../test_mips32.h"
+#include "../test.h"
+
+/* Import definitions. */
+extern uint32_t parseUint32_t (char *instr, int size);
+extern uint32_t encode_r_instruction (const char *instr);
+extern uint32_t encode_mult (const char *instr);
+extern uint32_t encode_div (const char *instr);
+extern uint32_t encode_sll (const char *instr);
+extern uint32_t encode_srl (const char *instr);
+extern uint32_t encode_jr (const char *instr);
+extern uint32_t encode_i_instruction (const char *instr);
+extern uint32_t encode_lw (const char *instr);
+extern uint32_t encode_sw (const char *instr);
+extern uint32_t encode_j_instruction (const char *instr);
 
 #define assertEquals(x, y) assert((x) == (y))
 
