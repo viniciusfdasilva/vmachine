@@ -24,6 +24,7 @@
 
 #include <vmachine/cache.h>
 #include <arch/mips32.h>
+#include <utils.h>
 
 #define VMACHINE_INSTRUCTION_OPCODE 0xfc000000
 #define VMACHINE_INSTRUCTION_RS 0x03e00000
@@ -171,8 +172,7 @@ void do_execute_R(uint32_t instruction)
                         registers[rd] = registers[rt] >>> shamt;
                 break;
 		default:
-			errorstr = "Unknown instruction";
-			error(errorstr);
+			error("unknown instruction");
                 break;
 	}
 
