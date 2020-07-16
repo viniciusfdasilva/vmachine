@@ -69,11 +69,11 @@ int main(int argc, const char *argv[])
 {
 	((void) argc);
 	((void) argv);
+	test_mips32();
 
 	args_parse(argc, argv);
 
 	vmachine_start(args.filename);
-	test_mips32();
 
 	return (EXIT_SUCCESS);
 }
