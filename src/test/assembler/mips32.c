@@ -22,6 +22,8 @@
  * SOFTWARE.
  */
 
+#ifndef NDEBUG
+
 #include <stdio.h>
 #include <assert.h>
 #include <stdint.h>
@@ -128,3 +130,5 @@ void test_mips32 (void){
 		printf("[assembler][mips 32][api] %s [passed]", mips32_tests_api[i].name);
 	}
 }
+
+#endif /* !NDEBUG */
