@@ -28,12 +28,7 @@
 #include <stddef.h>
 #include "../../test_mips32.h"
 
-#define TEST_ASSSEMBLER_VERBOSE 0
-#define HLINE "----------------------------------------------"
-
-void assertEquals(uint32_t expected_instruction, uint32_t real_instruction){
-	assert(expected_instruction == real_instruction);
-}
+#define assertEquals(x, y) assert((x) == (y))
 
 void test_parse_Uint32(void){
 	assertEquals(parseUint32_t("001", 3), 1);
@@ -115,12 +110,8 @@ struct test mips32_tests_api[] = {
 };
 
 void test_mips32 (void){
-	printf(HLINE);
-
 	for(int i = 0; mips32_tests_api != NULL; i++){
 		mips32_tests_api[i].test_fn();
-#if(TEST_ASSSEMBLER_VERBOSE)		
 		printf("[assembler][mips 32][api] %s [passed]", mips32_tests_api[i].name);
-#endif	
 	}
 }
