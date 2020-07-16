@@ -169,7 +169,7 @@ void do_execute_R(uint32_t instruction)
                         lo = registers[rs] * registers[rt];
                 break;
                 case INST_SRA_FUNCT:
-                        registers[rd] = registers[rt] >>> shamt;
+                        registers[rd] = registers[rt] >> shamt;
                 break;
 		default:
 			error("unknown instruction");
@@ -194,6 +194,9 @@ void do_execute_I(uint32_t instruction)
 	opcode = opcode >> VMACHINE_INSTRUCTION_SHIFT_OPCODE;
 
 	/* TO FINISH */
+	((void) rs);
+	((void) rt);
+	((void) imm);
 }
 
 /**
@@ -259,8 +262,11 @@ void core_run(void)
 {
 	while (1)
 	{
-		do_fetch();
-		do_execute();
+		uint32_t instr;
+
+		instr = do_fetch();
+
+		do_decode(instr);
 
 		do_interrupts();
 	}
