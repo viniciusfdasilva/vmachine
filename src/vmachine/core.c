@@ -64,7 +64,7 @@ uint32_t do_fetch(void)
 
 	instruction = icache_read(pc);
 	advances_pc(4);
-	
+
 	return (instruction);
 }
 
@@ -92,21 +92,21 @@ char instruction_type(uint32_t opcode)
  */
 void do_execute_R(uint32_t instruction)
 {
-	uint32_t opcode	= instruction & VMACHINE_INSTRUCTION_OPCODE;
-	uint32_t rs	= instruction & VMACHINE_INSTRUCTION_RS;
-	uint32_t rt	= instruction & VMACHINE_INSTRUCTION_RT;
-	uint32_t rd	= instruction & VMACHINE_INSTRUCTION_RD;
-	uint32_t shamt	= instruction & VMACHINE_INSTRUCTION_SHAMT;
-	uint32_t funct	= instruction & VMACHINE_INSTRUCTION_FUNCT;
+	uint32_t opcode = instruction & VMACHINE_INSTRUCTION_OPCODE;
+	uint32_t rs     = instruction & VMACHINE_INSTRUCTION_RS;
+	uint32_t rt     = instruction & VMACHINE_INSTRUCTION_RT;
+	uint32_t rd     = instruction & VMACHINE_INSTRUCTION_RD;
+	uint32_t shamt  = instruction & VMACHINE_INSTRUCTION_SHAMT;
+	uint32_t funct  = instruction & VMACHINE_INSTRUCTION_FUNCT;
 
-	opcode	= opcode >> VMACHINE_INSTRUCTION_SHIFT_OPCODE;
-	rs	= rs >> VMACHINE_INSTRUCTION_SHIFT_RS;
-	rt	= rt >> VMACHINE_INSTRUCTION_SHIFT_RD;
-	rd	= rd >> VMACHINE_INSTRUCTION_SHIFT_RD;
-	shamt	= shamt >> VMACHINE_INSTRUCTION_SHIFT_SHAMT;
-	
+	opcode = opcode >> VMACHINE_INSTRUCTION_SHIFT_OPCODE;
+	rs     = rs >> VMACHINE_INSTRUCTION_SHIFT_RS;
+	rt     = rt >> VMACHINE_INSTRUCTION_SHIFT_RD;
+	rd     = rd >> VMACHINE_INSTRUCTION_SHIFT_RD;
+	shamt  = shamt >> VMACHINE_INSTRUCTION_SHIFT_SHAMT;
+
 	// Assembling the operations based on funct
-	
+
 	switch(funct)
 	{
 		case INST_ADD_FUNCT:
@@ -186,13 +186,13 @@ void do_execute_R(uint32_t instruction)
  */
 void do_execute_I(uint32_t instruction)
 {
-	uint32_t opcode 	= instruction & VMACHINE_INSTRUCTION_OPCODE;
-	uint32_t rs		= instruction & VMACHINE_INSTRUCTION_RS;
-	uint32_t rt		= instruction & VMACHINE_INSTRUCTION_RT;
-	uint32_t immediate	= instruction & VMACHINE_INSTRUCTION_IMMEDIATE;
+	uint32_t opcode = instruction & VMACHINE_INSTRUCTION_OPCODE;
+	uint32_t rs	    = instruction & VMACHINE_INSTRUCTION_RS;
+	uint32_t rt	    = instruction & VMACHINE_INSTRUCTION_RT;
+	uint32_t imm    = instruction & VMACHINE_INSTRUCTION_IMMEDIATE;
 
-	opcode	= opcode >> VMACHINE_INSTRUCTION_SHIFT_OPCODE;
-	
+	opcode = opcode >> VMACHINE_INSTRUCTION_SHIFT_OPCODE;
+
 	/* TO FINISH */
 }
 
@@ -201,12 +201,13 @@ void do_execute_I(uint32_t instruction)
  */
 void do_execute_J(uint32_t instruction)
 {
-	uint32_t opcode 	= instruction & VMACHINE_INSTRUCTION_OPCODE;
-	uint32_t address	= instruction & VMACHINE_INSTRUCTION_ADDRESS;
-	
-	opcode	= opcode >> VMACHINE_INSTRUCTION_SHIFT_OPCODE;
-	
+	uint32_t opcode  = instruction & VMACHINE_INSTRUCTION_OPCODE;
+	uint32_t address = instruction & VMACHINE_INSTRUCTION_ADDRESS;
+
+	opcode = opcode >> VMACHINE_INSTRUCTION_SHIFT_OPCODE;
+
 	/* TO FINISH */
+	((void) address);
 }
 
 /**
@@ -215,16 +216,16 @@ void do_execute_J(uint32_t instruction)
 void do_decode(uint32_t instruction)
 {
         uint32_t opcode = instruction & VMACHINE_INSTRUCTION_OPCODE;
-    
+
         opcode  = opcode >> VMACHINE_INSTRUCTION_SHIFT_OPCODE;
-    
+
         char inst_type = instruction_type(opcode);
-    
+
         switch (inst_type)
         {
                 case 'R':
                         do_execute_R(instruction);
-		break;	
+		break;
                 case 'I':
                         do_execute_I(instruction);
 		break;
