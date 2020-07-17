@@ -213,6 +213,7 @@ void do_execute_J(uint32_t instruction)
 	((void) address);
 }
 
+
 /**
  * Decodes the instruction and sends it to the corresponding execution.
  */
@@ -270,4 +271,11 @@ void core_run(void)
 
 		do_interrupts();
 	}
+}
+
+/**
+ * @brief Register bank getter.
+ */
+uint32_t *get_registers(void) {
+	return registers;
 }
