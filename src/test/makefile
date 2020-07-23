@@ -28,6 +28,7 @@
 
 # Source Files
 SRC = $(wildcard $(CURDIR)/assembler/*.c)
+SRC = $(wildcard $(CURDIR)/vmachine/*.c)
 
 #===============================================================================
 # Object Files

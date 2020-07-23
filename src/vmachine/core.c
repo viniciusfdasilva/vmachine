@@ -276,6 +276,6 @@ void core_run(void)
 /**
  * @brief Register bank getter.
  */
-uint32_t *get_registers(void) {
-	return registers;
+uint32_t get_registers(int regnum) {
+	return registers[regnum];
 }

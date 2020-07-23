@@ -32,5 +32,6 @@
 	};
 
  	extern void test_mips32 (void);
+ 	extern void test_core (void);
 
 #endif
