@@ -22,24 +22,25 @@
  * SOFTWARE.
  */
 
+#include <vmachine/memory.h>
 #include <vmachine/cache.h>
 #include <arch/mips32.h>
 #include <utils.h>
 
-#define VMACHINE_INSTRUCTION_OPCODE 0xfc000000
-#define VMACHINE_INSTRUCTION_RS 0x03e00000
-#define VMACHINE_INSTRUCTION_RT 0x001f0000
-#define VMACHINE_INSTRUCTION_RD 0x0000f800
-#define VMACHINE_INSTRUCTION_SHAMT 0x000007c0
-#define VMACHINE_INSTRUCTION_FUNCT 0x0000002f
+#define VMACHINE_INSTRUCTION_OPCODE    0xfc000000
+#define VMACHINE_INSTRUCTION_RS        0x03e00000
+#define VMACHINE_INSTRUCTION_RT        0x001f0000
+#define VMACHINE_INSTRUCTION_RD        0x0000f800
+#define VMACHINE_INSTRUCTION_SHAMT     0x000007c0
+#define VMACHINE_INSTRUCTION_FUNCT     0x0000002f
 #define VMACHINE_INSTRUCTION_IMMEDIATE 0x0000ffff
-#define VMACHINE_INSTRUCTION_ADDRESS 0x03ffffff
+#define VMACHINE_INSTRUCTION_ADDRESS   0x03ffffff
 
 #define VMACHINE_INSTRUCTION_SHIFT_OPCODE 24
-#define VMACHINE_INSTRUCTION_SHIFT_RS 20
-#define VMACHINE_INSTRUCTION_SHIFT_RT 16
-#define VMACHINE_INSTRUCTION_SHIFT_RD 8
-#define VMACHINE_INSTRUCTION_SHIFT_SHAMT 4
+#define VMACHINE_INSTRUCTION_SHIFT_RS     20
+#define VMACHINE_INSTRUCTION_SHIFT_RT     16
+#define VMACHINE_INSTRUCTION_SHIFT_RD     8
+#define VMACHINE_INSTRUCTION_SHIFT_SHAMT  4
 
 #define NUMBER_OF_REGISTERS 32
 
@@ -190,6 +191,7 @@ void do_execute_I(uint32_t instruction)
 	uint32_t rs	   = instruction & VMACHINE_INSTRUCTION_RS;
 	uint32_t rt	   = instruction & VMACHINE_INSTRUCTION_RT;
 	uint32_t immediate = instruction & VMACHINE_INSTRUCTION_IMMEDIATE;
+	uint32_t address   = instruction & VMACHINE_INSTRUCTION_ADDRESS;
 
 	opcode 	  = opcode >> VMACHINE_INSTRUCTION_SHIFT_OPCODE;
 	rs	  = rs >> VMACHINE_INSTRUCTION_SHIFT_RS;
@@ -198,74 +200,88 @@ void do_execute_I(uint32_t instruction)
 
 	switch(opcode) {
 		case INST_ADDI_OPCODE:
-			;
+			registers[rt] = registers[rs] + immediate;
 		break;
 		case INST_ADDIU_OPCODE:
-			;
+			registers[rt] = registers[rs] + immediate;
 		break;
 		case INST_ANDI_OPCODE:
-			;
+			registers[rt] = registers[rs] & immediate;
 		break;
 		case INST_BEQ_OPCODE:
-			;
+			if (regiters[rs] == registers[rt]) {
+			       advances_pc(address << 2);
+			}
+			else {
+				advances_pc(4);
+			}
 		break;
 		case INST_BNE_OPCODE:
-			;
+			if (regiters[rs] != registers[rt]) {
+	                        advances_pc(address << 2);
+                        }
+                        else {
+                                advances_pc(4);
+                        }
 		break;
 		case INST_LBU_OPCODE:
-			;
+			registers[rt] = memory_read(registers[rs] + immediate);
 		break;
 		case INST_LHU_OPCODE:
-			;
+			registers[rt] = memory_read(registers[rs] + immediate);
 		break;
 		case INST_LL_OPCODE:
-			;
+			registers[rt] = memory_read(registers[rs] + immediate);
 		break;
 		case INST_LUI_OPCODE:
-			//
+			registers[rt] = immediate << 16;
 		break;
 		case INST_LW_OPCODE:
-			;
+			registers[rt] = memory_read(registers[rs] + immediate);
 		break;
 		case INST_ORI_OPCODE:
-			;
+			registers[rt] = registers[rs] | immediate; 
 		break;
 		case INST_SLTI_OPCODE:
-			;
+			registers[rt] = (registers[rs] < immediate) ? 1 : 0;
 		break;
 		case INST_SLTIU_OPCODE:
-			;
+			registers[rt] = (registers[rs] < immediate) ? 1 : 0;
 		break;
 		case INST_SB_OPCODE:
-			;
+			memory_write((registers[rs] + immediate), (0xff & registers[rt]));
 		break;
 		case INST_SC_OPCODE:
-			.
+			/* TO DO */
 		break;
 		case INST_SH_OPCODE:
-			;
+			memory_write((registers[rs] + immediate), registers[rt]);
 		break;
 		case INST_SW_OPCODE:
-	       		.
+	       		memory_write((registers[rs] + immediate), registers[rt]);
 		break;
 		case INST_LWCL_OPCODE:
-			;
+			/* TO DO */
 		break;
 		case INST_LDCL_OPCODE:
-			;
+			/* TO DO */
 		break;
 		case INST_SWCL_OPCODE:
-			.
+			/* TO DO */
 		break;
 		case INST_SDCL_OPCODE:
-			;
+			/* TO DO */
 		break;
 		case INST_XORI_OPCODE:
-			;
+			registers[rt] = registers[rs] ^ immediate;
 		break;
 		default:
 			error("unknown instruction");
-		break;	
+		break;
+	}
+
+	if (opcode != INST_BEQ_OPCODE && opcode != INST_BNE_OPCODE) {
+		advances_pc(4);
 	}
 }
 
