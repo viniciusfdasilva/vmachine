@@ -186,17 +186,87 @@ void do_execute_R(uint32_t instruction)
  */
 void do_execute_I(uint32_t instruction)
 {
-	uint32_t opcode = instruction & VMACHINE_INSTRUCTION_OPCODE;
-	uint32_t rs	    = instruction & VMACHINE_INSTRUCTION_RS;
-	uint32_t rt	    = instruction & VMACHINE_INSTRUCTION_RT;
-	uint32_t imm    = instruction & VMACHINE_INSTRUCTION_IMMEDIATE;
+	uint32_t opcode	   = instruction & VMACHINE_INSTRUCTION_OPCODE;
+	uint32_t rs	   = instruction & VMACHINE_INSTRUCTION_RS;
+	uint32_t rt	   = instruction & VMACHINE_INSTRUCTION_RT;
+	uint32_t immediate = instruction & VMACHINE_INSTRUCTION_IMMEDIATE;
 
-	opcode = opcode >> VMACHINE_INSTRUCTION_SHIFT_OPCODE;
+	opcode 	  = opcode >> VMACHINE_INSTRUCTION_SHIFT_OPCODE;
+	rs	  = rs >> VMACHINE_INSTRUCTION_SHIFT_RS;
+	rt	  = rt >> VMACHINE_INSTRUCTION_SHIFT_RT;
+	immediate = immediate >> VMACHINE_INSTRUCTION_SHIFT_IMMEDIATE;
 
-	/* TO FINISH */
-	((void) rs);
-	((void) rt);
-	((void) imm);
+	switch(opcode) {
+		case INST_ADDI_OPCODE:
+			;
+		break;
+		case INST_ADDIU_OPCODE:
+			;
+		break;
+		case INST_ANDI_OPCODE:
+			;
+		break;
+		case INST_BEQ_OPCODE:
+			;
+		break;
+		case INST_BNE_OPCODE:
+			;
+		break;
+		case INST_LBU_OPCODE:
+			;
+		break;
+		case INST_LHU_OPCODE:
+			;
+		break;
+		case INST_LL_OPCODE:
+			;
+		break;
+		case INST_LUI_OPCODE:
+			//
+		break;
+		case INST_LW_OPCODE:
+			;
+		break;
+		case INST_ORI_OPCODE:
+			;
+		break;
+		case INST_SLTI_OPCODE:
+			;
+		break;
+		case INST_SLTIU_OPCODE:
+			;
+		break;
+		case INST_SB_OPCODE:
+			;
+		break;
+		case INST_SC_OPCODE:
+			.
+		break;
+		case INST_SH_OPCODE:
+			;
+		break;
+		case INST_SW_OPCODE:
+	       		.
+		break;
+		case INST_LWCL_OPCODE:
+			;
+		break;
+		case INST_LDCL_OPCODE:
+			;
+		break;
+		case INST_SWCL_OPCODE:
+			.
+		break;
+		case INST_SDCL_OPCODE:
+			;
+		break;
+		case INST_XORI_OPCODE:
+			;
+		break;
+		default:
+			error("unknown instruction");
+		break;	
+	}
 }
 
 /**
@@ -211,6 +281,18 @@ void do_execute_J(uint32_t instruction)
 
 	/* TO FINISH */
 	((void) address);
+
+	switch(opcode) {
+		case INST_J_OPCODE:
+			/* TO DO */
+		break;
+		case INST_JAL_OPCODE:
+			/* TO DO */
+		break;
+		default:
+	                error("unknown instruction");
+		break;
+	}
 }
 
 
