@@ -51,45 +51,35 @@
 	#define INST_MULT_OPCODE  0x00
 	#define INST_MULTU_OPCODE 0x00
 	#define INST_SRA_OPCODE   0x00
-		
-	/* DOING */
+	
+	/* I-TYPE */
 	#define INST_ADDI_OPCODE  0x08
-	#define INST_ADDIU_OPCODE 0x09						
-	#define INST_ANDI_OPCODE  0x0c		
-	#define INST_ORI_OPCODE   0x0d		
-	#define INST_XORI_OPCODE  0x0e		
-	#define INST_SLTI_OPCODE  0x0a
-	#define INST_SLTIU_OPCODE 0x0b		
-	#define INST_LW_OPCODE    0x23
-	#define INST_SW_OPCODE    0x2b
+	#define INST_ADDIU_OPCODE 0x09
+	#define INST_ANDI_OPCODE  0x0c
 	#define INST_BEQ_OPCODE   0x04
 	#define INST_BNE_OPCODE   0x05
-	#define INST_J_OPCODE     0x02		
-	#define INST_JAL_OPCODE   0x03
 	#define INST_LBU_OPCODE   0x24
 	#define INST_LHU_OPCODE   0x25
 	#define INST_LL_OPCODE    0x30
 	#define INST_LUI_OPCODE   0x0f
+	#define INST_LW_OPCODE    0x23
+	#define INST_ORI_OPCODE   0x0d
+	#define INST_SLTI_OPCODE  0x0a
+	#define INST_SLTIU_OPCODE 0x0b
 	#define INST_SB_OPCODE    0x28
 	#define INST_SC_OPCODE    0x38
 	#define INST_SH_OPCODE    0x29
-	#define INST_BCLT_OPCODE  0x11
-	#define INST_BCLF_OPCODE  0x11
-	#define INST_ADD_S_OPCODE 0x11
-	#define INST_ADD_D_OPCODE 0x11
-	#define INST_C_X_S_OPCODE 0x11
-	#define INST_C_X_D_OPCODE 0x11
-	#define INST_DIV_S_OPCODE 0x11
-	#define INST_DIV_D_OPCODE 0x11
-	#define INST_MUL_S_OPCODE 0x11
-	#define INST_MUL_D_OPCODE 0x11
-	#define INST_SUB_S_OPCODE 0x11
-	#define INST_SUB_D_OPCODE 0x11
+	#define INST_SW_OPCODE    0x2b
 	#define INST_LWCL_OPCODE  0x31
-	#define INST_LDCL_OPCODE  0x35		
-	#define INST_MFC0_OPCODE  0x10
+	#define INST_LDCL_OPCODE  0x35
 	#define INST_SWCL_OPCODE  0x39
 	#define INST_SDCL_OPCODE  0x3d
+	#define INST_XORI_OPCODE  0x0e		
+		
+	/* J-TYPE */
+	#define INST_J_OPCODE     0x02
+	#define INST_JAL_OPCODE   0x03
+	
 	/**@}*/
 
 	/**
