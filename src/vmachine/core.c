@@ -191,7 +191,6 @@ void do_execute_I(uint32_t instruction)
 	uint32_t rs	   = instruction & VMACHINE_INSTRUCTION_RS;
 	uint32_t rt	   = instruction & VMACHINE_INSTRUCTION_RT;
 	uint32_t immediate = instruction & VMACHINE_INSTRUCTION_IMMEDIATE;
-	uint32_t address   = instruction & VMACHINE_INSTRUCTION_ADDRESS;
 
 	opcode 	  = opcode >> VMACHINE_INSTRUCTION_SHIFT_OPCODE;
 	rs	  = rs >> VMACHINE_INSTRUCTION_SHIFT_RS;
@@ -210,7 +209,7 @@ void do_execute_I(uint32_t instruction)
 		break;
 		case INST_BEQ_OPCODE:
 			if (regiters[rs] == registers[rt]) {
-			       advances_pc(address << 2);
+			       advances_pc(immediate << 2);
 			}
 			else {
 				advances_pc(4);
@@ -218,7 +217,7 @@ void do_execute_I(uint32_t instruction)
 		break;
 		case INST_BNE_OPCODE:
 			if (regiters[rs] != registers[rt]) {
-	                        advances_pc(address << 2);
+	                        advances_pc(immediate << 2);
                         }
                         else {
                                 advances_pc(4);
@@ -253,24 +252,13 @@ void do_execute_I(uint32_t instruction)
 		break;
 		case INST_SC_OPCODE:
 			/* TO DO */
+			//registers[rt] = (atomic) ? 1 : 0;
 		break;
 		case INST_SH_OPCODE:
 			memory_write((registers[rs] + immediate), registers[rt]);
 		break;
 		case INST_SW_OPCODE:
 	       		memory_write((registers[rs] + immediate), registers[rt]);
-		break;
-		case INST_LWCL_OPCODE:
-			/* TO DO */
-		break;
-		case INST_LDCL_OPCODE:
-			/* TO DO */
-		break;
-		case INST_SWCL_OPCODE:
-			/* TO DO */
-		break;
-		case INST_SDCL_OPCODE:
-			/* TO DO */
 		break;
 		case INST_XORI_OPCODE:
 			registers[rt] = registers[rs] ^ immediate;
