@@ -70,10 +70,6 @@
 	#define INST_SC_OPCODE    0x38
 	#define INST_SH_OPCODE    0x29
 	#define INST_SW_OPCODE    0x2b
-	#define INST_LWCL_OPCODE  0x31
-	#define INST_LDCL_OPCODE  0x35
-	#define INST_SWCL_OPCODE  0x39
-	#define INST_SDCL_OPCODE  0x3d
 	#define INST_XORI_OPCODE  0x0e		
 		
 	/* J-TYPE */
