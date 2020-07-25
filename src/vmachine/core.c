@@ -22,9 +22,9 @@
  * SOFTWARE.
  */
 
-#include <vmachine/memory.h>
 #include <vmachine/cache.h>
 #include <arch/mips32.h>
+#include <vmachine/memory.h>
 #include <utils.h>
 
 #define VMACHINE_INSTRUCTION_OPCODE    0xfc000000
@@ -195,7 +195,6 @@ void do_execute_I(uint32_t instruction)
 	opcode 	  = opcode >> VMACHINE_INSTRUCTION_SHIFT_OPCODE;
 	rs	  = rs >> VMACHINE_INSTRUCTION_SHIFT_RS;
 	rt	  = rt >> VMACHINE_INSTRUCTION_SHIFT_RT;
-	immediate = immediate >> VMACHINE_INSTRUCTION_SHIFT_IMMEDIATE;
 
 	switch(opcode) {
 		case INST_ADDI_OPCODE:
@@ -208,7 +207,7 @@ void do_execute_I(uint32_t instruction)
 			registers[rt] = registers[rs] & immediate;
 		break;
 		case INST_BEQ_OPCODE:
-			if (regiters[rs] == registers[rt]) {
+			if (registers[rs] == registers[rt]) {
 			       advances_pc(immediate << 2);
 			}
 			else {
@@ -216,7 +215,7 @@ void do_execute_I(uint32_t instruction)
 			}
 		break;
 		case INST_BNE_OPCODE:
-			if (regiters[rs] != registers[rt]) {
+			if (registers[rs] != registers[rt]) {
 	                        advances_pc(immediate << 2);
                         }
                         else {
@@ -283,15 +282,13 @@ void do_execute_J(uint32_t instruction)
 
 	opcode = opcode >> VMACHINE_INSTRUCTION_SHIFT_OPCODE;
 
-	/* TO FINISH */
-	((void) address);
-
 	switch(opcode) {
 		case INST_J_OPCODE:
-			/* TO DO */
+			pc = pc | (address << 2);
 		break;
 		case INST_JAL_OPCODE:
-			/* TO DO */
+			registers[0x1f] = pc + 8;
+			pc = pc | (address << 2);
 		break;
 		default:
 	                error("unknown instruction");
