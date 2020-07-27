@@ -22,8 +22,8 @@
  * SOFTWARE.
  */
 
-#ifndef VMACHINE_MEMORY_H_
-#define VMACHINE_MEMORY_H_
+#ifndef VMACHINE_CHACHE_H_
+#define VMACHINE_CHACHE_H_
 
 	#include <vmachine/types.h>
 
@@ -58,4 +58,4 @@
 	 */
 	extern void dcache_write(void);
 
-#endif /* VMACHINE_MEMORY_H_ */
+#endif /* VMACHINE_CHACHE_H_ */
