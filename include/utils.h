@@ -26,6 +26,7 @@
 #define UTILS_H_
 
 	#include <stddef.h>
+	#include <stdbool.h>
 
 	/**
 	 * @brief Prints an error message and exits.
@@ -50,6 +51,10 @@
 	 * @returns A pointer to the resulting string.
 	 */
 	extern char *itoa2(int val, char *str, int base2);
+
+	extern char* substring(char* str,int init,int end);
+
+	extern bool equals(char* str1,char* str2);
 
 	/**
 	 * @brief Asserts a condition.

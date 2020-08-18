@@ -24,6 +24,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 
 /*============================================================================*
  * error()                                                                    *
@@ -122,6 +123,32 @@ char *itoa2(int val, char *str)
 	reverse(str, i);
 
 	return str;
+}
+
+/**
+ * @brief Get substring of the a master string
+ * @param str Master string
+ * @param init Index
+ * @param Index
+ */
+char* substring(char* str,int init,int end){
+	char* substring = NULL;
+	
+	if(init <= end && (init >= 0 && end >= 0) && (init <= strlen(str) && end <= strlen(str))){
+		substring = (char*)malloc((end-init)+1*sizeof(unsigned char));
+		for(int i = 0; init+i < (end+1); i++) substring[i] = str[init+i];
+		substring[(end-init)+1] = '\0';
+	}else return NULL;
+	return substring;
+}
+
+/**
+ * @brief Check if two string are equals
+ * @param str1
+ * @param str2
+ */
+bool equals(char* str1,char* str2){
+	return strcmp(str1,str2) == 0 ? true : false;
 }
 
 /*============================================================================*
