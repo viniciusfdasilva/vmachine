@@ -362,3 +362,11 @@ void core_run(void)
 uint32_t get_registers(int regnum) {
 	return registers[regnum];
 }
+
+/**
+ * @brief PC Value getter.
+ */
+uint32_t get_PC() {
+	return pc;
+}
+
