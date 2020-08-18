@@ -24,6 +24,11 @@
 
 /* Ours */
 #include <vmachine.h>
+#include <string.h>
+#include <stdlib.h>
+#include <stdbool.h>
+#include <stdio.h>
+#include<utils.h>
 
 #define SYNTATIC_ERROR "Syntactic error"
 
@@ -47,5 +52,8 @@ R_instruction* r_inst;
  */
 word_t engine_run(uint32_t instruction)
 {
+	char string_instruction[32];
+	itoa(instruction,string_instruction,10);
+
 	return (instruction);
 }
