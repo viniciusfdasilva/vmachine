@@ -35,6 +35,8 @@
 /* Functions prototypes */
 extern char instruction_type(uint32_t opcode);
 extern void do_execute_R(uint32_t instruction);
+extern void do_execute_I(uint32_t instruction);
+extern void do_execute_J(uint32_t instruction);
 extern uint32_t get_registers(int regnum);
 
 void test_instruction_type(void) {
@@ -49,14 +51,23 @@ void test_do_execute_R(void) {
 	rd = rd >> VMACHINE_INSTRUCTION_SHIFT_RD;
 	
 	do_execute_R(instruction);
-	assert(get_registers(rd) == 26);
+	assert(get_registers(rd) == 0x09);
+}
 
+void test_do_execute_I(void) {
+	/* TO DO */
+}
+
+void test_do_execute_J(void) {
+	/* TO DO */
 }
 
 struct test core_tests_api[] = {
-	{ test_instruction_type, "Define instruction type" 	},
-	{ test_do_execute_R, 	 "Execute a R-type instruction"	},
-	{ NULL,			 NULL				}
+	{ test_instruction_type, 	"Define instruction type"		},
+	{ test_do_execute_R,		"Execute a R-type instruction"	},
+	{ test_do_execute_I,		"Execute a I-type instruction"	},
+	{ test_do_execute_J,		"Execute a J-type instruction"	},
+	{ NULL,			 NULL					}
 };
 
 void test_core (void){

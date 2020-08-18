@@ -187,14 +187,14 @@ void do_execute_R(uint32_t instruction)
  */
 void do_execute_I(uint32_t instruction)
 {
-	uint32_t opcode	   = instruction & VMACHINE_INSTRUCTION_OPCODE;
-	uint32_t rs	   = instruction & VMACHINE_INSTRUCTION_RS;
-	uint32_t rt	   = instruction & VMACHINE_INSTRUCTION_RT;
-	uint32_t immediate = instruction & VMACHINE_INSTRUCTION_IMMEDIATE;
+	uint32_t opcode	= instruction & VMACHINE_INSTRUCTION_OPCODE;
+	uint32_t rs		= instruction & VMACHINE_INSTRUCTION_RS;
+	uint32_t rt		= instruction & VMACHINE_INSTRUCTION_RT;
+	uint32_t immediate	= instruction & VMACHINE_INSTRUCTION_IMMEDIATE;
 
-	opcode 	  = opcode >> VMACHINE_INSTRUCTION_SHIFT_OPCODE;
-	rs	  = rs >> VMACHINE_INSTRUCTION_SHIFT_RS;
-	rt	  = rt >> VMACHINE_INSTRUCTION_SHIFT_RT;
+	opcode	= opcode >> VMACHINE_INSTRUCTION_SHIFT_OPCODE;
+	rs	= rs >> VMACHINE_INSTRUCTION_SHIFT_RS;
+	rt	= rt >> VMACHINE_INSTRUCTION_SHIFT_RT;
 
 	switch(opcode) {
 		case INST_ADDI_OPCODE:
@@ -326,7 +326,7 @@ void do_decode(uint32_t instruction)
  */
 void do_interrupts(void)
 {
-	/* TODO */
+	exit();
 }
 
 /**
