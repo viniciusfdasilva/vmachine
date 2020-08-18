@@ -25,6 +25,23 @@
 /* Ours */
 #include <vmachine.h>
 
+#define SYNTATIC_ERROR "Syntactic error"
+
+/*
+	Mips instruction of R type
+*/
+typedef struct R_instruction
+{
+	char* opcode;
+	char* rs;
+	char* rt;
+	char* rd;
+	char* shamt;
+	char* funct;
+}R_instruction;
+
+R_instruction* r_inst;
+
 /**
  * The engine_run() function translates a binary code into another.
  */
