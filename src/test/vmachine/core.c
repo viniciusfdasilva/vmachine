@@ -41,6 +41,7 @@ extern void do_execute_R(uint32_t instruction);
 extern void do_execute_I(uint32_t instruction);
 extern void do_execute_J(uint32_t instruction);
 extern uint32_t get_registers(int regnum);
+extern uint32_t get_PC(void);
 
 void test_instruction_type(void) {
 	uint32_t opcode = 0x00;
@@ -64,11 +65,14 @@ void test_do_execute_I(void) {
 	rt	= VMACHINE_INSTRUCTION_SHIFT_RT;
 	
 	do_execute_I(instruction);
-	assert(get_registers(rt) == 0x0d);
+	assert(get_registers(rt) == 0x0D);
 }
 
 void test_do_execute_J(void) {
-	/* TO DO */
+	uint32_t instruction = 0x800001E;
+	
+	do_execute_J(instruction);
+	assert(get_PC() == 0x1E);
 }
 
 struct test core_tests_api[] = {

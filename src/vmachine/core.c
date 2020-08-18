@@ -366,7 +366,7 @@ uint32_t get_registers(int regnum) {
 /**
  * @brief PC Value getter.
  */
-uint32_t get_PC() {
+uint32_t get_PC(void) {
 	return pc;
 }
 
