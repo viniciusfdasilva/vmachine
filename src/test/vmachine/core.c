@@ -30,6 +30,9 @@
 #include "../test.h"
 
 #define VMACHINE_INSTRUCTION_RD 0x0000f800
+#define VMACHINE_INSTRUCTION_RT 0x001f0000
+
+#define VMACHINE_INSTRUCTION_SHIFT_RT 16
 #define VMACHINE_INSTRUCTION_SHIFT_RD 8
 
 /* Functions prototypes */
@@ -45,17 +48,23 @@ void test_instruction_type(void) {
 }
 
 void test_do_execute_R(void) {
-	uint32_t instruction = 104444042;
+	uint32_t instruction = 0x850820;
 
-	int rd = instruction & VMACHINE_INSTRUCTION_RD;
-	rd = rd >> VMACHINE_INSTRUCTION_SHIFT_RD;
+	int rd	= instruction & VMACHINE_INSTRUCTION_RD;
+	rd	= rd >> VMACHINE_INSTRUCTION_SHIFT_RD;
 	
 	do_execute_R(instruction);
 	assert(get_registers(rd) == 0x09);
 }
 
 void test_do_execute_I(void) {
-	/* TO DO */
+	uint32_t instruction = 0x2061000A;
+	
+	int rt	= instruction & VMACHINE_INSTRUCTION_RT;
+	rt	= VMACHINE_INSTRUCTION_SHIFT_RT;
+	
+	do_execute_I(instruction);
+	assert(get_registers(rt) == 0x0d);
 }
 
 void test_do_execute_J(void) {
