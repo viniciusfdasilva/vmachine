@@ -45,10 +45,61 @@ typedef struct R_instruction
 	char* funct;
 }R_instruction;
 
+/*
+* Start r_inst for let ready to use
+*/
+void r_init(){
+	r_inst = (R_instruction*)malloc(sizeof(R_instruction));
+	r_inst->opcode = "";
+	r_inst->rs = "";
+	r_inst->rd = "";
+	r_inst->rt = "";
+	r_inst->shamt = "";
+	r_inst->funct = "";
+}
+
 R_instruction* r_inst;
 
 /**
- * Select type of instruction extract each word of instruction 
+ * Check if these two parameters are equals.
+ * @param tk1
+ * @param tk2
+ * */
+static void match(char* tk1,char* tk2){
+	if(!equals(tk1,tk2)) printf("%s",SYNTATIC_ERROR);
+}
+
+/*
+* r_procefure_Format()
+*/
+static void r_procefure_Format(){
+
+}
+
+/*
+ * First rule of grammar and Parsing tree
+*/
+static void r_procedure_S(){
+	if(equals("000000",r_inst->opcode)){
+		match("000000",r_inst->opcode);
+	}else if(equals("010000",r_inst->opcode)){
+		match("010000",r_inst->opcode);
+	}
+	r_procefure_Format();
+}
+
+/**
+ * Translate binary code MIPS32 in RV32.
+ * Opening process of translate
+ */
+static void r_translator()
+{
+	r_procedure_S(r_inst);
+}
+
+/**
+ * Select type of instruction.
+ * Extract each word of instruction 
  * and redirects for each function corresponding
  * @param inst[] MIPS instruction of 32 bits
  * */
@@ -66,6 +117,7 @@ void select(char inst[])
 		r_inst->rd = substring(inst,16,20);
 		r_inst->shamt = substring(inst,21,25);
 		r_inst->funct = substring(inst,26,31);
+		r_translator();
 	}
 }
 
