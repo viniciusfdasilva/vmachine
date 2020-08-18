@@ -48,12 +48,35 @@ typedef struct R_instruction
 R_instruction* r_inst;
 
 /**
+ * Select type of instruction extract each word of instruction 
+ * and redirects for each function corresponding
+ * @param inst[] MIPS instruction of 32 bits
+ * */
+void select(char inst[])
+{
+		
+	char* opcode = substring(inst,0,5);
+
+	if(strcmp(opcode,"000000") == 0){
+		r_init();
+
+		r_inst->opcode = opcode;
+		r_inst->rs = substring(inst,6,10);
+		r_inst->rt = substring(inst,11,15);
+		r_inst->rd = substring(inst,16,20);
+		r_inst->shamt = substring(inst,21,25);
+		r_inst->funct = substring(inst,26,31);
+	}
+}
+
+/**
  * The engine_run() function translates a binary code into another.
  */
 word_t engine_run(uint32_t instruction)
 {
 	char string_instruction[32];
 	itoa(instruction,string_instruction,10);
+	select(string_instruction);
 
 	return (instruction);
 }
