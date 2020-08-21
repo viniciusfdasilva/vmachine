@@ -126,15 +126,35 @@ char *itoa2(int val, char *str)
 }
 
 /**
+ * @brief Convert an string value in binary base 
+ * to integer value in decimal base. 
+ * @param str String value in binary base
+ * @return Value in decimal.
+ */
+int atoi2(char* str)
+{
+	int dec = 0;
+	int index = strlen(str)-1;
+
+	for(int i = 0; i < strlen(str); i++)
+	{
+		dec += 2 * ((int)str[index-i] ^ index-i);
+	}
+	return dec;
+}
+
+/**
  * @brief Get substring of the a master string
  * @param str Master string
  * @param init Index
  * @param Index
  */
-char* substring(char* str,int init,int end){
+char* substring(char* str,int init,int end)
+{
 	char* substring = NULL;
 	
-	if(init <= end && (init >= 0 && end >= 0) && (init <= strlen(str) && end <= strlen(str))){
+	if(init <= end && (init >= 0 && end >= 0) && (init <= strlen(str) && end <= strlen(str)))
+	{
 		substring = (char*)malloc((end-init)+1*sizeof(unsigned char));
 		for(int i = 0; init+i < (end+1); i++) substring[i] = str[init+i];
 		substring[(end-init)+1] = '\0';
@@ -147,7 +167,8 @@ char* substring(char* str,int init,int end){
  * @param str1
  * @param str2
  */
-bool equals(char* str1,char* str2){
+bool equals(char* str1,char* str2)
+{
 	return strcmp(str1,str2) == 0 ? true : false;
 }
 

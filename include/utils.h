@@ -52,8 +52,27 @@
 	 */
 	extern char *itoa2(int val, char *str, int base2);
 
+	/**
+	 * @brief Convert an string value in binary base 
+	 * to integer value in decimal base. 
+	 * @param str String value in binary base
+	 * @return Value in decimal.
+	 */
+	extern int atoi2(char* str);
+	
+	/**
+	 * @brief Get substring of the a master string
+	 * @param str Master string
+	 * @param init Index
+	 * @param Index
+	 */
 	extern char* substring(char* str,int init,int end);
 
+	/**
+	 * @brief Check if two string are equals
+	 * @param str1
+	 * @param str2
+	 */
 	extern bool equals(char* str1,char* str2);
 
 	/**
