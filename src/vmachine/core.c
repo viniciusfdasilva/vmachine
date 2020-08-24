@@ -26,6 +26,7 @@
 #include <arch/mips32.h>
 #include <vmachine/memory.h>
 #include <utils.h>
+#include <stdlib.h>
 
 #define VMACHINE_INSTRUCTION_OPCODE    0xfc000000
 #define VMACHINE_INSTRUCTION_RS        0x03e00000
@@ -249,10 +250,6 @@ void do_execute_I(uint32_t instruction)
 		case INST_SB_OPCODE:
 			memory_write((registers[rs] + immediate), (0xff & registers[rt]));
 		break;
-		case INST_SC_OPCODE:
-			/* TO DO */
-			//registers[rt] = (atomic) ? 1 : 0;
-		break;
 		case INST_SH_OPCODE:
 			memory_write((registers[rs] + immediate), registers[rt]);
 		break;
@@ -326,7 +323,7 @@ void do_decode(uint32_t instruction)
  */
 void do_interrupts(void)
 {
-	exit();
+	exit(-1);
 }
 
 /**
