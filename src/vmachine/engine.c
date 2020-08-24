@@ -53,11 +53,10 @@
 #define R_SLL "000000"
 #define R_SRL "000010"
 #define R_SRA "000011"
-#define R_MFHI "010000"
-#define R_MFLO "010010"
-#define R_MFC0 "NA"
 
 #define SYNTATIC_ERROR "Syntactic error"
+
+#define index(x) binToDec(x)
 
 // MIPS32 registers
 unsigned char* mips_register[] = 
@@ -112,7 +111,8 @@ typedef struct R_instruction
 /*
 * Start r_inst for let ready to use
 */
-void r_init(){
+void r_init()
+{
 	r_inst = (R_instruction*)malloc(sizeof(R_instruction));
 	r_inst->opcode = "";
 	r_inst->rs = "";
@@ -129,27 +129,38 @@ R_instruction* r_inst;
  * @param tk1
  * @param tk2
  * */
-static void match(char* tk1,char* tk2){
+static void match(char* tk1,char* tk2)
+{
 	if(!equals(tk1,tk2)) printf("%s",SYNTATIC_ERROR);
+}
+
+/*
+* r_procedure_Function()
+*/
+static void r_procedure_Function()
+{
+
 }
 
 /*
 * r_procefure_Format()
 */
-static void r_procefure_Format(){
+static void r_procedure_Format()
+{
 
 }
 
 /*
  * First rule of grammar and Parsing tree
 */
-static void r_procedure_S(){
-	if(equals("000000",r_inst->opcode)){
-		match("000000",r_inst->opcode);
-	}else if(equals("010000",r_inst->opcode)){
-		match("010000",r_inst->opcode);
+static void r_procedure_S()
+{
+	if(equals(R_OPCODE,r_inst->opcode))
+	{
+		match(R_OPCODE,r_inst->opcode);
 	}
-	r_procefure_Format();
+	r_procedure_Format();
+	r_pocedure_functionOpcode();
 }
 
 /**
@@ -172,7 +183,7 @@ void select(char inst[])
 		
 	char* opcode = substring(inst,0,5);
 
-	if(strcmp(opcode,"000000") == 0){
+	if(equals(opcode,R_OPCODE)){
 		r_init();
 
 		r_inst->opcode = opcode;
