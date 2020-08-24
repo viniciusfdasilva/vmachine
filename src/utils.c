@@ -136,11 +136,11 @@ char *itoa2(int val, char *str)
 int atoi2(char* str)
 {
 	int dec = 0;
-	int index = strlen(str)-1;
+	int index = strlen(str);
 
 	for(int i = 0; i < strlen(str); i++)
 	{
-		dec += 2 * ((int)str[index-i] ^ index-i);
+		dec += ((str[i] - '0') * pow(2,--index));
 	}
 	return dec;
 }
