@@ -141,7 +141,7 @@ int atoi2(char* str)
 
 	for(int i = 0; i < (int)strlen(str); i++)
 	{
-		dec += ((str[i] - '0') * pow(2,--index));
+		dec += ((str[i] - '0') * pow((double)2,(double)--index));
 	}
 	return dec;
 }
