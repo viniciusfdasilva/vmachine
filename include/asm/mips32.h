@@ -22,8 +22,23 @@
  * SOFTWARE.
  */
 
+
 #ifndef ASM_MIPS32_H_
 #define ASM_MIPS32_H_
+
+	#include <asm/inst.h>
+	#include <asm/regs.h>
+
+	/**
+	 * @brief Struct renames with typedef
+	 */
+	typedef struct reg reg;
+	typedef struct inst inst;
+
+	/**
+	 * @brief Opcodes of R type
+	 */
+	#define R_OPCODE "000000"
 
 	/**
 	 * @name Name of Registers
@@ -91,4 +106,11 @@
 	#define INST_NAME_JAL  "jal"
 	/**@}*/
 
+	typedef struct R_instruction
+	{
+		inst* instruction;
+		reg* rs;
+		reg* rd;
+		reg* rt;
+	}R_instruction;
 #endif /* ASM_MIPS32_H_ */
