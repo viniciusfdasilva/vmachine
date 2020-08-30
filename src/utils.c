@@ -22,6 +22,7 @@
  * SOFTWARE.
  */
 
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
@@ -138,7 +139,7 @@ int atoi2(char* str)
 	int dec = 0;
 	int index = strlen(str);
 
-	for(int i = 0; i < strlen(str); i++)
+	for(int i = 0; i < (int)strlen(str); i++)
 	{
 		dec += ((str[i] - '0') * pow(2,--index));
 	}
@@ -151,11 +152,11 @@ int atoi2(char* str)
  * @param init Index
  * @param Index
  */
-char* substring(char* str,int init,int end)
+char* substring(const char* str,const unsigned int init,const unsigned int end)
 {
 	char* substring = NULL;
 	
-	if(init <= end && (init >= 0 && end >= 0) && (init <= strlen(str) && end <= strlen(str)))
+	if(init <= end && (init <= (unsigned int)strlen(str) && end <= (unsigned int)strlen(str)))
 	{
 		substring = (char*)malloc((end-init)+1*sizeof(unsigned char));
 		for(int i = 0; init+i < (end+1); i++) substring[i] = str[init+i];
@@ -169,7 +170,7 @@ char* substring(char* str,int init,int end)
  * @param str1
  * @param str2
  */
-bool equals(char* str1,char* str2)
+bool equals(const char* str1,const char* str2)
 {
 	return strcmp(str1,str2) == 0 ? true : false;
 }

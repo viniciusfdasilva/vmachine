@@ -22,6 +22,7 @@
  * SOFTWARE.
  */
 
+
 #ifndef UTILS_H_
 #define UTILS_H_
 
@@ -66,14 +67,14 @@
 	 * @param init Index
 	 * @param Index
 	 */
-	extern char* substring(char* str,int init,int end);
+	extern char* substring(const char* str,const int init,const int end);
 
 	/**
 	 * @brief Check if two string are equals
 	 * @param str1
 	 * @param str2
 	 */
-	extern bool equals(char* str1,char* str2);
+	extern bool equals(const char* str1,const char* str2);
 
 	/**
 	 * @brief Asserts a condition.
