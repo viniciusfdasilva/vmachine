@@ -28,6 +28,7 @@
 
 	#include <asm/inst.h>
 	#include <asm/regs.h>
+	#include <stdlib.h>
 
 	/**
 	 * @brief Struct renames with typedef
@@ -113,4 +114,24 @@
 		reg* rd;
 		reg* rt;
 	}R_instruction;
+
+	R_instruction* init(){
+		R_instruction* inst = (R_instruction*)malloc(sizeof(R_instruction));
+		
+		inst->instruction->encode = "";
+		inst->instruction->funct = "";
+		inst->instruction->name = "";
+		inst->instruction->opcode = "";
+		
+		inst->rd->code = "";
+		inst->rd->name = "";
+
+		inst->rt->code = "";
+		inst->rt->name = "";
+
+		inst->rs->code = "";
+		inst->rs->name = "";
+		
+		return inst;
+	}
 #endif /* ASM_MIPS32_H_ */
