@@ -30,6 +30,13 @@ R_instruction* r_inst;
 
 #define SYNTATIC_ERROR "Syntatic Error"
 
+#define opcode r_inst->instruction->opcode
+#define encode r_inst->instruction->encode
+#define funct r_inst->instruction->funct
+#define rd r_inst->rd->code
+#define rs r_inst->rs->code
+#define rt r_inst->rt->code
+
 /**
  * Check if these two parameters are equals.
  * @param tk1
@@ -37,15 +44,8 @@ R_instruction* r_inst;
  * */
 static void match(char* tk1,char* tk2)
 {
+
 	if(!equals(tk1,tk2)) printf("%s",SYNTATIC_ERROR);
-}
-
-/*
-* r_procedure_Function()
-*/
-static void r_procedure_Function()
-{
-
 }
 
 /*
@@ -57,11 +57,156 @@ static void r_procedure_Format()
 }
 
 /**
- * r_pocedure_functionOpcode(); 
+ * r_pocedure_Sum(); 
  */
-static void r_pocedure_functionOpcode()
+static void r_procedure_Sum()
 {
+	if(equals(funct,INST_ADD_FUNCT_STR))
+	{
+		match(funct,INST_ADD_FUNCT_STR);
+	}else
+	{
+		match(funct,INST_ADDU_FUNCT_STR);
+	}
+}
 
+/**
+ * r_pocedure_Sub(); 
+ */
+static void r_procedure_Sub()
+{
+	if(equals(funct,INST_SUB_FUNCT_STR))
+	{
+		match(funct,INST_SUB_FUNCT_STR);
+	}else
+	{
+		match(funct,INST_SUBU_FUNCT_STR);
+	}
+}
+
+/**
+ * r_pocedure_Div(); 
+ */
+static void r_procedure_Div()
+{
+	if(equals(funct,INST_DIV_FUNCT_STR))
+	{
+		match(funct,INST_DIV_FUNCT_STR);
+	}else
+	{
+		match(funct,INST_DIVU_FUNCT_STR);
+	}
+}
+
+/**
+ * r_pocedure_Mult();
+ */
+static void r_procedure_Mult()
+{
+	if(equals(funct,INST_MULT_FUNCT_STR))
+	{
+		match(funct,INST_MULT_FUNCT_STR);
+	}else
+	{
+		match(funct,INST_MULTU_FUNCT_STR);
+	}
+}
+
+/**
+ * r_pocedure_Arithmetic();
+ */
+static void r_procedure_Arithmetic()
+{
+	if(equals(funct,INST_ADD_FUNCT_STR) || equals(funct,INST_ADDU_FUNCT_STR)){
+		r_procedure_Sum();
+	}else if(equals(funct,INST_SUB_FUNCT_STR) || equals(funct,INST_SUBU_FUNCT_STR)){
+		r_procedure_Sub();
+	}else if(equals(funct,INST_DIV_FUNCT_STR) || equals(funct,INST_DIVU_FUNCT_STR)){
+		r_procedure_Div();
+	}else if(equals(funct,INST_MULT_FUNCT_STR) || equals(funct,INST_MULTU_FUNCT_STR)){
+		r_procedure_Mult();
+	}
+}
+
+/**
+ * r_procedure_UncJump();
+ */
+static void r_procedure_UncJump()
+{
+	match(funct,INST_JR_FUNCT_STR);
+}
+
+/**
+ * r_procedure_Logic();
+ */
+static void r_procedure_Logic()
+{
+	if(equals(funct,INST_AND_FUNCT_STR))
+	{
+		match(funct,INST_AND_FUNCT_STR);
+	}else if(equals(funct,INST_NOR_FUNCT_STR))
+	{
+		match(funct,INST_NOR_FUNCT_STR);
+	}else if(equals(funct,INST_OR_FUNCT_STR))
+	{
+		match(funct,INST_OR_FUNCT_STR);
+	}
+}
+
+/**
+ * r_procedure_ConJump();
+ */
+static void r_procedure_ConJump()
+{
+	if(equals(funct,INST_SLT_FUNCT_STR))
+	{
+		match(funct,INST_SLT_FUNCT_STR);
+	}else if(equals(funct,INST_SLTU_FUNCT_STR))
+	{
+		match(funct,INST_SLTU_FUNCT_STR);
+	}
+}
+
+/**
+ * r_procedure_Shift(); 
+ */
+static void r_procedure_Shift()
+{
+	if(equals(funct,INST_SLL_FUNCT_STR))
+	{
+		match(funct,INST_SLL_FUNCT_STR);
+	}else if(equals(funct,INST_SRL_FUNCT_STR))
+	{
+		match(funct,INST_SRL_FUNCT_STR);
+	}else if(equals(funct,INST_SRA_FUNCT_STR))
+	{
+		match(funct,INST_SRA_FUNCT_STR);
+	}
+}
+
+/**
+ * r_pocedure_Function(); 
+ */
+static void r_pocedure_Function()
+{
+	if(equals(funct,INST_ADD_FUNCT_STR) || equals(funct,INST_ADDU_FUNCT_STR) || equals(funct,INST_SUB_FUNCT_STR) || 
+	   equals(funct,INST_SUBU_FUNCT_STR) || equals(funct,INST_DIV_FUNCT_STR) || equals(funct,INST_DIVU_FUNCT_STR) || 
+	   equals(funct,INST_MULT_FUNCT_STR) || equals(funct,INST_MULTU_FUNCT_STR))
+	{
+		r_procedure_Arithmetic();
+	}else if(equals(funct,INST_JR_FUNCT_STR))
+	{
+		r_procedure_UncJump();
+	}else if(equals(funct,INST_AND_FUNCT_STR) || equals(funct,INST_NOR_FUNCT_STR) || equals(funct,INST_OR_FUNCT_STR))
+	{
+		r_procedure_Logic();
+	}else if(equals(funct,INST_SLT_FUNCT_STR) || equals(funct,INST_SLTU_FUNCT_STR))
+	{
+		r_procedure_ConJump();
+	}else if(equals(funct,INST_SLL_FUNCT_STR) || equals(funct,INST_SRL_FUNCT_STR) || equals(funct,INST_SRA_FUNCT_STR))
+	{
+		r_procedure_Shift();
+	}
 }
 
 /*
@@ -69,12 +214,9 @@ static void r_pocedure_functionOpcode()
 */
 static void r_procedure_S()
 {
-	if(equals(R_OPCODE,r_inst->instruction->opcode))
-	{
-		//match(R_OPCODE,r_inst->instruction->opcode);
-	}
+	match(opcode,R_OPCODE);
 	r_procedure_Format();
-	r_pocedure_functionOpcode();
+	r_pocedure_Function();
 }
 
 /**
@@ -95,15 +237,18 @@ static void r_translator()
 void select(char instruction[])
 {
 		
-	char* opcode = substring(instruction,0,5);
+	char* op = substring(instruction,0,5);
 
-	if(equals(opcode,R_OPCODE)){
-		r_inst->instruction->opcode = opcode;
-		r_inst->rs->code = substring(instruction,6,10);
-		r_inst->rt->code = substring(instruction,11,15);
-		r_inst->rd->code = substring(instruction,16,20);
-		//r_inst->instruction->encode = substring(instruction,21,25);
-		r_inst->instruction->funct = substring(instruction,26,31);
+	if(equals(op,R_OPCODE))
+	{
+		r_inst = init();
+
+		opcode = op;
+		rs = substring(instruction,6,10);
+		rt = substring(instruction,11,15);
+		rd = substring(instruction,16,20);
+		encode = substring(instruction,21,25);
+		funct = substring(instruction,26,31);
 		r_translator();
 	}
 }
