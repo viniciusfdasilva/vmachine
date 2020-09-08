@@ -41,7 +41,7 @@ R_instruction* r_inst;
 
 #define REGISTERS 32
 
-const char* registers[REGISTERS] = {
+const char* registers32[REGISTERS] = {
 	REG_ZERO_NUM_STR,
 	REG_AT_NUM_STR, REG_V0_NUM_STR, REG_V1_NUM_STR, 
 	REG_A0_NUM_STR, REG_A1_NUM_STR, REG_A2_NUM_STR,
@@ -76,7 +76,7 @@ static void r_procedure_D()
 		match(shamt,"00000");
 	}else
 	{
-		match(sa,registers[atoi2((char*)sa)]);
+		match(sa,registers32[atoi2((char*)sa)]);
 	}
 }
 
@@ -90,7 +90,7 @@ static void r_procedure_C()
 		match(shamt,"0000000000");
 	}else
 	{
-		match(rd,registers[atoi2((char*)rd)]);
+		match(rd,registers32[atoi2((char*)rd)]);
 		r_procedure_D();
 	}
 }
@@ -105,7 +105,7 @@ static void r_procedure_B()
 		match(shamt,"000000000000000");
 	}else
 	{
-		match(rt,registers[atoi2((char*)rt)]);
+		match(rt,registers32[atoi2((char*)rt)]);
 		r_procedure_C();
 	}
 }
@@ -115,7 +115,7 @@ static void r_procedure_B()
 */
 static void r_procedure_Format()
 {
-	match(rs,registers[atoi2((char*)rs)]);
+	match(rs,registers32[atoi2((char*)rs)]);
 	r_procedure_B();
 }
 
@@ -297,7 +297,7 @@ static void r_translator()
  * and redirects for each function corresponding
  * @param inst[] MIPS instruction of 32 bits
  * */
-void select(char instruction[])
+void selectInstruction(char instruction[])
 {	
 	char* op = substring(instruction,0,5);
 
@@ -354,7 +354,7 @@ word_t engine_run(uint32_t instruction)
 {
 	char string_instruction[32];
 	itoa2(instruction,string_instruction,10);
-	select(string_instruction);
+	selectInstruction(string_instruction);
 
 	return (instruction);
 }
