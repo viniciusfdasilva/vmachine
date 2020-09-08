@@ -110,28 +110,37 @@
 	typedef struct R_instruction
 	{
 		inst* instruction;
+		reg* sa;
 		reg* rs;
 		reg* rd;
 		reg* rt;
 	}R_instruction;
 
 	R_instruction* init(){
-		R_instruction* inst = (R_instruction*)malloc(sizeof(R_instruction));
+		R_instruction* r_instruction = (R_instruction*)malloc(sizeof(R_instruction));
 		
-		inst->instruction->encode = "";
-		inst->instruction->funct = "";
-		inst->instruction->name = "";
-		inst->instruction->opcode = "";
+	//	r_instruction->instruction->encode = "";
+		r_instruction->instruction->funct = "";
+		r_instruction->instruction->name = "";
+		r_instruction->instruction->opcode = "";
 		
-		inst->rd->code = "";
-		inst->rd->name = "";
+		r_instruction->sa->code = "";
+		r_instruction->sa->name = "";
 
-		inst->rt->code = "";
-		inst->rt->name = "";
+		r_instruction->rd->code = "";
+		r_instruction->rd->name = "";
 
-		inst->rs->code = "";
-		inst->rs->name = "";
+		r_instruction->rt->code = "";
+		r_instruction->rt->name = "";
+
+		r_instruction->rs->code = "";
+		r_instruction->rs->name = "";
 		
-		return inst;
+		return r_instruction;
+	}
+
+	void finish(R_instruction* instruction)
+	{ 
+		free(instruction);
 	}
 #endif /* ASM_MIPS32_H_ */
