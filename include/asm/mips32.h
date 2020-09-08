@@ -140,8 +140,8 @@
 		return r_instruction;
 	}
 
-	void finish(R_instruction* instruction)
+	void finish(R_instruction* inst32)
 	{ 
-		free(instruction);
+		free(inst32);
 	}
 #endif /* ASM_MIPS32_H_ */
