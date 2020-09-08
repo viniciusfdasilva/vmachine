@@ -110,6 +110,7 @@
 	typedef struct R_instruction
 	{
 		inst* instruction;
+		char* shamt;
 		reg* sa;
 		reg* rs;
 		reg* rd;
@@ -119,7 +120,7 @@
 	R_instruction* init(){
 		R_instruction* r_instruction = (R_instruction*)malloc(sizeof(R_instruction));
 		
-	//	r_instruction->instruction->encode = "";
+		r_instruction->shamt = "";
 		r_instruction->instruction->funct = "";
 		r_instruction->instruction->name = "";
 		r_instruction->instruction->opcode = "";
