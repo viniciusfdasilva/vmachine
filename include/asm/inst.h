@@ -115,42 +115,48 @@
 	 * @name Function of Instructions (in binary)
 	 */
 	/**@{*/
-	#define INST_ADD_FUNCT  0x20
-	#define INST_SUB_FUNCT  0x22
-	#define INST_MULT_FUNCT 0x18
-	#define INST_DIV_FUNCT  0x1a
-	#define INST_AND_FUNCT  0x24
-	#define INST_OR_FUNCT   0x25
-	#define INST_XOR_FUNCT  0x26
-	#define INST_NOR_FUNCT  0x27
-	#define INST_SLT_FUNCT  0x2a
-	#define INST_SLL_FUNCT  0x00
-	#define INST_SRL_FUNCT  0x02
-	#define INST_JR_FUNCT   0x08
+	#define INST_ADD_FUNCT   0x20
+	#define INST_ADDU_FUNCT  0x21
+	#define INST_SUB_FUNCT   0x22
+	#define INST_SUBU_FUNCT  0x23
+	#define INST_MULT_FUNCT  0x18
+	#define INST_MULTU_FUNCT 0x19
+	#define INST_DIV_FUNCT   0x1a
+	#define INST_DIVU_FUNCT  0x1b
+	#define INST_AND_FUNCT   0x24
+	#define INST_OR_FUNCT    0x25
+	#define INST_XOR_FUNCT   0x26
+	#define INST_NOR_FUNCT   0x27
+	#define INST_SLT_FUNCT   0x2a
+	#define INST_SLTU_FUNCT  0x29
+	#define INST_SLL_FUNCT   0x00
+	#define INST_SRL_FUNCT   0x02
+	#define INST_SRA_FUNCT   0x03
+	#define INST_JR_FUNCT    0x08
 	/**@#}*/
 
 	/**
 	 * @name Function Code of Instructions (as string)
 	 */
 	/**@{*/
-	#define INST_ADD_FUNCT_STR  "100000"
+	#define INST_ADD_FUNCT_STR   "100000"
 	#define INST_ADDU_FUNCT_STR  "100001"
-	#define INST_SUB_FUNCT_STR  "100010"
+	#define INST_SUB_FUNCT_STR   "100010"
 	#define INST_SUBU_FUNCT_STR  "100011"
-	#define INST_MULT_FUNCT_STR "011000"
-	#define INST_SLTU_FUNCT_STR "101001"
-	#define INST_SRA_FUNCT_STR "000011"
+	#define INST_MULT_FUNCT_STR  "011000"
+	#define INST_SLTU_FUNCT_STR  "101001"
+	#define INST_SRA_FUNCT_STR   "000011"
 	#define INST_MULTU_FUNCT_STR "011001"
-	#define INST_DIV_FUNCT_STR  "011010"
+	#define INST_DIV_FUNCT_STR   "011010"
 	#define INST_DIVU_FUNCT_STR  "011011"
-	#define INST_AND_FUNCT_STR  "100100"
-	#define INST_OR_FUNCT_STR   "100101"
-	#define INST_XOR_FUNCT_STR  "100110"
-	#define INST_NOR_FUNCT_STR  "100111"
-	#define INST_SLT_FUNCT_STR  "101010"
-	#define INST_SLL_FUNCT_STR  "000000"
-	#define INST_SRL_FUNCT_STR  "000010"
-	#define INST_JR_FUNCT_STR   "001000"
+	#define INST_AND_FUNCT_STR   "100100"
+	#define INST_OR_FUNCT_STR    "100101"
+	#define INST_XOR_FUNCT_STR   "100110"
+	#define INST_NOR_FUNCT_STR   "100111"
+	#define INST_SLT_FUNCT_STR   "101010"
+	#define INST_SLL_FUNCT_STR   "000000"
+	#define INST_SRL_FUNCT_STR   "000010"
+	#define INST_JR_FUNCT_STR    "001000"
 	/**@}*/
 
 	/**
@@ -161,7 +167,7 @@
 		const char *name;                     /**< Instruction Name          */
 		const char *opcode;                   /**< Instruction Operaion Code */
 		const char *funct;                    /**< Instruction Function Code */
-		uint32_t (*encode)(const char *); /**< Encoding Function.        */
+		uint32_t (*encode)(const char *); 	  /**< Encoding Function.        */
 	};
 
 #endif /* MIPS32_INST_H_ */
