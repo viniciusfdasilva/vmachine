@@ -129,6 +129,29 @@ char *itoa2(int val, char *str)
 }
 
 /**
+ * @brief Make pow of two intergers numbers
+ * @param x Base
+ * @param y Power positive
+ * @return Wattage value
+ */
+int pow2(int x,int y)
+{
+	int i = 0;
+	int pow = 1;
+	
+	if(y == 0) return 1;
+	else if(y > 0)
+	{
+		while(i < y)
+		{
+			pow *= x;
+			i++;
+		}
+	}
+	return pow;
+}
+
+/**
  * @brief Convert an string value in binary base 
  * to integer value in decimal base. 
  * @param str String value in binary base
@@ -141,7 +164,7 @@ int atoi2(char* str)
 
 	for(int i = 0; i < (int)strlen(str); i++)
 	{
-		dec += ((str[i] - '0') * pow((double)2,(double)--index));
+		dec += ((str[i] - '0') * pow2((double)2,(double)--index));
 	}
 	return dec;
 }

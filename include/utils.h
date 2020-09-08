@@ -54,6 +54,14 @@
 	extern char *itoa2(int val, char *str, int base2);
 
 	/**
+	 * @brief Make pow of two intergers numbers
+	 * @param x Base
+	 * @param y Power positive
+	 * @return Wattage value
+	 */
+	extern int pow2(int x,int y);
+
+	/**
 	 * @brief Convert an string value in binary base 
 	 * to integer value in decimal base. 
 	 * @param str String value in binary base
