@@ -200,7 +200,7 @@ static void r_procedure_Format()
 	match(rs,registers32[atoi2((char*)rs)]);
 
 	// Rule [19] {Format_rs := rs.lex} 
-	Format_rs = rs;
+	Format_rs = (char*) rs;
 
 	r_procedure_B();
 }
