@@ -22,26 +22,97 @@
  * SOFTWARE.
  */
 
+/*
+ * Free Context Grammar of R types MIPS' 32 bits instructions
+ * 
+ *  G:
+ *	S → “000000 [opcode]” [0] Format Function
+ *	Function → Arithmetic | UncJump | Logic | ConJump | Shift
+ *	Arithmetic → Sum[16] | Sub[17] | Mult[18] | Div[19]
+ *	Sum → “100000 [add]”[1][24] | “100001 [addu]”[1][24]
+ *	Sub→ “100010 [sub]”[4][24] | “100011 [subu]”[4][24]
+ *	Div → “011010 [div]”[5][20][24] | “011011 [divu]”[6][20][24]
+ *	Mult → “011000 [mult]”[7][20][24] | “011001 [multu]”[7][20][24]
+ *	UncJump → “001000 [jr]”
+ *	Logic → “100100 [and]”[8][24] | “100111 [nor]”[9][24] | “100101 [or]”[10][24]
+ *	ConJump → “101010 [slt]”[11][24] | “101001 [sltu]”[12][24]
+ *	Shift → “000000 [sll]”[13][24] | “000010 [srl]”[14][24]| “000011 [sra]”[15][24]
+ *	Format → “[00000-11111] [(rs | 00000)]”[19] B
+ *
+ *	Translation scheme from MIPS32 to RV32
+ *
+ *	[0] {S.opcode := “0110011”}
+ *	[1] {Sum.opfunct7 := “0000000”, Sum.opfunct3 := “000”}
+ *	[2] {C.rs1 := rs.value}
+ *	[3] {C.rs2 := rt.value}
+ *	[4] {Sub.opfunct7 := “0100000”, Sub.opfunct3 := “000”}
+ *	[5] {Div.opfunct7 := “0000001”, Div.opfunct3 := “100”}
+ *	[6] {Div.opfunct7 := “0000001”, Div.opfunct3 := “101”}
+ *	[7] {Mult.opfunct7 := “0000001”, Mult.opfunct3 := “000”}
+ *	[8] {Logic.opfunct7 := “0000000”, Logic.opfunct3 := “111”}
+ *	[9] {Logic.opfunct7 := “0000000”, Logic.opfunct3 := “000”}
+ *	[10] {Logic.opfunct7 := “0000000”, Logic.opfunct3 := “110”}
+ *	[11] {ConJump.opfunct7 := “0000000”, ConJump.opfunct3 := “010”}
+ *	[12] {ConJump.opfunct7 := “0000000”, ConJump.opfunct3 := “011’”}
+ *	[13] {Shift.opfunct7 := “0000000”, Shift.opfunct3 := “001”}
+ *	[14] {Shift.opfunct7 := “0000000”, Shift.opfunct3 := “101”}
+ *	[15] {Shift.opfunct7 := “0100000”, Shift.opfunct3 := “110”}
+ *	[16] {Shift.function7 := “0100000”, Shift.opfunct3 := “110”}
+ *	[15] {Shift.opfunct7 := “0100000”, Shift.opfunct3 := “110”}
+ *	[18] {Shift.opfunct7 := “0100000”, Shift.opfunct3 := “110”}
+ *	[19] {Format_rs := rs.lex}
+ *	[20] {inst := “000000 0000000000 rd.lex 00000 010010”}
+ *	[21] {C_rd := rd.lex}
+ *	[22] {B_rt := rt.lex}
+ *	[23] {D_sa := sa.lex}
+ *	[24] {rv_instruction := funct7 + rs2 + rs + funct3 + rd + opcode}
+ */
+
 #include <vmachine.h>
 #include <asm/mips32.h>
 #include <utils.h>
 
-R_instruction* r_inst;
+R_instruction *r_inst;
 
 #define SYNTATIC_ERROR "Syntatic Error!"
 
 #define opcode r_inst->instruction->opcode
 #define shamt r_inst->shamt
 #define funct r_inst->instruction->funct
-
 #define rd r_inst->rd->code
 #define rs r_inst->rs->code
 #define rt r_inst->rt->code
 #define sa r_inst->sa->code
 
-#define REGISTERS 32
+#define MIPS32_REGISTERS 32
+#define MIPS32_INSTRUCTIONS 32
+#define BASE 10
 
-const char* registers32[REGISTERS] = {
+// R types attributes for translation
+char rv_instruction[32];
+char* rv_inst;
+
+char *S_opcode;
+char *Sum_funct7;
+char *Sum_funct3;
+char *Sub_funct7;
+char *Sub_funct3;
+char *Div_funct7;
+char *Div_funct3;
+char *Mult_funct7;
+char *Mult_funct3;
+char *Logic_funct7;
+char *Logic_funct3;
+char *ConJump_funct7;
+char *ConJump_funct3;
+char *Shift_funct7;
+char *Shift_funct3;
+char *Format_rs;
+char *C_rd;
+char *B_rt;
+char *D_sa;
+
+const char *registers32[MIPS32_REGISTERS] = {
 	REG_ZERO_NUM_STR,
 	REG_AT_NUM_STR, REG_V0_NUM_STR, REG_V1_NUM_STR, 
 	REG_A0_NUM_STR, REG_A1_NUM_STR, REG_A2_NUM_STR,
@@ -61,7 +132,7 @@ const char* registers32[REGISTERS] = {
  * @param tk1
  * @param tk2
  * */
-static void match(const char* tk1,const char* tk2)
+static void match(const char *tk1,const char *tk2)
 {
 	if(!equals(tk1,tk2)) printf("%s Between: %s and %s codes",SYNTATIC_ERROR,tk1,tk2);
 }
@@ -77,6 +148,9 @@ static void r_procedure_D()
 	}else
 	{
 		match(sa,registers32[atoi2((char*)sa)]);
+
+		// Rule [23] {D_sa := sa.lex}
+		D_sa = (char*)sa;
 	}
 }
 
@@ -91,6 +165,10 @@ static void r_procedure_C()
 	}else
 	{
 		match(rd,registers32[atoi2((char*)rd)]);
+
+		// Rule [21] {C_rd := rd.lex}
+		C_rd = (char*)rd;
+
 		r_procedure_D();
 	}
 }
@@ -106,6 +184,10 @@ static void r_procedure_B()
 	}else
 	{
 		match(rt,registers32[atoi2((char*)rt)]);
+
+		// Rule [22] {B_rt := rt.lex}
+		B_rt = (char*)rt;
+
 		r_procedure_C();
 	}
 }
@@ -116,6 +198,10 @@ static void r_procedure_B()
 static void r_procedure_Format()
 {
 	match(rs,registers32[atoi2((char*)rs)]);
+
+	// Rule [19] {Format_rs := rs.lex} 
+	Format_rs = rs;
+
 	r_procedure_B();
 }
 
@@ -127,10 +213,29 @@ static void r_procedure_Sum()
 	if(equals(funct,INST_ADD_FUNCT_STR))
 	{
 		match(funct,INST_ADD_FUNCT_STR);
+		
+		// [1] {Sum.funct7 := “0000000”, Sum.funct3 := “000”}
+		Sum_funct7 = "0000000";
+		Sum_funct3 = "000";
+
 	}else
 	{
 		match(funct,INST_ADDU_FUNCT_STR);
+
+		// Rule [1] {Sum.funct7 := “0000000”, Sum.funct3 := “000”}
+		Sum_funct7 = "0000000";
+		Sum_funct3 = "000";
+
 	}
+
+	// Rule [24] {rv_instruction := funct7 + rs2 + rs + funct3 + rd + opcode}	
+	char *string_set[5];
+	string_set[0] = Logic_funct7;
+	string_set[1] = B_rt;
+	string_set[2] = Format_rs;
+	string_set[3] = Logic_funct3;
+	string_set[4] = S_opcode;
+	concat(string_set,5,rv_instruction);
 }
 
 /**
@@ -141,10 +246,28 @@ static void r_procedure_Sub()
 	if(equals(funct,INST_SUB_FUNCT_STR))
 	{
 		match(funct,INST_SUB_FUNCT_STR);
+
+		// Rule [4] {Sub.funct7 := “”, Sub.funct3 := “000”}
+		Sub_funct7 = "0100000";
+		Sub_funct3 = "000";
 	}else
 	{
 		match(funct,INST_SUBU_FUNCT_STR);
+
+		// Rule [4] {Sub.funct7 := “”, Sub.funct3 := “000”}
+		Sub_funct7 = "0100000";
+		Sub_funct3 = "000";
+
 	}
+
+	// Rule [24] {rv_instruction := funct7 + rs2 + rs + funct3 + rd + opcode}
+	char *string_set[5];
+	string_set[0] = Logic_funct7;
+	string_set[1] = B_rt;
+	string_set[2] = Format_rs;
+	string_set[3] = Logic_funct3;
+	string_set[4] = S_opcode;
+	concat(string_set,5,rv_instruction);
 }
 
 /**
@@ -155,10 +278,36 @@ static void r_procedure_Div()
 	if(equals(funct,INST_DIV_FUNCT_STR))
 	{
 		match(funct,INST_DIV_FUNCT_STR);
+
+		// Rule [5] {Div.funct7 := “0000001”, Div.funct3 := “100”}
+		Div_funct7 = "0000001";
+		Div_funct3 = "100";
+	
 	}else
 	{
 		match(funct,INST_DIVU_FUNCT_STR);
+
+		// Rule [6] {Div.funct7 := “0000001”, Div.funct3 := “101”}
+		Div_funct7 = "0000001"; 
+		Div_funct3 = "101";
+
 	}
+
+	// Rule [20] {inst := “000000 0000000000 rd.lex 00000 010010”}
+	char* hilo_string_set[3];
+	hilo_string_set[0] = "000000 0000000000";
+	hilo_string_set[1] = C_rd;
+	hilo_string_set[2] = "00000 010010";
+	concat(hilo_string_set,3,rv_inst);
+	
+	// Rule [24] {rv_instruction := funct7 + rs2 + rs + funct3 + rd + opcode}
+	char *string_set[5];
+	string_set[0] = Div_funct7;
+	string_set[1] = B_rt;
+	string_set[2] = Format_rs;
+	string_set[3] = Div_funct3;
+	string_set[4] = S_opcode;
+	concat(string_set,5,rv_instruction);
 }
 
 /**
@@ -169,10 +318,36 @@ static void r_procedure_Mult()
 	if(equals(funct,INST_MULT_FUNCT_STR))
 	{
 		match(funct,INST_MULT_FUNCT_STR);
+
+		// Rule [7] {Mult.funct7 := “0000001”, Mult.funct3 := “000”}
+		Mult_funct7 = "“0000001";
+		Mult_funct3 = "000";
+		
 	}else
 	{
 		match(funct,INST_MULTU_FUNCT_STR);
+
+		// Rule [7] {Mult.funct7 := “0000001”, Mult.funct3 := “000”}
+		Mult_funct7 = "“0000001";
+		Mult_funct3 = "000";
+		
 	}
+
+	// Rule [20] {inst := “000000 0000000000 rd.lex 00000 010010”}
+	char* hilo_string_set[3];
+	hilo_string_set[0] = "000000 0000000000";
+	hilo_string_set[1] = C_rd;
+	hilo_string_set[2] = "00000 010010";
+	concat(hilo_string_set,3,rv_inst);
+
+	// Rule [24] {rv_instruction := funct7 + rs2 + rs + funct3 + rd + opcode}
+	char *string_set[5];
+	string_set[0] = Mult_funct7;
+	string_set[1] = B_rt;
+	string_set[2] = Format_rs;
+	string_set[3] = Mult_funct3;
+	string_set[4] = S_opcode;
+	concat(string_set,5,rv_instruction);
 }
 
 /**
@@ -207,13 +382,34 @@ static void r_procedure_Logic()
 	if(equals(funct,INST_AND_FUNCT_STR))
 	{
 		match(funct,INST_AND_FUNCT_STR);
+
+		// Rule [8] {Logic.funct7 := “0000000”, Logic.funct3 := “111”}
+		Logic_funct7 = "0000000"; 
+		Logic_funct3 = "111";
 	}else if(equals(funct,INST_NOR_FUNCT_STR))
 	{
 		match(funct,INST_NOR_FUNCT_STR);
+
+		// Rule [9] {Logic.funct7 := “0000000”, Logic.funct3 := “000”}
+		Logic_funct7 = "0000000";
+		Logic_funct3 = "000";
 	}else if(equals(funct,INST_OR_FUNCT_STR))
 	{
 		match(funct,INST_OR_FUNCT_STR);
+
+		// Rule [10] {Logic.funct7 := “0000000”, Logic.funct3 := “110”}
+		Logic_funct7 = "0000000";
+		Logic_funct3 = "110";
 	}
+
+	// Rule [24] {rv_instruction := funct7 + rs2 + rs + funct3 + rd + opcode}
+	char *string_set[5];
+	string_set[0] = Logic_funct7;
+	string_set[1] = B_rt;
+	string_set[2] = Format_rs;
+	string_set[3] = Logic_funct3;
+	string_set[4] = S_opcode;
+	concat(string_set,5,rv_instruction);
 }
 
 /**
@@ -224,10 +420,27 @@ static void r_procedure_ConJump()
 	if(equals(funct,INST_SLT_FUNCT_STR))
 	{
 		match(funct,INST_SLT_FUNCT_STR);
+
+		// Rule [11] {ConJump.funct7 := “0000000”, ConJump.funct3 := “010”}
+		ConJump_funct7 = "0000000";
+		ConJump_funct3 = "010";
 	}else if(equals(funct,INST_SLTU_FUNCT_STR))
 	{
 		match(funct,INST_SLTU_FUNCT_STR);
+		
+		// Rule [12] {ConJump.funct7 := “0000000”, ConJump.funct3 := “011’”}
+		ConJump_funct7 = "0000000";
+		ConJump_funct3 = "011";
 	}
+
+	// Rule [24] {rv_instruction := funct7 + rs2 + rs + funct3 + rd + opcode}
+	char *string_set[5];
+	string_set[0] = Logic_funct7;
+	string_set[1] = B_rt;
+	string_set[2] = Format_rs;
+	string_set[3] = Logic_funct3;
+	string_set[4] = S_opcode;
+	concat(string_set,5,rv_instruction);
 }
 
 /**
@@ -238,13 +451,34 @@ static void r_procedure_Shift()
 	if(equals(funct,INST_SLL_FUNCT_STR))
 	{
 		match(funct,INST_SLL_FUNCT_STR);
+
+		// Rule [13] {Shift.funct7 := “0000000”, Shift.funct3 := “001”}
+		Shift_funct7 = "0000000";
+		Shift_funct3 = "001";
 	}else if(equals(funct,INST_SRL_FUNCT_STR))
 	{
 		match(funct,INST_SRL_FUNCT_STR);
+
+		// Rule [14] {Shift.funct7 := “0000000”, Shift.funct3 := “101”}
+		Shift_funct7 = "0000000";
+		Shift_funct3 = "101";
 	}else if(equals(funct,INST_SRA_FUNCT_STR))
 	{
 		match(funct,INST_SRA_FUNCT_STR);
+
+		// Rule [15] {Shift.funct7 := “0100000”, Shift.funct3 := “110”}
+		Shift_funct7 = "0100000";
+		Shift_funct3 = "110";
 	}
+
+	// Rule [24] {rv_instruction := funct7 + rs2 + rs + funct3 + rd + opcode}
+	char *string_set[5];
+	string_set[0] = Logic_funct7;
+	string_set[1] = B_rt;
+	string_set[2] = Format_rs;
+	string_set[3] = Logic_funct3;
+	string_set[4] = S_opcode;
+	concat(string_set,5,rv_instruction);
 }
 
 /**
@@ -278,6 +512,10 @@ static void r_pocedure_Function()
 static void r_procedure_S()
 {
 	match(opcode,R_OPCODE);
+
+	// Rule [0] {S.opcode := “0110011”}
+	S_opcode = "0110011"; 
+
 	r_procedure_Format();
 	r_pocedure_Function();
 }
@@ -299,7 +537,7 @@ static void r_translator()
  * */
 void selectInstruction(char instruction[])
 {	
-	char* op = substring(instruction,0,5);
+	char *op = substring(instruction,0,5);
 
 	if(equals(op,R_OPCODE))
 	{
@@ -352,8 +590,8 @@ void selectInstruction(char instruction[])
  */
 word_t engine_run(uint32_t instruction)
 {
-	char string_instruction[32];
-	itoa2(instruction,string_instruction,10);
+	char string_instruction[MIPS32_INSTRUCTIONS];
+	itoa2(instruction,string_instruction,BASE);
 	selectInstruction(string_instruction);
 
 	return (instruction);
