@@ -109,16 +109,16 @@
 
 	typedef struct R_instruction
 	{
-		inst* instruction;
-		char* shamt;
-		reg* sa;
-		reg* rs;
-		reg* rd;
-		reg* rt;
+		inst *instruction;
+		char *shamt;
+		reg *sa;
+		reg *rs;
+		reg *rd;
+		reg *rt;
 	}R_instruction;
 
 	R_instruction* init(){
-		R_instruction* r_instruction = (R_instruction*)malloc(sizeof(R_instruction));
+		R_instruction *r_instruction = (R_instruction*)malloc(sizeof(R_instruction));
 		
 		r_instruction->shamt = "";
 		r_instruction->instruction->funct = "";
@@ -140,7 +140,7 @@
 		return r_instruction;
 	}
 
-	void finish(R_instruction* inst32)
+	void finish(R_instruction *inst32)
 	{ 
 		free(inst32);
 	}
