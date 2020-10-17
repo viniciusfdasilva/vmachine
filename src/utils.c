@@ -157,7 +157,7 @@ int pow2(int x,int y)
  * @param str String value in binary base
  * @return Value in decimal.
  */
-int atoi2(char* str)
+int atoi2(char *str)
 {
 	int dec = 0;
 	int index = strlen(str);
@@ -175,7 +175,7 @@ int atoi2(char* str)
  * @param init Index
  * @param Index
  */
-char* substring(const char* str,const unsigned int init,const unsigned int end)
+char* substring(const char *str,const unsigned int init,const unsigned int end)
 {
 	char* substring = NULL;
 	
@@ -186,6 +186,24 @@ char* substring(const char* str,const unsigned int init,const unsigned int end)
 		substring[(end-init)+1] = '\0';
 	}else return NULL;
 	return substring;
+}
+
+/**
+ * @brief Concat string set
+ * @param string_set[] Set of strings
+ * @param buff Master buffer
+ */
+void concat(char *string_set[],unsigned int length,char* buff)
+{
+	int k = 0;
+
+	for(int i = 0; i < (int)length; i++)
+	{
+		for(int j = 0; j < (int)strlen(string_set[i]); j++)
+		{
+			buff[k++] = string_set[i][j];
+		}
+	}
 }
 
 /**

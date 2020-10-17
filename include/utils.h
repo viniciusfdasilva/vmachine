@@ -78,6 +78,12 @@
 	extern char* substring(const char* str,const int init,const int end);
 
 	/**
+	 * @brief Concat string set
+	 * @param string_set[] Set of strings
+	 * @param buff Master buffer
+	 */
+	extern void concat(char *string_set[],unsigned int length,char* buff);
+	/**
 	 * @brief Check if two string are equals
 	 * @param str1
 	 * @param str2
