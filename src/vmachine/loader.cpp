@@ -23,13 +23,14 @@
 //
 
 // Theirs
+#include <elf.h>
 #include <fstream>
 #include <string>
 #include <stdexcept>
 
 // Ours
-#include <vmachine.h>
 #include <engine.h>
+#include <vmachine.h>
 
 using namespace vmachine;
 
@@ -38,9 +39,8 @@ void VMachine::load(std::string &asmfile)
 {
 	Engine a;
 	std::string line;
-	std::ifstream infile;
+	std::ifstream infile(asmfile);
 
-	infile.open(asmfile);
 	if (!infile.is_open())
 		throw std::invalid_argument("cannot open input file");
 
@@ -48,9 +48,44 @@ void VMachine::load(std::string &asmfile)
 	for (isa32::word_t addr = startAddr; std::getline(infile, line); addr += sizeof(isa32::word_t))
 	{
 		unsigned inst = a.assembly(line);
-
 		memory.write(addr, inst);
 	}
+}
 
-	infile.close();
+void VMachine::loadFile(std::string &binFile)
+{
+	std::ifstream bin(binFile, std::ios::in | std::ios::binary);
+	std::string line;
+	Elf64_Ehdr ehdr;
+	Elf64_Shdr shdrBuffer;
+
+	if (!bin.is_open())
+		throw std::invalid_argument("cannot open input file");
+
+	bin.read(reinterpret_cast<char*>(&ehdr), sizeof(ehdr));
+	bin.seekg(ehdr.e_shoff, bin.beg);
+	std::vector<Elf64_Shdr> shdr(ehdr.e_shnum);
+
+	for (Elf32_Half i = 0; i < ehdr.e_shnum; i++)
+	{
+		bin.read(reinterpret_cast<char*>(&shdrBuffer),sizeof(shdrBuffer));
+
+		shdr[i] = shdrBuffer;
+	}
+
+	for (Elf32_Half i = 0; i < ehdr.e_shnum; i++)
+	{
+		if(shdr[i].sh_flags & SHF_EXECINSTR)
+		{
+			bin.seekg(shdr[i].sh_offset, bin.beg);
+
+			for (isa32::word_t block = startAddr; block < shdr[i].sh_size; block += sizeof(isa32::word_t))
+			{
+				isa32::word_t word;
+
+				bin.read(reinterpret_cast<char*>(&word),sizeof(word));
+				memory.write(block, word);
+			}
+		}
+	}
 }
