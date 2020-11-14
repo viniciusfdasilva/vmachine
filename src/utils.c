@@ -152,6 +152,28 @@ int pow2(int x,int y)
 }
 
 /**
+ * @brief Insert '0' in the left of the instruction 
+ * @param str String value in binary base
+ * @return Length of the new instruction.
+ */
+char *bin_n(char *bin,unsigned int n)
+{
+	int j = 0;
+	char *inst_n = (char *)malloc(n*sizeof(char));
+	for(int i = 0; i < (int)n; i++)
+    {
+		if(i < ((int)n-(int)strlen(bin)))
+		{
+			inst_n[i] = '0';
+		}else
+		{
+			inst_n[i] = bin[j++];	
+		}
+	}
+    return inst_n;
+}
+
+/**
  * @brief Convert an string value in binary base 
  * to integer value in decimal base. 
  * @param str String value in binary base
@@ -175,15 +197,17 @@ int atoi2(char *str)
  * @param init Index
  * @param Index
  */
-char* substring(const char *str,const unsigned int init,const unsigned int end)
+char *substring(const char *str,const unsigned int init,const unsigned int end)
 {
-	char* substring = NULL;
-	
+	char *substring;
+	    
 	if(init <= end && (init <= (unsigned int)strlen(str) && end <= (unsigned int)strlen(str)))
 	{
-		substring = (char*)malloc((end-init)+1*sizeof(unsigned char));
-		for(int i = 0; init+i < (end+1); i++) substring[i] = str[init+i];
-		substring[(end-init)+1] = '\0';
+		substring = (char *)malloc((end-init)+1*sizeof(unsigned char));
+        
+		int i,j;
+
+		for(i = init,j = 0; i < (int)end+1; i++,j++) substring[j] = str[i];
 	}else return NULL;
 	return substring;
 }

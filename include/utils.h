@@ -44,6 +44,13 @@
 	extern void  debug(const char *msg);
 
 	/**
+	 * @brief Insert '0' in the left of the instruction 
+	 * @param str String value in binary base
+	 * @return Length of the new instruction.
+	 */
+	extern char *bin_n(char *bin,unsigned int n);
+
+	/**
 	 * @brief Converts an integer to a binary string.
 	 *
 	 * @param val Target value.
