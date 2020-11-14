@@ -118,24 +118,31 @@
 	}R_instruction;
 
 	R_instruction* init(){
-		R_instruction *r_instruction = (R_instruction*)malloc(sizeof(R_instruction));
+		R_instruction *r_instruction = (R_instruction *)malloc(sizeof(R_instruction));
 		
-		r_instruction->shamt = "";
-		r_instruction->instruction->funct = "";
-		r_instruction->instruction->name = "";
-		r_instruction->instruction->opcode = "";
-		
-		r_instruction->sa->code = "";
-		r_instruction->sa->name = "";
+		r_instruction->shamt = (char *)malloc(sizeof(char));
 
-		r_instruction->rd->code = "";
-		r_instruction->rd->name = "";
+		r_instruction->instruction = (inst *)malloc(sizeof(inst));
+		r_instruction->instruction->funct = (char *)malloc(sizeof(char));
+		r_instruction->instruction->name = (char *)malloc(sizeof(char));
+		r_instruction->instruction->opcode = (char *)malloc(sizeof(char));
 
-		r_instruction->rt->code = "";
-		r_instruction->rt->name = "";
 
-		r_instruction->rs->code = "";
-		r_instruction->rs->name = "";
+		r_instruction->sa = (reg *)malloc(sizeof(reg));
+		r_instruction->sa->code = (char *)malloc(sizeof(char));;
+		r_instruction->sa->name = (char *)malloc(sizeof(char));;
+
+		r_instruction->rd = (reg *)malloc(sizeof(reg));
+		r_instruction->rd->code = (char *)malloc(sizeof(char));;
+		r_instruction->rd->name = (char *)malloc(sizeof(char));;
+
+		r_instruction->rt = (reg *)malloc(sizeof(reg));
+		r_instruction->rt->code = (char *)malloc(sizeof(char));
+		r_instruction->rt->name = (char *)malloc(sizeof(char));
+
+		r_instruction->rs = (reg *)malloc(sizeof(reg));
+		r_instruction->rs->code = (char *)malloc(sizeof(char));;
+		r_instruction->rs->name = (char *)malloc(sizeof(char));;
 		
 		return r_instruction;
 	}
