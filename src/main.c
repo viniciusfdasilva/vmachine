@@ -27,7 +27,8 @@
 #include <vmachine.h>
 
 /* Import test drivers. */
-extern void test_mips32 (void);
+extern void test_mips32(void);
+extern void test_engine(void);
 
 /**
  * @brief Command Line Arguments
@@ -70,7 +71,8 @@ void args_parse(int argc, const char *argv[])
 int main(int argc, const char *argv[])
 {
 #ifndef NDEBUG
-	test_mips32();
+	//test_mips32();
+	test_engine();
 #endif
 
 	args_parse(argc, argv);
