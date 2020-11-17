@@ -26,10 +26,12 @@
 #define VMACHINE_ENGINE_H_
 
 	#include <stdint.h>
+	#include <vmachine/types.h>
+
 
 	/**
 	 * @brief Translates a binary code into another.
 	 */
-	extern uint32_t engine_run(uint32_t instruction);
+	extern word_t engine_run(uint32_t instruction);
 
 #endif /* VMACHINE_ENGINE_H_ */
