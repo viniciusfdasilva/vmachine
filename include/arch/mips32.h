@@ -30,6 +30,45 @@
  */
 namespace mips32
 {
+	
+	/**
+	 * @name Code of Registers (as string)
+	 */
+	/**@{*/
+	#define REG_ZERO_STR  "00000"
+	#define REG_AT_STR    "00001"
+	#define REG_V0_STR    "00010"
+	#define REG_V1_STR    "00011"
+	#define REG_A0_STR    "00100"
+	#define REG_A1_STR    "00101"
+	#define REG_A2_STR    "00110"
+	#define REG_A3_STR    "00111"
+	#define REG_T0_STR    "01000"
+	#define REG_T1_STR    "01001"
+	#define REG_T2_STR    "01010"
+	#define REG_T3_STR    "01011"
+	#define REG_T4_STR    "01100"
+	#define REG_T5_STR    "01101"
+	#define REG_T6_STR    "01110"
+	#define REG_T7_STR    "01111"
+	#define REG_S0_STR    "10000"
+	#define REG_S1_STR    "10001"
+	#define REG_S2_STR    "10010"
+	#define REG_S3_STR    "10011"
+	#define REG_S4_STR    "10100"
+	#define REG_S5_STR    "10101"
+	#define REG_S6_STR    "10110"
+	#define REG_S7_STR    "10111"
+	#define REG_T8_STR    "11000"
+	#define REG_T9_STR    "11001"
+	#define REG_K0_STR    "11010"
+	#define REG_K1_STR    "11011"
+	#define REG_GP_STR    "11100"
+	#define REG_SP_STR    "11101"
+	#define REG_FP_STR    "11110"
+	#define REG_RA_STR    "11111"
+	/**@}**/
+
 	/**
 	 * @name Code of Registers
 	 */
