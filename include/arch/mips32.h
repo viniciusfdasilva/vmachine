@@ -127,14 +127,17 @@ namespace mips32
 	 * @name Masks for Instruction Fields
 	 */
 	/**@{*/
-	#define INST_MASK_IMM    0x000ffff
-	#define INST_MASK_TARGET 0x3ffffff
-	#define INST_MASK_FUNCT  0x000003f
-	#define INST_MASK_SHAMT  0x000001f
-	#define INST_MASK_RD     0x000001f
-	#define INST_MASK_RT     0x000001f
-	#define INST_MASK_RS     0x000001f
-	#define INST_MASK_OPCODE 0x000003f
+	#define INST_MASK_SHAMT_JR 0x0007fff
+	#define INST_MASK_IMM      0x000ffff
+	#define INST_MASK_TARGET   0x3ffffff
+	#define INST_MASK_FUNCT    0x000003f
+	#define INST_MASK_SHAMT    0x000001f
+	#define INST_MASK_SA       0x000001f
+	#define INST_MASK_RD       0x000001f
+	#define INST_MASK_RA	   0x000001f
+	#define INST_MASK_RT       0x000001f
+	#define INST_MASK_RS       0x000001f
+	#define INST_MASK_OPCODE   0x000003f
 	/**@}*/
 
 	/**
