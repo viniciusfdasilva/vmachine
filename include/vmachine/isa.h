@@ -69,107 +69,153 @@ namespace vmachine
 	 * @name Shifts for Instruction Fields
 	 */
 	/**@{*/
-	#define INST_SHIFT_IMM     0
-	#define INST_SHIFT_TARGET  0
-	#define INST_SHIFT_FUNCT   0
-	#define INST_SHIFT_SHAMT   6
-	#define INST_SHIFT_RD     11
-	#define INST_SHIFT_RT     16
-	#define INST_SHIFT_RS     21
-	#define INST_SHIFT_OPCODE 26
+	#define INST_SHIFT_FUNCT_7          0X18
+	#define INST_SHIFT_RS_1             0x0c
+	#define INST_SHIFT_RS_2             0x14
+	#define INST_SHIFT_FUNCT_3          0x0c
+	#define INST_SHIFT_RD               0x04
+	#define INST_SHIFT_IMMEDIATE_I_TYPE 0x14
+	#define INST_SHIFT_IMMEDIATE        0x0c
 	/**@}*/
 
 	/**
 	 * @name Masks for Instruction Fields
 	 */
 	/**@{*/
-	#define INST_MASK_IMM    0x000ffff
-	#define INST_MASK_TARGET 0x3ffffff
-	#define INST_MASK_FUNCT  0x000003f
-	#define INST_MASK_SHAMT  0x000001f
-	#define INST_MASK_RD     0x000001f
-	#define INST_MASK_RT     0x000001f
-	#define INST_MASK_RS     0x000001f
-	#define INST_MASK_OPCODE 0x000003f
+	#define INST_MASK_FUNCT_7           0xfe000000
+	#define INST_MASK_RS_1              0x000f8000
+	#define INST_MASK_RS_2              0x01f00000
+	#define INST_MASK_FUNCT_3           0x00007000
+	#define INST_MASK_RD                0x00000f80
+	#define INST_MASK_OPCODE            0x0000007f
+	#define INST_MASK_IMMEDIATE_I_TYPE  0xfff00000
+	#define INST_MASK_IMMEDIATE         0xfffff000
 	/**@}*/
 
 	/**
 	 * @name Operation Codes of Instructions
 	 */
 	/**@{*/
-	
-	/* R-TYPE */
-	#define INST_OPCODE_ADD   0x00
-	#define INST_OPCODE_ADDU  0x00
-	#define INST_OPCODE_AND   0x00
-	#define INST_OPCODE_NOR   0x00
-	#define INST_OPCODE_OR    0x00
-	#define INST_OPCODE_SLT   0x00
-	#define INST_OPCODE_SLTU  0x00		
-	#define INST_OPCODE_SUB   0x00
-	#define INST_OPCODE_SUBU  0x00
-	#define INST_OPCODE_XOR   0x00
-	#define INST_OPCODE_JR    0x00
-	#define INST_OPCODE_SLL   0x00
-	#define INST_OPCODE_SRL   0x00
-	#define INST_OPCODE_DIV   0x00
-	#define INST_OPCODE_DIVU  0x00
-	#define INST_OPCODE_MFHI  0x00
-	#define INST_OPCODE_MFLO  0x00
-	#define INST_OPCODE_MULT  0x00
-	#define INST_OPCODE_MULTU 0x00
-	#define INST_OPCODE_SRA   0x00
-	
-	/* I-TYPE */
-	#define INST_OPCODE_ADDI  0x08
-	#define INST_OPCODE_ADDIU 0x09
-	#define INST_OPCODE_ANDI  0x0c
-	#define INST_OPCODE_BEQ   0x04
-	#define INST_OPCODE_BNE   0x05
-	#define INST_OPCODE_LBU   0x24
-	#define INST_OPCODE_LHU   0x25
-	#define INST_OPCODE_LL    0x30
-	#define INST_OPCODE_LUI   0x0f
-	#define INST_OPCODE_LW    0x23
-	#define INST_OPCODE_ORI   0x0d
-	#define INST_OPCODE_SLTI  0x0a
-	#define INST_OPCODE_SLTIU 0x0b
-	#define INST_OPCODE_SB    0x28
-	#define INST_OPCODE_SC    0x38
-	#define INST_OPCODE_SH    0x29
-	#define INST_OPCODE_SW    0x2b
-	#define INST_OPCODE_XORI  0x0e		
-		
+
+	/* Instructions Opcodes Division */
+	#define U_TYPE_IMMEDIATE_INSTRUCTION            0x37
+	#define U_TYPE_PC_INSTRUCTION                   0x17
+	#define J_TYPE_INSTRUCTION                      0x6f
+	#define I_TYPE_JUMPER_INSTRUCTION               0x67
+	#define I_TYPE_LOAD_INSTRUCTIONS                0x03
+	#define I_TYPE_REGISTERS_INSTRUCTIONS           0x13
+	#define I_TYPE_FENCE_INSTRUCTIONS               0x0f
+	#define I_TYPE_CALL_BREAKPOINT_CRS_INSTRUCTIONS 0x73
+	#define B_TYPE_INSTRUCTIONS                     0x63
+	#define S_TYPE_INSTRUCTIONS                     0x23
+	#define R_TYPE_INSTRUCTIONS                     0x33
+
+	/* U-Type */
+	#define INST_OPCODE_LUI   0x37
+	#define INST_OPCODE_AUIPC 0x17
+
 	/* J-TYPE */
-	#define INST_OPCODE_J     0x02
-	#define INST_OPCODE_JAL   0x03
+	#define INST_OPCODE_JAL 0x6f
+
+	/* I-Type */
+	#define INST_OPCODE_JALR    0x67
+	#define INST_OPCODE_LB      0x03
+	#define INST_OPCODE_LH      0x03
+	#define INST_OPCODE_LW      0x03
+	#define INST_OPCODE_LBU     0x03
+	#define INST_OPCODE_LHU     0x03
+	#define INST_OPCODE_ADDI    0x13
+	#define INST_OPCODE_SLTI    0x13
+	#define INST_OPCODE_SLTIU   0x13
+	#define INST_OPCODE_XORI    0x13
+	#define INST_OPCODE_ORI     0x13
+	#define INST_OPCODE_ANDI    0x13
+	#define INST_OPCODE_SLLI    0x13
+	#define INST_OPCODE_SRLI    0x13
+	#define INST_OPCODE_SRAI    0x13
+	#define INST_OPCODE_FENCE   0x0f
+	#define INST_OPCODE_FENCE_I 0x0f
+	#define INST_OPCODE_ECALL   0x73
+	#define INST_OPCODE_EBREAK  0x73
+	#define INST_OPCODE_CSRRW   0x73
+	#define INST_OPCODE_CSRRS   0x73
+	#define INST_OPCODE_CSRRC   0x73
+	#define INST_OPCODE_CSRRWI  0x73
+	#define INST_OPCODE_CSRRSI  0x73
+	#define INST_OPCODE_CSRRCI  0x73
 
 	/**
-	 * @name Function of Instructions
+	 * @name Function 3 of Instructions
 	 */
 	/**@{*/
-	#define INST_FUNCT_ADD   0x20
-	#define INST_FUNCT_ADDU  0x21
-	#define INST_FUNCT_AND   0x24
-	#define INST_FUNCT_NOR   0x27
-	#define INST_FUNCT_OR    0x25
-	#define INST_FUNCT_SLT   0x2a
-	#define INST_FUNCT_SLTU  0x2b
-	#define INST_FUNCT_SUB   0x22
-	#define INST_FUNCT_SUBU  0x23
-	#define INST_FUNCT_XOR   0x26
-	#define INST_FUNCT_JR    0x08
-	#define INST_FUNCT_SLL   0x00
-	#define INST_FUNCT_SRL   0x02
-	#define INST_FUNCT_DIV   0x1a
-	#define INST_FUNCT_DIVU  0x1b
-	#define INST_FUNCT_MFHI  0x10
-	#define INST_FUNCT_MFLO  0x12
-	#define INST_FUNCT_MULT  0x18
-	#define INST_FUNCT_MULTU 0x19
-	#define INST_FUNCT_SRA   0x03
+
+	/* R-Type */
+	#define INST_ADD_SUB_FUNCT_3 0x00
+	#define INST_SLL_FUNCT_3     0x01
+	#define INST_SLT_FUNCT_3     0x02
+	#define INST_SLTU_FUNCT_3    0x03
+	#define INST_XOR_FUNCT_3     0x04
+	#define INST_SRL_SRA_FUNCT_3 0x05
+	#define INST_OR_FUNCT_3      0x06
+	#define INST_AND_FUNCT_3     0x07
+
+	/* I_Type */
+	#define INST_JALR_FUNCT_3    0x00
+	#define INST_LB_FUNCT_3      0x00
+	#define INST_LH_FUNCT_3      0x01
+	#define INST_LW_FUNCT_3      0x02
+	#define INST_LBU_FUNCT_3     0x04
+	#define INST_LHU_FUNCT_3     0x05
+	#define INST_ADDI_FUNCT_3    0x00
+	#define INST_SLTI_FUNCT_3    0x02
+	#define INST_SLTIU_FUNCT_3   0x03
+	#define INST_XORI_FUNCT_3    0x04
+	#define INST_ORI_FUNCT_3     0x06
+	#define INST_ANDI_FUNCT_3    0x07
+	#define INST_SLLI_FUNCT_3    0x01
+	#define INST_SRLI_FUNCT_3    0x05
+	#define INST_SRAI_FUNCT_3    0x05
+	#define INST_FENCE_FUNCT_3   0x00
+	#define INST_FENCE_I_FUNCT_3 0x01
+	#define INST_ECALL_FUNCT_3   0x00
+	#define INST_EBREAK_FUNCT_3  0x00
+	#define INST_CSRRW_FUNCT_3   0x01
+	#define INST_CSRRS_FUNCT_3   0x02
+	#define INST_CSRRC_FUNCT_3   0x03
+	#define INST_CSRRWI_FUNCT_3  0x05
+	#define INST_CSRRSI_FUNCT_3  0x06
+	#define INST_CSRRCI_FUNCT_3  0x07
+
+	/* B-Type*/
+	#define INST_BEQ_FUNCT_3  0x00
+	#define INST_BNE_FUNCT_3  0x01
+	#define INST_BLT_FUNCT_3  0x04
+	#define INST_BGE_FUNCT_3  0x05
+	#define INST_BLTU_FUNCT_3 0x06
+	#define INST_BGEU_FUNCT_3 0x07
+
+	/* S-Type */
+	#define INST_SB_FUNCT_3 0x00
+	#define INST_SH_FUNCT_3 0x01
+	#define INST_SW_FUNCT_3 0x02
 	/**@#}*/
-	
+
+	/**
+	 * @name Function 7 of Instructions
+	 */
+	/**@{*/
+	#define INST_ADD_FUNCT_7  0x00
+	#define INST_SUB_FUNCT_7  0x20
+	#define INST_SLL_FUNCT_7  0x00
+	#define INST_SLT_FUNCT_7  0x00
+	#define INST_SLTU_FUNCT_7 0x00
+	#define INST_XOR_FUNCT_7  0x00
+	#define INST_SRL_FUNCT_7  0x00
+	#define INST_SRA_FUNCT_7  0x20
+	#define INST_OR_FUNCT_7   0x00
+	#define INST_AND_FUNCT_7  0x00
+	/**@#}*/
+
 	/**@}*/
 };
 

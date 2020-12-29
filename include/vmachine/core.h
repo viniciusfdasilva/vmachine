@@ -96,6 +96,27 @@ namespace vmachine
              */
             void executeJ(isa32::word_t inst);
 
+            /**
+             * @brief Executes a S-Type Instruction.
+             *
+             * @param inst Target instruction.
+             */
+            void executeS(isa32::word_t inst);
+
+            /**
+             * @brief Executes a B-Type Instruction.
+             *
+             * @param inst Target instruction.
+             */
+            void executeB(isa32::word_t inst);
+
+            /**
+             * @brief Executes a U-Type Instruction.
+             *
+             * @param inst Target instruction.
+             */
+            void executeU(isa32::word_t inst);
+
         public:
 
             /**

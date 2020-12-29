@@ -22,222 +22,243 @@
 // SOFTWARE.
 //
 
+// Ours
+#include <vmachine/cache.h>
 #include <vmachine/core.h>
 #include <vmachine/isa.h>
+#include <vmachine/memory.h>
 #include <arch.h>
+#include <config.h>
+#include <utils.h>
 
 using namespace vmachine;
 
 // Executes a R-Type instruction.
 void Core::executeR(isa32::word_t inst)
 {
-	isa32::word_t rs	 = ((inst >> INST_SHIFT_RS) & INST_MASK_RS);
-	isa32::word_t rt	 = ((inst >> INST_SHIFT_RT) & INST_MASK_RT);
-	isa32::word_t rd     = ((inst >> INST_SHIFT_RD) & INST_MASK_RD);
-	isa32::word_t shamt  = ((inst >> INST_SHIFT_SHAMT) & INST_MASK_SHAMT);
-	isa32::word_t funct  = ((inst >> INST_SHIFT_FUNCT) & INST_MASK_FUNCT);
+	isa32::word_t funct_7 = ((inst >> INST_SHIFT_FUNCT_7) & INST_MASK_FUNCT_7);
+	isa32::word_t rs1     = ((inst >> INST_SHIFT_RS_1)    & INST_MASK_RS_1);
+	isa32::word_t rs2     = ((inst >> INST_SHIFT_RS_2)    & INST_MASK_RS_2);
+	isa32::word_t funct_3 = ((inst >> INST_SHIFT_FUNCT_3) & INST_MASK_FUNCT_3);
+	isa32::word_t rd      = ((inst >> INST_SHIFT_RD)      & INST_MASK_RD);
 
 	// Parse function.
-	switch(funct)
+	switch(funct_3)
 	{
-		case INST_FUNCT_ADD:
-			regs[rd] = regs[rs] + regs[rt];
-			break;
-
-		case INST_FUNCT_ADDU:
-			regs[rd] = regs[rs] + regs[rt];
-			break;
-
-		case INST_FUNCT_AND:
-			regs[rd] = regs[rs] & regs[rt];
-			break;
-
-		case INST_FUNCT_NOR:
-			regs[rd] = ~(regs[rs] | regs[rt]);
-			break;
-
-		case INST_FUNCT_OR:
-			regs[rd] = regs[rs] | regs[rt];
-			break;
-
-		case INST_FUNCT_SLT:
-			regs[rd] = (regs[rs] < regs[rt]) ? 1 : 0;
-			break;
-
-		case INST_FUNCT_SLTU:
-			regs[rd] = (regs[rs] < regs[rt]) ? 1 : 0;
-			break;
-
-		case INST_FUNCT_SUB:
-			regs[rd] = regs[rs] - regs[rt];
-			break;
-
-		case INST_FUNCT_SUBU:
-			regs[rd] = regs[rs] - regs[rt];
-			break;
-
-		case INST_FUNCT_XOR:
-			regs[rd] = regs[rs] ^ regs[rt];
-			break;
-
-		case INST_FUNCT_JR:
-			pc = regs[rs];
-			break;
-
-		case INST_FUNCT_SLL:
-			regs[rd] = regs[rt] << shamt;
-			break;
-
-		case INST_FUNCT_SRL:
-			regs[rd] = regs[rt] >> shamt;
-			break;
-
-		case INST_FUNCT_DIV:
-			lo = regs[rs]/regs[rt];
-			hi = regs[rs] % regs[rt];
-			break;
-
-		case INST_FUNCT_DIVU:
-			lo = regs[rs]/regs[rt];
-			hi = regs[rs] % regs[rt];
-			break;
-		case INST_FUNCT_MFHI:
-			regs[rd] = hi;
-			break;
-
-		case INST_FUNCT_MFLO:
-			regs[rd] = lo;
-			break;
-
-		case INST_FUNCT_MULT:
-			lo = regs[rs] * regs[rt];
-			break;
-
-		case INST_FUNCT_MULTU:
-			lo = regs[rs] * regs[rt];
-			break;
-
-		case INST_FUNCT_SRA:
-			regs[rd] = regs[rt] >> shamt;
-			break;
-
-		// Unkonwn instruction.
+		case INST_ADD_SUB_FUNCT_3:
+			if (funct_7 == INST_ADD_FUNCT_7)
+				registers[rd] = registers[rs1] + registers[rs1];
+			else if (funct_7 == INST_SUB_FUNCT_7)
+				registers[rd] = registers[rs1] - registers[rs2];
+		break;
+		case INST_SLL_FUNCT_3:
+			registers[rd] = registers[rs1] << registers[rs2];
+		break;
+		case INST_SLT_FUNCT_3:
+			registers[rd] = (registers[rs1] < registers[rs2]) ? 1 : 0;
+		break;
+		case INST_SLTU_FUNCT_3:
+			registers[rd] = (registers[rs1] < registers[rs2]) ? 1 : 0;
+		break;
+		case INST_XOR_FUNCT_3:
+			registers[rd] = registers[rs1] ^ registers[rs2];
+		break;
+		case INST_SRL_SRA_FUNCT_3:
+			registers[rd] = registers[rs1] >> registers[rs2];
+		break;
+		case INST_OR_FUNCT_3:
+			registers[rd] = registers[rs1] | registers[rs2];
+		break;
+		case INST_AND_FUNCT_3:
+			registers[rd] = registers[rs1] & registers[rs2];
+		break;
 		default:
-			break;
+			error("Unknown instruction");
+		break;
 	}
-
-	if (funct != INST_FUNCT_JR)
-		pc += sizeof(isa32::word_t);
+	pc += sizeof(isa32::word_t);
 }
 
 // Executes a I-Type instruction.
 void Core::executeI(isa32::word_t inst)
 {
-	isa32::word_t opcode = ((inst >> INST_SHIFT_OPCODE) & INST_MASK_OPCODE);
-	isa32::word_t rs	 = ((inst >> INST_SHIFT_RS) & INST_MASK_RS);
-	isa32::word_t rt	 = ((inst >> INST_SHIFT_RT) & INST_MASK_RT);
-	isa32::word_t imm    = ((inst >> INST_SHIFT_IMM) & INST_MASK_IMM);
+	isa32::word_t immediate_1 = ((inst >> INST_SHIFT_IMMEDIATE_I_TYPE) & INST_MASK_IMMEDIATE_I_TYPE);
+	isa32::word_t rs1         = ((inst >> INST_SHIFT_RS_1)             & INST_MASK_RS_1);
+	isa32::word_t funct_3     = ((inst >> INST_SHIFT_FUNCT_3)          & INST_MASK_FUNCT_3);
+	isa32::word_t rd          = ((inst >> INST_SHIFT_RD)               & INST_MASK_RD);
+	isa32::word_t shamt       = ((inst >> INST_SHIFT_RS_2)             & INST_MASK_RS_2);
+	isa32::word_t opcode      = inst                                   & INST_MASK_OPCODE;
+
+	Cache cache(VMACHINE_DEFAULT_CACHE_SIZE);
 
 	switch(opcode)
 	{
-		case INST_OPCODE_ADDI:
-			regs[rt] = regs[rs] + imm;
-			break;
-
-		case INST_OPCODE_ADDIU:
-			regs[rt] = regs[rs] + imm;
-			break;
-
-		case INST_OPCODE_ANDI:
-			regs[rt] = regs[rs] & imm;
-			break;
-
-		case INST_OPCODE_BEQ:
-			pc += (regs[rs] == regs[rt]) ? (imm << 2) : 4;
-			break;
-
-		case INST_OPCODE_BNE:
-			pc += (regs[rs] != regs[rt]) ? (imm << 2) : 4;
-			break;
-
-		case INST_OPCODE_LBU:
-			regs[rt] = memory_.read(regs[rs] + imm);
-			break;
-
-		case INST_OPCODE_LHU:
-			regs[rt] = memory_.read(regs[rs] + imm);
-			break;
-
-		case INST_OPCODE_LL:
-			regs[rt] = memory_.read(regs[rs] + imm);
-			break;
-
-		case INST_OPCODE_LUI:
-			regs[rt] = imm << 16;
-			break;
-
-		case INST_OPCODE_LW:
-			regs[rt] = memory_.read(regs[rs] + imm);
-			break;
-
-		case INST_OPCODE_ORI:
-			regs[rt] = regs[rs] | imm; 
-			break;
-
-		case INST_OPCODE_SLTI:
-			regs[rt] = (regs[rs] < imm) ? 1 : 0;
-			break;
-
-		case INST_OPCODE_SLTIU:
-			regs[rt] = (regs[rs] < imm) ? 1 : 0;
-			break;
-
-		case INST_OPCODE_SB:
-			memory_.write((regs[rs] + imm), (0xff & regs[rt]));
-			break;
-
-		case INST_OPCODE_SH:
-			memory_.write((regs[rs] + imm), regs[rt]);
-			break;
-
-		case INST_OPCODE_SW:
-			memory_.write((regs[rs] + imm), regs[rt]);
-			break;
-
-		case INST_OPCODE_XORI:
-			regs[rt] = regs[rs] ^ imm;
-			break;
-
-		// Unkonwn instruction.
+		case I_TYPE_JUMPER_INSTRUCTION:
+			if (funct_3 == INST_JALR_FUNCT_3)
+			{
+				registers[rd] = pc + 4;
+				pc += ((registers[rs1] + immediate_1) & (~0u ^ 3u));
+			}
+		break;
+		case I_TYPE_LOAD_INSTRUCTIONS:
+			if (funct_3 == INST_LB_FUNCT_3)
+				registers[rd] = cache.read(registers[rs1] + immediate_1);
+			else if (funct_3 == INST_LH_FUNCT_3)
+				registers[rd] = cache.read(registers[rs1] + immediate_1);
+			else if (funct_3 == INST_LW_FUNCT_3)
+				registers[rd] = cache.read(registers[rs1] + immediate_1);
+			else if (funct_3 == INST_LBU_FUNCT_3)
+				registers[rd] = cache.read(registers[rs1] + immediate_1);
+			else if (funct_3 == INST_LHU_FUNCT_3)
+				registers[rd] = cache.read(registers[rs1] + immediate_1);
+		break;
+		case I_TYPE_REGISTERS_INSTRUCTIONS:
+			if (funct_3 == INST_ADDI_FUNCT_3)
+				registers[rd] = registers[rs1] + immediate_1;
+			else if (funct_3 == INST_SLTI_FUNCT_3)
+				registers[rd] = (registers[rs1] < immediate_1) ? 1 : 0;
+			else if (funct_3 == INST_SLTIU_FUNCT_3)
+				registers[rd] = (registers[rs1] < immediate_1) ? 1 : 0;
+			else if (funct_3 == INST_XORI_FUNCT_3)
+				registers[rd] = registers[rs1] ^ immediate_1;
+			else if (funct_3 == INST_ORI_FUNCT_3)
+				registers[rd] = registers[rs1] | immediate_1;
+			else if (funct_3 == INST_ANDI_FUNCT_3)
+				registers[rd] = registers[rs1] & immediate_1;
+			else if (funct_3 == INST_SLLI_FUNCT_3)
+				registers[rd] = registers[rs1] << shamt;
+			else if (funct_3 == INST_SRLI_FUNCT_3)
+				registers[rd] = registers[rs1] >> shamt;
+			else if (funct_3 == INST_SRAI_FUNCT_3)
+				registers[rd] = registers[rs1] >> shamt;
+		break;
+		case I_TYPE_FENCE_INSTRUCTIONS:
+		case I_TYPE_CALL_BREAKPOINT_CRS_INSTRUCTIONS:
+			//if (funct_3 == INST_ECALL_FUNCT_3) {}
+			//if (funct_3 == INST_EBREAK_FUNCT_3) {}
+			//if (funct_3 == INST_CSRRW_FUNCT_3) {}
+			//if (funct_3 == INST_CSRRS_FUNCT_3) {}
+			//if (funct_3 == INST_CSRRC_FUNCT_3) {}
+			//if (funct_3 == INST_CSRRWI_FUNCT_3) {}
+			//if (funct_3 == INST_CSRRSI_FUNCT_3) {}
+			//if (funct_3 == INST_CSRRCI_FUNCT_3) {}
 		default:
-			break;
+			error("Unknown instruction");
+		break;
 	}
 
-	if (opcode != INST_OPCODE_BEQ && opcode != INST_OPCODE_BNE)
+	if (opcode != I_TYPE_JUMPER_INSTRUCTION)
 		pc += sizeof(isa32::word_t);
 }
 
 // Executes a J-Type instruction.
 void Core::executeJ(isa32::word_t inst)
 {
-	isa32::word_t opcode  = ((inst >> INST_SHIFT_OPCODE) & INST_MASK_OPCODE);
-	isa32::word_t address = ((inst >> INST_SHIFT_TARGET) & INST_MASK_TARGET);
+	isa32::word_t rd      = ((inst >> INST_SHIFT_RD)        & INST_MASK_RD);
+	isa32::word_t address = ((inst >> INST_SHIFT_IMMEDIATE) & INST_MASK_IMMEDIATE);
+	isa32::word_t opcode  = inst                            & INST_MASK_OPCODE;
 
 	switch(opcode)
 	{
-		case INST_OPCODE_J:
-			pc |= (address << 2);
-			break;
-
 		case INST_OPCODE_JAL:
-			regs[0x1f] = pc + 8;
-			pc |= (address << 2);
-			break;
-
-		// Unkonwn instruction.
+			registers[rd] = pc + sizeof(isa32::word_t);
+			pc += address;
+		break;
 		default:
-			break;
+			error("Unknown instruction");
+		break;
 	}
+}
+
+// Executes a S-Type instruction.
+void Core::executeS(isa32::word_t inst)
+{
+	isa32::word_t immediate_1 = ((inst >> INST_SHIFT_FUNCT_7) & INST_MASK_FUNCT_7);
+	isa32::word_t rs2         = ((inst >> INST_SHIFT_RS_2)    & INST_MASK_RS_2);
+	isa32::word_t rs1         = ((inst >> INST_SHIFT_RS_1)    & INST_MASK_RS_1);
+	isa32::word_t funct_3     = ((inst >> INST_SHIFT_FUNCT_3) & INST_MASK_FUNCT_3);
+
+	Memory memory(VMACHINE_DEFAULT_MEMORY_SIZE);
+
+	switch (funct_3)
+	{
+		case INST_SB_FUNCT_3:
+			memory.write(registers[rs1] + immediate_1, registers[rs2]);
+		break;
+		case INST_SH_FUNCT_3:
+			memory.write(registers[rs1] + immediate_1, registers[rs2]);
+		break;
+		case INST_SW_FUNCT_3:
+			memory.write(registers[rs1] + immediate_1, registers[rs2]);
+		break;
+		default:
+			error("Unknown instruction");
+		break;
+	}
+	pc += sizeof(isa32::word_t);
+}
+
+// Executes a B-Type instruction.
+void Core::executeB(isa32::word_t inst)
+{
+	isa32::word_t immediate_1 = ((inst >> INST_SHIFT_FUNCT_7) & INST_MASK_FUNCT_7);
+	isa32::word_t rs2         = ((inst >> INST_SHIFT_RS_2)    & INST_MASK_RS_2);
+	isa32::word_t rs1         = ((inst >> INST_SHIFT_RS_1)    & INST_MASK_RS_1);
+	isa32::word_t funct_3     = ((inst >> INST_SHIFT_FUNCT_3) & INST_MASK_FUNCT_3);
+
+	switch (funct_3)
+	{
+		case INST_BEQ_FUNCT_3:
+			if (registers[rs1] == registers[rs2])
+				pc += immediate_1;
+		break;
+		case INST_BNE_FUNCT_3:
+			if (registers[rs1] != registers[rs2])
+				pc += immediate_1;
+		break;
+		case INST_BLT_FUNCT_3:
+			if (registers[rs1] < registers[rs2])
+				pc += immediate_1;
+		break;
+		case INST_BGE_FUNCT_3:
+			if (registers[rs1] >= registers[rs2])
+				pc += immediate_1;
+		break;
+		case INST_BLTU_FUNCT_3:
+			if (registers[rs1] < registers[rs2])
+				pc += immediate_1;
+		break;
+		case INST_BGEU_FUNCT_3:
+			if (registers[rs1] >= registers[rs2])
+				pc += immediate_1;
+		break;
+		default:
+			error("Unknown instruction");
+		break;
+	}
+}
+
+// Executes a U-Type instruction.
+void Core::executeU(isa32::word_t inst)
+{
+	isa32::word_t immediate = ((inst >> INST_SHIFT_IMMEDIATE) & INST_MASK_IMMEDIATE);
+	isa32::word_t rd        = ((inst >> INST_SHIFT_RD)        & INST_MASK_RD);
+	isa32::word_t opcode    = inst                            & INST_MASK_OPCODE;
+
+	switch(opcode)
+	{
+		case INST_OPCODE_LUI:
+			registers[rd] = immediate << 12;
+		break;
+		case INST_OPCODE_AUIPC:
+			registers[rd] = pc + (immediate << 12);
+		break;
+		default:
+			error("Unknown instruction");
+		break;
+	}
+
+	pc += sizeof(isa32::word_t);
 }
 
 // Decodes an instruction.
@@ -246,25 +267,40 @@ Core::execute_fn Core::decode(isa32::word_t inst)
 	execute_fn fn;
 	isa32::word_t opcode;
 
-	opcode = (inst >> INST_SHIFT_OPCODE) & INST_MASK_OPCODE;
+	opcode = inst & INST_MASK_OPCODE;
 
 	switch(opcode)
 	{
+		// U-Type Instruction
+		case U_TYPE_IMMEDIATE_INSTRUCTION:
+		case U_TYPE_PC_INSTRUCTION:
+			fn = &Core::executeU;
+		break;
+
+		// B-Type Instruction
+		case B_TYPE_INSTRUCTIONS:
+			fn = &Core::executeB;
+		break;
+
+		// B-Type Instruction
+		case S_TYPE_INSTRUCTIONS:
+			fn = &Core::executeS;
+		break;
+
 		// R-Type Instruction
-		case 0:
+		case R_TYPE_INSTRUCTIONS:
 			fn = &Core::executeR;
-			break;
+		break;
 
 		// J-Type Instruction
-		case 2:
-		case 3:
+		case J_TYPE_INSTRUCTION:
 			fn = &Core::executeJ;
-			break;
+		break;
 
 		// I-Type Instruction
 		default:
 			fn = &Core::executeI;
-			break;
+		break;
 	}
 
 	return (fn);
