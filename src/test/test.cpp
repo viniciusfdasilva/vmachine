@@ -32,6 +32,7 @@
 // Import definitions.
 extern std::list<test::Test *> mips32AssemblerTests(void);
 extern std::list<test::Test *> vmachineTests(void);
+extern std::list<test::Test *> engineTests(void);
 
 // Top-Level test driver.
 void testDriver(void)
@@ -40,6 +41,7 @@ void testDriver(void)
 
 	tests.merge(mips32AssemblerTests());
 	tests.merge(vmachineTests());
+	tests.merge(engineTests());
 
 	// Run Regression tests.
 	for (auto it = tests.begin(); it != tests.end(); ++it)
