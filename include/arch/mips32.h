@@ -115,9 +115,11 @@ namespace mips32
 	#define INST_SHIFT_TARGET  0
 	#define INST_SHIFT_FUNCT   0
 	#define INST_SHIFT_SHAMT   6
+	#define INST_SHIFT_SA      6
 	#define INST_SHIFT_RD     11
 	#define INST_SHIFT_RT     16
 	#define INST_SHIFT_RS     21
+	#define INST_SHIFT_RA     6
 	#define INST_SHIFT_OPCODE 26
 	/**@}*/
 
