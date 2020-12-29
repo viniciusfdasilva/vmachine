@@ -37,3 +37,7 @@
 # Directories
 bin/
 lib/
+
+# Vim
+*.swp
+*.swo
