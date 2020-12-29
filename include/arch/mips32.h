@@ -173,19 +173,25 @@ namespace mips32
 	 * @brief Function of Instructions
 	 */
 	/**@{*/
-	#define INST_FUNCT_ADD  0x20
-	#define INST_FUNCT_SUB  0x22
-	#define INST_FUNCT_MULT 0x18
-	#define INST_FUNCT_DIV  0x1a
-	#define INST_FUNCT_AND  0x24
-	#define INST_FUNCT_OR   0x25
-	#define INST_FUNCT_XOR  0x26
-	#define INST_FUNCT_NOR  0x27
-	#define INST_FUNCT_SLT  0x2a
-	#define INST_FUNCT_SLL  0x00
-	#define INST_FUNCT_SRL  0x02
-	#define INST_FUNCT_JR   0x08
-	#define INST_FUNCT_NONE 0x1f
+	#define INST_FUNCT_ADD   0x20
+	#define INST_FUNCT_ADDU  0x21
+	#define INST_FUNCT_SUB   0x22
+	#define INST_FUNCT_SUBU  0x23
+	#define INST_FUNCT_MULT  0x18
+	#define INST_FUNCT_MULTU 0x19
+	#define INST_FUNCT_DIV   0x1a
+	#define INST_FUNCT_DIVU  0x1b
+	#define INST_FUNCT_AND   0x24
+	#define INST_FUNCT_OR    0x25
+	#define INST_FUNCT_XOR   0x26
+	#define INST_FUNCT_NOR   0x27
+	#define INST_FUNCT_SLT   0x2a
+	#define INST_FUNCT_SLTU  0x2b
+	#define INST_FUNCT_SLL   0x00
+	#define INST_FUNCT_SRL   0x02
+	#define INST_FUNCT_SRA   0x03
+	#define INST_FUNCT_JR    0x08
+	#define INST_FUNCT_NONE  0x1f
 	/**@}*/
 }
 
