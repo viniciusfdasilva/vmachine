@@ -36,7 +36,7 @@ SRC = $(wildcard $(CURDIR)/arch/*.cpp)          \
       $(wildcard $(CURDIR)/utils/*.cpp)         \
       $(wildcard $(CURDIR)/vmachine/*.cpp)      \
       $(wildcard $(CURDIR)/*.cpp)
- 
+
 #===============================================================================
 # Object Files
 #===============================================================================
@@ -69,7 +69,7 @@ ifeq ($(VERBOSE), no)
 	@echo [CLEAN] $(EXEC)
 	@rm -rf $(BINDIR)/$(EXEC)
 else
-	rm -rf $(LIBDIR)/$(LIBHAL)
+	rm -rf $(BINDIR)/$(EXEC)
 endif
 
 # builds a C source file.
@@ -80,4 +80,3 @@ ifeq ($(VERBOSE), no)
 else
 	$(CXX) $(CXXFLAGS) $< -c -o $@
 endif
-
