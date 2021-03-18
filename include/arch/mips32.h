@@ -30,6 +30,45 @@
  */
 namespace mips32
 {
+	
+	/**
+	 * @name Code of Registers (as string)
+	 */
+	/**@{*/
+	#define REG_ZERO_STR  "00000"
+	#define REG_AT_STR    "00001"
+	#define REG_V0_STR    "00010"
+	#define REG_V1_STR    "00011"
+	#define REG_A0_STR    "00100"
+	#define REG_A1_STR    "00101"
+	#define REG_A2_STR    "00110"
+	#define REG_A3_STR    "00111"
+	#define REG_T0_STR    "01000"
+	#define REG_T1_STR    "01001"
+	#define REG_T2_STR    "01010"
+	#define REG_T3_STR    "01011"
+	#define REG_T4_STR    "01100"
+	#define REG_T5_STR    "01101"
+	#define REG_T6_STR    "01110"
+	#define REG_T7_STR    "01111"
+	#define REG_S0_STR    "10000"
+	#define REG_S1_STR    "10001"
+	#define REG_S2_STR    "10010"
+	#define REG_S3_STR    "10011"
+	#define REG_S4_STR    "10100"
+	#define REG_S5_STR    "10101"
+	#define REG_S6_STR    "10110"
+	#define REG_S7_STR    "10111"
+	#define REG_T8_STR    "11000"
+	#define REG_T9_STR    "11001"
+	#define REG_K0_STR    "11010"
+	#define REG_K1_STR    "11011"
+	#define REG_GP_STR    "11100"
+	#define REG_SP_STR    "11101"
+	#define REG_FP_STR    "11110"
+	#define REG_RA_STR    "11111"
+	/**@}**/
+
 	/**
 	 * @name Code of Registers
 	 */
@@ -76,9 +115,11 @@ namespace mips32
 	#define INST_SHIFT_TARGET  0
 	#define INST_SHIFT_FUNCT   0
 	#define INST_SHIFT_SHAMT   6
+	#define INST_SHIFT_SA      6
 	#define INST_SHIFT_RD     11
 	#define INST_SHIFT_RT     16
 	#define INST_SHIFT_RS     21
+	#define INST_SHIFT_RA     6
 	#define INST_SHIFT_OPCODE 26
 	/**@}*/
 
@@ -86,14 +127,17 @@ namespace mips32
 	 * @name Masks for Instruction Fields
 	 */
 	/**@{*/
-	#define INST_MASK_IMM    0x000ffff
-	#define INST_MASK_TARGET 0x3ffffff
-	#define INST_MASK_FUNCT  0x000003f
-	#define INST_MASK_SHAMT  0x000001f
-	#define INST_MASK_RD     0x000001f
-	#define INST_MASK_RT     0x000001f
-	#define INST_MASK_RS     0x000001f
-	#define INST_MASK_OPCODE 0x000003f
+	#define INST_MASK_SHAMT_JR 0x0007fff
+	#define INST_MASK_IMM      0x000ffff
+	#define INST_MASK_TARGET   0x3ffffff
+	#define INST_MASK_FUNCT    0x000003f
+	#define INST_MASK_SHAMT    0x000001f
+	#define INST_MASK_SA       0x000001f
+	#define INST_MASK_RD       0x000001f
+	#define INST_MASK_RA	   0x000001f
+	#define INST_MASK_RT       0x000001f
+	#define INST_MASK_RS       0x000001f
+	#define INST_MASK_OPCODE   0x000003f
 	/**@}*/
 
 	/**
@@ -129,19 +173,25 @@ namespace mips32
 	 * @brief Function of Instructions
 	 */
 	/**@{*/
-	#define INST_FUNCT_ADD  0x20
-	#define INST_FUNCT_SUB  0x22
-	#define INST_FUNCT_MULT 0x18
-	#define INST_FUNCT_DIV  0x1a
-	#define INST_FUNCT_AND  0x24
-	#define INST_FUNCT_OR   0x25
-	#define INST_FUNCT_XOR  0x26
-	#define INST_FUNCT_NOR  0x27
-	#define INST_FUNCT_SLT  0x2a
-	#define INST_FUNCT_SLL  0x00
-	#define INST_FUNCT_SRL  0x02
-	#define INST_FUNCT_JR   0x08
-	#define INST_FUNCT_NONE 0x1f
+	#define INST_FUNCT_ADD   0x20
+	#define INST_FUNCT_ADDU  0x21
+	#define INST_FUNCT_SUB   0x22
+	#define INST_FUNCT_SUBU  0x23
+	#define INST_FUNCT_MULT  0x18
+	#define INST_FUNCT_MULTU 0x19
+	#define INST_FUNCT_DIV   0x1a
+	#define INST_FUNCT_DIVU  0x1b
+	#define INST_FUNCT_AND   0x24
+	#define INST_FUNCT_OR    0x25
+	#define INST_FUNCT_XOR   0x26
+	#define INST_FUNCT_NOR   0x27
+	#define INST_FUNCT_SLT   0x2a
+	#define INST_FUNCT_SLTU  0x2b
+	#define INST_FUNCT_SLL   0x00
+	#define INST_FUNCT_SRL   0x02
+	#define INST_FUNCT_SRA   0x03
+	#define INST_FUNCT_JR    0x08
+	#define INST_FUNCT_NONE  0x1f
 	/**@}*/
 }
 
