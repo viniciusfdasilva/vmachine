@@ -81,8 +81,8 @@ namespace vmachine
 			{ }
 
 			/**
-			 * @brief Loads a ASM file into the virtual machine.
-			 * 
+			 * @brief Loads an ASM file into the virtual machine.
+			 *
 			 * @param asmfile Target assembly file.
 			 */
 			void load(std::string &asmfile);
@@ -92,9 +92,16 @@ namespace vmachine
 			 */
 			void start(void);
 
+			/*
+			 * @brief Loads a binary file into the virtual machine.
+			 *
+			 * @param binFile Target a binary file.
+			 */
+			void loadFile(std::string &binFile);
+
 			/**
 			 * @brief Executes a single instruction.
-			 * 
+			 *
 			 * @param inst Target instruction to execute.
 			 */
 			void execute(isa32::word_t inst) { core.execute(inst); }
@@ -106,14 +113,14 @@ namespace vmachine
 
 			/**
 			 * @brief Gets the value of a register.
-			 * 
+			 *
 			 * @param regnum Number of the target register.
 			 */
 			isa32::word_t getRegister(unsigned regnum) { return (core.getRegister(regnum)); }
 
 			/**
 			 * @brief Shutdowns the target virtual machine.
-			 * 
+			 *
 			 * @param outfile Output file where VM state should be dumped.
 			 */
 			void shutdown(std::ostream &outfile);
