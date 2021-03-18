@@ -51,7 +51,7 @@ namespace vmachine
             /**
              * @brief General Purpose Registers
              */
-            isa32::word_t regs[REGISTERS_NUMS] = { 0 };
+            isa32::word_t registers[REGISTERS_NUMS] = { 0 };
 
             /**
              * @brief Mult/Div Registers
@@ -63,38 +63,59 @@ namespace vmachine
 
             /**
              * @brief Fetches an instruction.
-             * 
+             *
              * @returns The fetched instruction.
              */
             isa32::word_t fetch(void);
 
             /**
              * @brief Decodes an instruction.
-             * 
+             *
              * @param inst Target instruction.
              */
             execute_fn decode(isa32::word_t inst);
 
             /**
-             * @brief Executes a R-Type Instruction
-             * 
+             * @brief Executes a R-Type Instruction.
+             *
              * @param inst Target instruction.
              */
             void executeR(isa32::word_t inst);
 
             /**
-             * @brief Executes a I-Type Instruction
-             * 
+             * @brief Executes a I-Type Instruction.
+             *
              * @param inst Target instruction.
              */
             void executeI(isa32::word_t inst);
 
             /**
-             * @brief Executes a J-Type Jnstruction
-             * 
+             * @brief Executes a J-Type Instruction.
+             *
              * @param inst Target instruction.
              */
             void executeJ(isa32::word_t inst);
+
+            /**
+             * @brief Executes a S-Type Instruction.
+             *
+             * @param inst Target instruction.
+             */
+            void executeS(isa32::word_t inst);
+
+            /**
+             * @brief Executes a B-Type Instruction.
+             *
+             * @param inst Target instruction.
+             */
+            void executeB(isa32::word_t inst);
+
+            /**
+             * @brief Executes a U-Type Instruction.
+             *
+             * @param inst Target instruction.
+             */
+            void executeU(isa32::word_t inst);
 
         public:
 
@@ -120,10 +141,10 @@ namespace vmachine
 
 			/**
 			 * @brief Gets the value of a register.
-			 * 
+			 *
 			 * @param regnum Number of the target register.
 			 */
-			isa32::word_t getRegister(unsigned regnum) { return (regs[regnum]); }
+			isa32::word_t getRegister(unsigned regnum) { return (registers[regnum]); }
     };
 }
 
