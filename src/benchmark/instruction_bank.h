@@ -33,7 +33,7 @@ namespace instructions_bank
 	 * @name Instructions examples bank
 	 */
 	/**@{*/
-    
+ 
     // R-Type
     #define ADD   0x718033
     #define SUB   0x40408033

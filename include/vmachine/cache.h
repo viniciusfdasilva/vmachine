@@ -46,7 +46,7 @@
 
 			/**
 			 * @brief Default constructor.
-			 * 
+			 *
 			 * @param size Size of cache memory (in bytes).
 			 */
 			Cache(unsigned size);
@@ -58,11 +58,11 @@
 
 			/**
 			 * @brief Reads a word from the target memory.
-			 * 
+			 *
 			 * @param addr Target address.
-			 * 
+			 *
 			 * @returns The requested word.
-			 * 
+			 *
 			 * @todo Use custom types.
 			 */
 			unsigned read(unsigned addr);
@@ -77,7 +77,7 @@
 
 			/**
 			 * @brief Default constructor.
-			 * 
+			 *
 			 * @param size Size of cache memory (in bytes).
 			 */
 			ICache(unsigned size) : Cache(size) {}
@@ -92,17 +92,17 @@
 
 			/**
 			 * @brief Default constructor.
-			 * 
+			 *
 			 * @param size Size of cache memory (in bytes).
 			 */
 			DCache(unsigned size) : Cache(size) {}
 
 			/**
 			 * @brief Writes a word to the target memory.
-			 * 
+			 *
 			 * @param addr Target address.
 			 * @param word Word.
-			 * 
+			 *
 			 * @todo Use custom types.
 			 */
 			void write(unsigned addr, unsigned word);

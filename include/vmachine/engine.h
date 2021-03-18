@@ -14,7 +14,7 @@ class Engine
     private:
         Rformat mips32_r_instruction;
 
-        // Final Risc-v instruction
+        // Final Risc-V instruction
         isa32::word_t rv_instruction;
 
         isa32::word_t instructions_set[5];
@@ -26,7 +26,7 @@ class Engine
         isa32::word_t rv_instructionAdd;
 
         bool flag_use_t4 = false, flag_use_t5 = false, flag_use_t4_t5 = false;
-        
+
         // Translation atributtes
         isa32::word_t S_opcode;
         isa32::word_t Sum_funct7;
@@ -80,17 +80,17 @@ class Engine
         void r_procedure_Format();
 
         /**
-         * r_pocedure_Sum(); 
+         * r_pocedure_Sum();
          */
         void r_procedure_Sum();
 
         /**
-         * r_pocedure_Sub(); 
+         * r_pocedure_Sub();
          */
         void r_procedure_Sub();
 
         /**
-         * r_pocedure_Div(); 
+         * r_pocedure_Div();
          */
         void r_procedure_Div();
 
@@ -110,7 +110,7 @@ class Engine
         void r_procedure_ConJump();
 
         /**
-         * r_procedure_Shift(); 
+         * r_procedure_Shift();
          */
         void r_procedure_Shift();
 
@@ -118,14 +118,14 @@ class Engine
          * r_procedure_UncJump();
          */
         void r_procedure_UncJump();
-        
+
         /**
          * r_procedure_Logic();
          */
         void r_procedure_Logic();
 
         /**
-         * r_pocedure_Function(); 
+         * r_pocedure_Function();
          */
         void r_procedure_Function();
 
@@ -133,7 +133,7 @@ class Engine
         * First rule of grammar and Parsing tree
         */
         void r_procedure_S();
-        
+
         /**
          * Translate binary code MIPS32 in RV32.
          * Opening process of translate
@@ -141,21 +141,21 @@ class Engine
         void r_translator();
 
         /**
-         * Make the management of the special 
-         * registers in MIPS32 $t4 and $t5 
+         * Make the management of the special
+         * registers in MIPS32 $t4 and $t5
          */
         void register_management();
 
         /**
          * Select type of instruction.
-         * Extract each word of instruction 
+         * Extract each word of instruction
          * and redirects for each function corresponding
          * @param inst MIPS instruction of 32 bits
          */
         void selectInstruction(isa32::word_t word_inst);
 
         /*
-         * Make merge in the instructions to a instructions buffer. 
+         * Make merge in the instructions to a instructions buffer.
         */
         isa32::word_t *getBuffer();
 
@@ -163,7 +163,7 @@ class Engine
          * The engine_run() function translates a binary code into another.
          */
         isa32::word_t engine_run(uint32_t instruction);
-        
+
 };
 
 #endif /* UTILS_H_ */

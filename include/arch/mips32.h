@@ -30,7 +30,6 @@
  */
 namespace mips32
 {
-	
 	/**
 	 * @name Code of Registers (as string)
 	 */

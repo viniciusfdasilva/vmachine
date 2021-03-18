@@ -38,7 +38,6 @@
 			 * @brief Memory Size (in bytes)
 			 */
 			unsigned size_;
-	
 
 			/**
 			 * @brief Data
@@ -49,7 +48,7 @@
 
 			/**
 			 * @brief Default constructor.
-			 * 
+			 *
 			 * @param size Size of memory (in bytes).
 			 */
 			Memory(unsigned size);
@@ -61,28 +60,28 @@
 
 			/**
 			 * @brief Dumps the context of the target memory.
-			 * 
+			 *
 			 * @param outfile Output file.
 			 */
 			void dump(std::ostream &outfile);
 
 			/**
 			 * @brief Reads a word from the target memory.
-			 * 
+			 *
 			 * @param addr Target address.
-			 * 
+			 *
 			 * @returns The requested word.
-			 * 
+			 *
 			 * @todo Use custom types.
 			 */
 			unsigned read(unsigned addr);
 
 			/**
 			 * @brief Writes a word to the target memory.
-			 * 
+			 *
 			 * @param addr Target address.
 			 * @param word Word.
-			 * 
+			 *
 			 * @todo Use custom types.
 			 */
 			void write(unsigned addr, unsigned word);
