@@ -29,9 +29,11 @@
 #include <string>
 
 #include "instruction_bank.h"
-#include "../../include/arch.h"
-#include "../../include/vmachine/isa.h"
-//#include "../vmachine/core.cpp"
+#include <arch.h>
+#include <vmachine/isa.h>
+#include <vmachine/core.h>
+
+using namespace vmachine;
 
 // Instructions Array
 isa32::word_t instructions[INSTRUCTIONS_NUMS] = {
@@ -126,19 +128,22 @@ void counts_type (isa32::word_t instruction) {
 int main() {
 	int inst_quantity;
 
-	std::cout << "How many functions to perform? ";
-	std::cin >> inst_quantity;
+	//std::cout << "How many functions to perform? ";
+	//std::cin >> inst_quantity;
 
 	// faz inst_quantity buscas aleatórias no array de instruções
 	
 	auto start = std::chrono::high_resolution_clock::now();
+	// TO DO
+	// Run core
 
-    	for (int i = 0; i < inst_quantity; i++) {
-		int random_number = rand() % INSTRUCTIONS_NUMS - 0;
+
+    	//for (int i = 0; i < inst_quantity; i++) {
+	//	int random_number = rand() % INSTRUCTIONS_NUMS - 0;
 		
 		//Core::execute(instructions[random_number]);
-        	counts_type(instructions[random_number]);
-    	}
+        //	counts_type(instructions[random_number]);
+    	//}
 
 	auto end = std::chrono::high_resolution_clock::now() - start;
 
