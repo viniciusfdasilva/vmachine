@@ -33,6 +33,7 @@
 #include <vmachine/isa.h>
 #include <vmachine/core.h>
 #include <vmachine/memory.h>
+#include <vmachine/benchmark.h>
 #include <config.h>
 
 using namespace vmachine;
@@ -87,7 +88,7 @@ int b_type_quantity;
 int j_type_quantity;
 
 // Separates instructions by type and count
-void counts_type(isa32::word_t instruction) {
+void Benchmark::counts_type(isa32::word_t instruction) {
 	isa32::word_t opcode;
 
 	opcode = instruction & INST_MASK_OPCODE;
@@ -128,7 +129,7 @@ void counts_type(isa32::word_t instruction) {
 }
 
 // Runs instruction on vmachine's core
-void run(isa32::word_t instruction) {
+void Benchmark::run(isa32::word_t instruction) {
 	Memory memory(VMACHINE_DEFAULT_MEMORY_SIZE);
 
 	Core core(memory);
