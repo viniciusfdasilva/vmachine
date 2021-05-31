@@ -88,6 +88,13 @@ namespace vmachine
 			void load(std::string &asmfile);
 
 			/**
+			 * @brief Loads an Flat-binary file into the virtual machine.
+			 *
+			 * @param flatBinaryFile Target assembly file.
+			 */
+			void loadFlatBinary(std::string &flatBinaryFile);
+
+			/**
 			 * @brief Starts the virtual machine.
 			 */
 			void start(void);

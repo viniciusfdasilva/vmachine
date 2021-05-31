@@ -22,34 +22,33 @@
 // SOFTWARE.
 //
 
-// Theirs
-#include <elf.h>
-#include <fstream>
-#include <string>
-#include <stdexcept>
+#ifndef BENCHMARK_H_
+#define BENCHMARK_H_
 
-// Ours
-#include <engine.h>
-#include <vmachine.h>
-#include <vmachine/benchmark.h>
+#include <vmachine/memory.h>
+#include <arch.h>
 
-using namespace vmachine;
-
-// Starts the virtual machine.
-void VMachine::loadFlatBinary(std::string &binfile)
+namespace vmachine
 {
-	Engine a;
-	std::string line;
-	std::ifstream infile(binfile);
+    // #define REGISTERS_NUMS 32
 
-	if (!infile.is_open())
-		throw std::invalid_argument("cannot open input file");
+    /**
+     * @brief Vmachine Benchmark
+     */
+    class Benchmark
+    {
+        public:
 
-	// Load Flat Binary file.
-	for (isa32::word_t addr = startAddr; std::getline(infile, line); addr += sizeof(isa32::word_t))
-	{
-		Benchmark benchmark;
-		isa32::word_t inst = a.assembly(line);
-		benchmark.run(inst);
-	}
+        	/**
+        	* @brief Runs the benchmark.
+        	*/
+        	void run(isa32::word_t instruction);
+
+        	/**
+        	* @brief Counts instruction types.
+        	*/
+        	void counts_type(isa32::word_t instruction);
+    };
 }
+
+#endif // BENCHMARK_H_

@@ -32,6 +32,8 @@
 #include <arch.h>
 #include <vmachine/isa.h>
 #include <vmachine/core.h>
+#include <vmachine/memory.h>
+#include <config.h>
 
 using namespace vmachine;
 
@@ -85,7 +87,7 @@ int b_type_quantity;
 int j_type_quantity;
 
 // Separates instructions by type and count
-void counts_type (isa32::word_t instruction) {
+void counts_type(isa32::word_t instruction) {
 	isa32::word_t opcode;
 
 	opcode = instruction & INST_MASK_OPCODE;
@@ -125,15 +127,28 @@ void counts_type (isa32::word_t instruction) {
 	}
 }
 
-int main() {
-	int inst_quantity;
+// Runs instruction on vmachine's core
+void run(isa32::word_t instruction) {
+	Memory memory(VMACHINE_DEFAULT_MEMORY_SIZE);
+
+	Core core(memory);
+
+	auto start = std::chrono::high_resolution_clock::now();
+		core.execute(instruction);
+	auto end = std::chrono::high_resolution_clock::now() - start;
+
+	counts_type(instruction);	
+}
+
+// int main() {
+// 	int inst_quantity = 0;
 
 	//std::cout << "How many functions to perform? ";
 	//std::cin >> inst_quantity;
 
 	// faz inst_quantity buscas aleatórias no array de instruções
 	
-	auto start = std::chrono::high_resolution_clock::now();
+	//auto start = std::chrono::high_resolution_clock::now();
 	// TO DO
 	// Run core
 
@@ -145,25 +160,27 @@ int main() {
         //	counts_type(instructions[random_number]);
     	//}
 
-	auto end = std::chrono::high_resolution_clock::now() - start;
+	//auto end = std::chrono::high_resolution_clock::now() - start;
 
-    	std::cout << "\nR-Type: ";
-    	std::cout << r_type_quantity;
-	std::cout << " functions executed.\nI-Type: ";
-	std::cout << i_type_quantity;
-	std::cout << " functions executed.\nJ-Type: ";
-	std::cout << j_type_quantity;
-	std::cout << " functions executed.\nU-Type: ";
-	std::cout << u_type_quantity;
-	std::cout << " functions executed.\nB-Type: ";
-	std::cout << b_type_quantity;
-	std::cout << " functions executed.\nS-Type: ";
-	std::cout << s_type_quantity;
-	std::cout << " functions executed.\n";
+    // 	std::cout << "\nR-Type: ";
+    // 	std::cout << r_type_quantity;
+	// std::cout << " functions executed.\nI-Type: ";
+	// std::cout << i_type_quantity;
+	// std::cout << " functions executed.\nJ-Type: ";
+	// std::cout << j_type_quantity;
+	// std::cout << " functions executed.\nU-Type: ";
+	// std::cout << u_type_quantity;
+	// std::cout << " functions executed.\nB-Type: ";
+	// std::cout << b_type_quantity;
+	// std::cout << " functions executed.\nS-Type: ";
+	// std::cout << s_type_quantity;
+	// std::cout << " functions executed.\n";
 
-	long long nanoseconds = std::chrono::duration_cast<std::chrono::nanoseconds>(end).count();
+	//long long nanoseconds = std::chrono::duration_cast<std::chrono::nanoseconds>(end).count();
 
-	std::cout << "\nTime spent: " << nanoseconds << " nanoseconds.\n";
+	//std::cout << "\nTime spent: " << nanoseconds << " nanoseconds.\n";
 
-	std::cout << "\nTotal functions performed: " << inst_quantity << "\n";
-}
+// 	std::cout << "\nTotal functions performed: " << inst_quantity << "\n";
+// }
+
+
